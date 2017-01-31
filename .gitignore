@@ -57,3 +57,5 @@ nios2
 
 # The generated PLL specification file
 PLLJ_PLLSPE_INFO.txt
+
+software/bootloader/bootloader.s

@@ -11,6 +11,9 @@
 #define LEDR ((volatile uint32_t*)0x80001010)
 #define SW ((volatile uint32_t*)0x80001020)
 
+#define F_PI 3.14159265359f
+#define F_2_PI 6.28318530718f
+
 
 #define COLOR(r,g,b) (((r & 0x1f) << 10) | ((g & 0x1f) << 5) | (b & 0x1f))
 
@@ -185,7 +188,7 @@ void draw_triangles_barycentric_gpu(uint16_t* fbaddr, triangle_t* tris, uint32_t
 		for(int j = 0; j < 25; j++) {
 			//clear tile
 			//x, y and color
-			GPU[0] = (j << 21) | (i << 16) | COLOR(0, 0, 0);
+			GPU[0] = (j << 21) | (i << 16) | COLOR(31, 31, 31);
 
 			GPU[1] = 0;
 			GPU[2] = 0;
@@ -407,6 +410,59 @@ void show_tiles(void) {
 	}
 }
 
+float sine_inner(float x)
+{
+    // useful to pre-calculate
+    float x2 = x*x;
+    float x4 = x2*x2;
+
+    // Calculate the terms
+    // As long as abs(x) < sqrt(6), which is 2.45, all terms will be positive.
+    // Values outside this range should be reduced to [-pi/2, pi/2] anyway for accuracy.
+    // Some care has to be given to the factorials.
+    // They can be pre-calculated by the compiler,
+    // but the value for the higher ones will exceed the storage capacity of int.
+    // so force the compiler to use unsigned long longs (if available) or doubles.
+    float t1 = x * (1.0f - x2 / (2*3));
+    float x5 = x * x4;
+    float t2 = x5 * (1.0f - x2 / (6*7)) / (1.0f* 2*3*4*5);
+    float x9 = x5 * x4;
+    float t3 = x9 * (1.0f - x2 / (10*11)) / (1.0f* 2*3*4*5*6*7*8*9);
+    float x13 = x9 * x4;
+    float t4 = x13 * (1.0f - x2 / (14*15)) / (1.0f* 2*3*4*5*6*7*8*9*10*11*12*13);
+    // add some more if your accuracy requires them.
+    // But remember that x is smaller than 2, and the factorial grows very fast
+    // so I doubt that 2^17 / 17! will add anything.
+    // Even t4 might already be too small to matter when compared with t1.
+
+    // Sum backwards
+    float result = t4;
+    result += t3;
+    result += t2;
+    result += t1;
+
+    return result;
+}
+
+float sine(float x) {
+	if(x > F_PI) {
+		return -sine_inner(x - F_PI);
+	}
+	return sine_inner(x);
+}
+
+float cosine(float x) {
+	return sine(x + F_PI/2);
+}
+
+void rotate_point(point* p, float s, float c) {
+	float xnew = p->x * c - p->y * s;
+	float ynew = p->x * s + p->y * c;
+	
+	p->x = xnew;
+	p->y = ynew;
+}
+
 int main(void) {
 	// while(1) {
 		// show_tiles();
@@ -450,21 +506,49 @@ int main(void) {
 	// uint16_t* buff[2] = {frontFB, backFB}; 
 	
 	uint32_t pos = 0;
+	uint32_t angle = 0;
 	uint32_t width = 50;
 	uint32_t distance = 500 - width;
 	while(1) {
 		pos += 2;
+		pos %= distance*2;
+		angle += 1;
+		angle %= 360;
 		
-		uint32_t y = (pos % (distance*2));
+		uint32_t y = pos;
 		if(y > distance) {
 			y = distance*2 - y;
 		}
-		y += 50;
+		//y = distance*sine(((float)y)/(float)distance*F_2_PI);
+		y += 75;
+		//uint32_t y = 100;
+		float rad = angle*F_2_PI/360.0f;
+		float cosT = cosine(rad);
+		float sinT = sine(rad);
 		
-		point a = {.x = 250*16, .y = y*16};
-		point b = {.x = 550*16, .y = (y+width)*16};
-		point c = {.x = 250*16, .y = (y+width)*16};
-		point d = {.x = 550*16, .y = y*16};
+
+		
+		point a = {.x = -150*16, .y = -(width/2)*16};
+		point b = {.x = 150*16, .y = (width/2)*16};
+		point c = {.x = -150*16, .y = (width/2)*16};
+		point d = {.x = 150*16, .y = -(width/2)*16};
+		
+		rotate_point(&a, sinT, cosT);
+		rotate_point(&b, sinT, cosT);
+		rotate_point(&c, sinT, cosT);
+		rotate_point(&d, sinT, cosT);
+
+		a.x += 400*16;
+		a.y += y*16;
+		
+		b.x += 400*16;
+		b.y += y*16;
+		
+		c.x += 400*16;
+		c.y += y*16;
+		
+		d.x += 400*16;
+		d.y += y*16;
 
 		triangle_t tris[] =  {
 			{.v0 = a, .v1 = d, .v2 = c, .color = lightBlue},
