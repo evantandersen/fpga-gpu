@@ -30,6 +30,7 @@ nios2
 *.done
 *.eqn
 *.hex
+*.elf
 *.html
 *.jdi
 *.jpg

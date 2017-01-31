@@ -409,7 +409,7 @@
   <parameter name="ecc_enabled" value="false" />
   <parameter name="enableDiffWidth" value="false" />
   <parameter name="initMemContent" value="true" />
-  <parameter name="initializationFileName">C:\Users\evantandersen\Downloads\bootloader\nios_system_bootloader.hex</parameter>
+  <parameter name="initializationFileName">C:/Users/evantandersen/Documents/theGPUmegaProject/software/bootloader/nios_system_bootloader.hex</parameter>
   <parameter name="instanceID" value="NONE" />
   <parameter name="memorySize" value="32768" />
   <parameter name="readDuringWriteMode" value="DONT_CARE" />

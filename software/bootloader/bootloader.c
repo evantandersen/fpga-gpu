@@ -147,33 +147,45 @@ int max3(int a, int b, int c) {
 	}
 }
 
-void draw_triangle_barycentric_gpu(uint16_t* addr, point v0, point v1, point v2, uint16_t color) {
+typedef struct {
+	point v0;
+	point v1;
+	point v2;
+	uint16_t color;
+} triangle_t;
 
-	int32_t A01 = (v0.y - v1.y);
-	int32_t B01 = (v1.x - v0.x) - 31*A01;	
-		
-    int32_t A12 = (v1.y - v2.y);
-	int32_t B12 = (v2.x - v1.x) - 31*A12;
-	
-    int32_t A20 = (v2.y - v0.y);
-	int32_t B20 = (v0.x - v2.x) - 31*A20;
+int tri_overlap_tile(triangle_t* tri, uint16_t x, uint16_t y) {
+	//check min/max
+	int minX = min3(tri->v0.x, tri->v1.x, tri->v2.x);
+	int minY = min3(tri->v0.y, tri->v1.y, tri->v2.y);
+	int maxX = max3(tri->v0.x, tri->v1.x, tri->v2.x);
+	int maxY = max3(tri->v0.y, tri->v1.y, tri->v2.y);
+
+	if(minX >= (x+1)*16*32) {
+		return 0;
+	}
+	if(minY >= (y+1)*16*32) {
+		return 0;	
+	}
+	if(maxX < x*16*32) {
+		return 0;
+	}
+	if(maxY < y*16*32) {
+		return 0;
+	}
+	return 1;
+}
+
+void draw_triangles_barycentric_gpu(uint16_t* fbaddr, triangle_t* tris, uint32_t ntri) {
 	
 	//set the stride
 	GPU[8] = 800*2;
 
 	for(int i = 0; i < 19; i++) {
 		for(int j = 0; j < 25; j++) {
-			
-			//clear the tile
-			uint16_t clear;
-			// if(((i/2) % 2) == ((j/2) % 2)) {
-				// clear = COLOR(0, 0, 0);
-			// } else {
-				// clear = COLOR(31, 31, 31);
-			// }
-			clear = COLOR(0, 0, 0);
+			//clear tile
 			//x, y and color
-			GPU[0] = (j << 21) | (i << 16) | clear;
+			GPU[0] = (j << 21) | (i << 16) | COLOR(0, 0, 0);
 
 			GPU[1] = 0;
 			GPU[2] = 0;
@@ -186,44 +198,62 @@ void draw_triangle_barycentric_gpu(uint16_t* addr, point v0, point v1, point v2,
 			GPU[5] = 1;
 			GPU[6] = 1;
 			
-			
-			GPU[7] = (uint32_t)(addr) + (i*32*800*2) + (j*32*2);
+			GPU[7] = (uint32_t)(fbaddr) + (i*32*800*2) + (j*32*2);
 						
 			//start rendering tile
 			GPU[9] = 1;
 			//wait for it to finish
 			while(GPU[9]);
-						
-			//x, y and color
-			GPU[0] = (j << 21) | (i << 16) | color;
+			
+			//render triangles
+			for(int tri = 0; tri < ntri; tri++) {
+				triangle_t* curr = &tris[tri];
+				
+				//if triangle doesn't overlap tile, no need to render
+				if(!tri_overlap_tile(curr, j, i)) {
+					continue;
+				}
 
-			GPU[1] = A01;
-			GPU[2] = A12;
-			GPU[3] = A20;
-			
-			GPU[10] = B01;
-			GPU[11] = B12;
-			GPU[12] = B20;
-			
-			//set the w's
-			point p = { j*16*32, i*16*32 };
-			int32_t w0_row = orient2d(v1, v2, p);
-			int32_t w1_row = orient2d(v2, v0, p);
-			int32_t w2_row = orient2d(v0, v1, p);
-			
-			w0_row -= isTopLeft(v1, v2) ? 0 : SUBSTEP;
-			w1_row -= isTopLeft(v2, v0) ? 0 : SUBSTEP;
-			w2_row -= isTopLeft(v0, v1) ? 0 : SUBSTEP;
+				int32_t A01 = (curr->v0.y - curr->v1.y);
+				int32_t B01 = (curr->v1.x - curr->v0.x) - 31*A01;	
+					
+				int32_t A12 = (curr->v1.y - curr->v2.y);
+				int32_t B12 = (curr->v2.x - curr->v1.x) - 31*A12;
+				
+				int32_t A20 = (curr->v2.y - curr->v0.y);
+				int32_t B20 = (curr->v0.x - curr->v2.x) - 31*A20;
 
-			GPU[4] = w0_row;
-			GPU[5] = w1_row;
-			GPU[6] = w2_row;
+							
+				//x, y and color
+				GPU[0] = (j << 21) | (i << 16) | curr->color;
+
+				GPU[1] = A01;
+				GPU[2] = A12;
+				GPU[3] = A20;
+				
+				GPU[10] = B01;
+				GPU[11] = B12;
+				GPU[12] = B20;
 			
-			//start rendering tile
-			GPU[9] = 1;
-			//wait for it to finish
-			while(GPU[9]);
-			
+				//set the w's
+				point p = { j*16*32, i*16*32 };
+				int32_t w0_row = orient2d(curr->v1, curr->v2, p);
+				int32_t w1_row = orient2d(curr->v2, curr->v0, p);
+				int32_t w2_row = orient2d(curr->v0, curr->v1, p);
+				
+				w0_row -= isTopLeft(curr->v1, curr->v2) ? 0 : SUBSTEP;
+				w1_row -= isTopLeft(curr->v2, curr->v0) ? 0 : SUBSTEP;
+				w2_row -= isTopLeft(curr->v0, curr->v1) ? 0 : SUBSTEP;
+
+				GPU[4] = w0_row;
+				GPU[5] = w1_row;
+				GPU[6] = w2_row;
+				
+				//start rendering tile
+				GPU[9] = 1;
+				//wait for it to finish
+				while(GPU[9]);
+			}
 			//write it to memory
 			GPU[9] = 2;
 						
@@ -388,10 +418,6 @@ int main(void) {
 	VGA[1] = 0; //disable the screen for a second
 	
 	int lightBlue = COLOR(13,20,31);
-	point a = {.x = 250*16, .y = 100*16};
-	// point b = {.x = 192*16, .y = 500*16};
-	point c = {.x = 150*16, .y = 500*16};
-	point d = {.x = 750*16, .y = 50*16};
 	
 	
 	// point e = {.x = 0*16, .y = 0*16};
@@ -399,20 +425,19 @@ int main(void) {
 	// point g = {.x = 0*16, .y = 100*16};
 
 	
-	gradient(frontFB);
-	gradient(backFB);
+	// gradient(frontFB);
+	// gradient(backFB);
 		
-	draw_triangle_barycentric(frontFB, a, d, c, COLOR(31, 15, 0));
-	draw_triangle_barycentric(backFB, a, d, c, lightBlue);
-		flush_dcache();
+	// draw_triangle_barycentric(frontFB, a, d, c, COLOR(31, 15, 0));
+	// draw_triangle_barycentric(backFB, a, d, c, lightBlue);
+		// flush_dcache();
 
 //	draw_triangle_barycentric_gpu(backFB, a, d, c, lightBlue);
 
 	
-	uint16_t orange = COLOR(31, 15, 0);
-	frontFB[800*600] = orange;
-	backFB[800*600] = orange;
-
+	// uint16_t orange = COLOR(31, 15, 0);
+	// frontFB[800*600] = orange;
+	// backFB[800*600] = orange;
 	
 
 	//draw_triangle_barycentric_gpu(frontFB, a, d, c, COLOR(31, 0, 0));
@@ -423,10 +448,32 @@ int main(void) {
 	// while(1);
 	
 	// uint16_t* buff[2] = {frontFB, backFB}; 
+	
+	uint32_t pos = 0;
+	uint32_t width = 50;
+	uint32_t distance = 500 - width;
 	while(1) {
-					
+		pos += 2;
+		
+		uint32_t y = (pos % (distance*2));
+		if(y > distance) {
+			y = distance*2 - y;
+		}
+		y += 50;
+		
+		point a = {.x = 250*16, .y = y*16};
+		point b = {.x = 550*16, .y = (y+width)*16};
+		point c = {.x = 250*16, .y = (y+width)*16};
+		point d = {.x = 550*16, .y = y*16};
+
+		triangle_t tris[] =  {
+			{.v0 = a, .v1 = d, .v2 = c, .color = lightBlue},
+			{.v0 = d, .v1 = b, .v2 = c, .color = COLOR(31,0,0)},
+		};
+		int32_t ntris = sizeof(tris)/sizeof(triangle_t);
+
 		while(SW[0] & 2);
-		draw_triangle_barycentric_gpu(backFB, a, d, c, lightBlue);
+		draw_triangles_barycentric_gpu(backFB, tris, ntris);
 		
 		// VGA[1] = ((uint32_t)buff[SW[0] & 1]) + (SW[0] & 2);
 		// int frames = 0;
