@@ -18,6 +18,9 @@ incremental_db
 simulation
 testbench
 timing
+compiler_output
+.qsys_edit
+nios2
 
 # ignore Quartus II generated files
 *_generation_script*
@@ -43,6 +46,7 @@ timing
 *.sopc_builder
 *.summary
 *.tcl
+*.sopcinfo
 # Explicitly add any text files used
 *.txt
 
