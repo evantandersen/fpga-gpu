@@ -10,7 +10,6 @@
 #define GPU ((volatile uint32_t*)0x80001040)
 #define LEDR ((volatile uint32_t*)0x80001010)
 #define SW ((volatile uint32_t*)0x80001020)
-#define KEY ((volatile uint32_t*)0x80001080)
 
 #define F_PI 3.14159265359f
 #define F_2_PI 6.28318530718f
@@ -20,44 +19,6 @@
 
 #define SUBSTEP (16)
 
-void gradientSection(uint16_t *addr, int x, int y, int width, int height) {
-	width += x;
-	height += y;
-	int size = 50;
-	
-	int white = COLOR(31,31,31);
-	int black = COLOR(0,0,0);
-	if((*SW >> 8) & 1) {
-		white = COLOR(0, 31, 0);
-		black = COLOR(0, 0, 31);
-	}
-
-	for(int i = y; i < height; i++) {
-		for(int j = x; j < width; j++) {
-			int color;
-			if(((i/size) % 2) == ((j/size) % 2)) {
-				color = black;
-			} else {
-				color = white;
-			}
-			addr[i*800 + j] = color;
-		}
-	}
-}
-
-void gradient(uint16_t *addr) {
-	gradientSection(addr, 0, 0, 800, 600);
-}
-
-void clear_to_color(uint16_t *addr, uint16_t color) {
-	uint32_t *buf = (uint32_t*)addr;
-	uint32_t val = (color << 16) | color;
-	for(int i = 0; i < 600; i++) {
-		for(int j = 0; j < 400; j++) {
-			buf[i * 400 + j] = val;
-		}
-	}
-}
 
 void flush_dcache() {
   char* i;
@@ -67,48 +28,38 @@ void flush_dcache() {
   }
 }
 
-void fail(uint32_t value) {
-	while(1) {
-		int newValue = value;
-		if(*SW & 2) {
-			 newValue >>= 16;
-		}
-		*LEDR = newValue & 0xffff;
-	}
-}
-
-void memtest32(uint32_t *addr, uint32_t size) {
-	//write a pattern in
-	int pattern = 0x0fefefef;
-	for(int i = 0; i < size; i++) {
-		if(i % (1024*1024) == 0) {
-			*LEDR = i/(1024*1024);
-		}
-		addr[i] = i + pattern;
-	}
-	//test it
-	for(int i = 0; i < size; i++) {
-		if(i % (1024*1024) == 0) {
-			*LEDR = i/(1024*1024);
-		}
-		uint32_t value = addr[i] - i;
-		if(value != pattern) {
-			fail(i);
-		}
-	}
-}
-
-int abs(int x) {
-	if(x < 0) {
-		return -x;
-	}
-	return x;
-}
+typedef uint16_t color_t; 
  
- typedef struct {
-	 int16_t x;
-	 int16_t y;
- } point;
+typedef struct {
+	int16_t x;
+	int16_t y;
+} point_t;
+ 
+typedef struct {
+	uint16_t v0;
+	uint16_t v1;
+	uint16_t v2;
+	uint16_t color;
+} triangle_t;
+
+typedef struct {
+	point_t* vertices;
+	triangle_t* triangles;
+	uint16_t nvertices;
+	uint16_t ntris;
+} polygon_list_t;
+
+typedef struct {
+	color_t background;
+	polygon_list_t poly_list;
+} scene_t;
+
+typedef struct {
+	color_t* framebuffer;
+	size_t stride;
+	uint16_t width;
+	uint16_t height;
+} render_target_t;
 
 int orient2d(point a, point b, point c)
 {
@@ -151,13 +102,6 @@ int max3(int a, int b, int c) {
 	}
 }
 
-typedef struct {
-	point v0;
-	point v1;
-	point v2;
-	uint16_t color;
-} triangle_t;
-
 int tri_overlap_tile(triangle_t* tri, uint16_t x, uint16_t y) {
 	//check min/max
 	int minX = min3(tri->v0.x, tri->v1.x, tri->v2.x);
@@ -180,7 +124,18 @@ int tri_overlap_tile(triangle_t* tri, uint16_t x, uint16_t y) {
 	return 1;
 }
 
-void draw_triangles_barycentric_gpu(uint16_t* fbaddr, triangle_t* tris, uint32_t ntri) {
+int get_clockwise_tris(triangle_t* in, size_t n, triangle_t* out) {
+	size_t pos = 0;
+	for(size_t i = 0; i < n; i++) {
+		if(orient2d(in[i].v0, in[i].v1, in[i].v2) >= 0) {
+			out[pos] = in[i];
+			pos++;
+		}
+	}
+	return pos;
+}
+
+void render_polygons(uint16_t* fbaddr, polygon_list_t* polys) {
 	
 	//set the stride
 	GPU[8] = 800*2;
@@ -506,71 +461,32 @@ int main(void) {
 	
 	// uint16_t* buff[2] = {frontFB, backFB}; 
 	
-	int32_t pos = 0;
-	int32_t angle = 180;
-	uint32_t width = 50;
-	uint32_t distance = 600 - width*2;
+	uint32_t angle = 180;
+	uint32_t radius = 200*16;
 	point center = {.x = 400*16, .y = 300*16};
 	while(1) {
-		
-		uint32_t y = pos;
-		if(y > distance) {
-			y = distance*2 - y;
-		}
-		y += width;
-		center.y = y*16;
-
-		
-		uint32_t keys = *KEY;
-		if(keys & 0x4) {
-			pos += 2;
-			pos %= distance*2;
-		}
-		
-		if(keys & 0x1) {
-			angle += 1;
-			if(angle >= 360) {
-				angle -= 360;
-			}
-		} else if(keys & 0x2) {
-			angle -= 1;
-			if(angle < 0) {
-				angle += 360;
-			}
-		}
+		angle += 1;
+		angle %= 360;
 		
 		//uint32_t y = 100;
 		float rad = (360-angle)*F_2_PI/360.0f;
 		float cosT = cosine(rad);
 		float sinT = sine(rad);
 		
-		
-		point a = {.x = -150*16, .y = -(width/2)*16};
-		point b = {.x = 150*16, .y = (width/2)*16};
-		point c = {.x = -150*16, .y = (width/2)*16};
-		point d = {.x = 150*16, .y = -(width/2)*16};
-		
-		rotate_point(&a, sinT, cosT);
-		rotate_point(&b, sinT, cosT);
-		rotate_point(&c, sinT, cosT);
-		rotate_point(&d, sinT, cosT);
 
-		a.x += center.x;
-		a.y += center.y;
 		
-		b.x += center.x;
-		b.y += center.y;
-		
-		c.x += center.x;
-		c.y += center.y;
-		
-		d.x += center.x;
-		d.y += center.y;
+		point a = center;
+		point b = {.x = center.x + cosT*radius, .y = center.y};
+		point c = {.x = center.x + cosT*radius, .y = center.y + sinT*radius};
 		
 		triangle_t tris[] =  {
-			{.v0 = a, .v1 = d, .v2 = c, .color = lightBlue},
-			{.v0 = d, .v1 = b, .v2 = c, .color = COLOR(31,0,0)},
+			{.v0 = a, .v1 = c, .v2 = b, .color = lightBlue},
 		};
+		if(orient2d(a, c, b) < 0) {
+			tris[0].v0 = c;
+			tris[0].v1 = a;
+			tris[0].color = COLOR(31, 0, 0);
+		}
 		int32_t ntris = sizeof(tris)/sizeof(triangle_t);
 
 		while(SW[0] & 2);

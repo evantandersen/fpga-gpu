@@ -49,6 +49,22 @@
          type = "int";
       }
    }
+   element keys
+   {
+      datum _sortIndex
+      {
+         value = "10";
+         type = "int";
+      }
+   }
+   element keys.s1
+   {
+      datum baseAddress
+      {
+         value = "4224";
+         type = "String";
+      }
+   }
    element nios2
    {
       datum _originalDeviceFamily
@@ -158,6 +174,11 @@
  <interface name="clk" internal="clk.in_clk" type="clock" dir="end" />
  <interface name="dram" internal="sdram.wire" type="conduit" dir="end" />
  <interface
+   name="key"
+   internal="keys.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
    name="led_r"
    internal="LED_r.external_connection"
    type="conduit"
@@ -202,6 +223,20 @@
   <parameter name="EXPLICIT_CLOCK_RATE" value="90000000" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
  </module>
+ <module name="keys" kind="altera_avalon_pio" version="16.0" enabled="1">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="true" />
+  <parameter name="clockRate" value="90000000" />
+  <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="3" />
+ </module>
  <module name="nios2" kind="altera_nios2_gen2" version="16.0" enabled="1">
   <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="1" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
@@ -222,7 +257,7 @@
   <parameter name="dataAddrWidth" value="28" />
   <parameter name="dataMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="dataMasterHighPerformanceMapParam" value="" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='VGA_Controller.slave' start='0x1000' end='0x1010' type='VGA_Controller.slave' /><slave name='LED_r.s1' start='0x1010' end='0x1020' type='altera_avalon_pio.s1' /><slave name='switches.s1' start='0x1020' end='0x1030' type='altera_avalon_pio.s1' /><slave name='GPU_core_0.slave' start='0x1040' end='0x1080' type='GPU_core.slave' /><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2.debug_mem_slave' start='0x10800' end='0x11000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='sdram.s1' start='0x8000000' end='0x10000000' type='altera_avalon_new_sdram_controller.s1' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='VGA_Controller.slave' start='0x1000' end='0x1010' type='VGA_Controller.slave' /><slave name='LED_r.s1' start='0x1010' end='0x1020' type='altera_avalon_pio.s1' /><slave name='switches.s1' start='0x1020' end='0x1030' type='altera_avalon_pio.s1' /><slave name='GPU_core_0.slave' start='0x1040' end='0x1080' type='GPU_core.slave' /><slave name='keys.s1' start='0x1080' end='0x1090' type='altera_avalon_pio.s1' /><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2.debug_mem_slave' start='0x10800' end='0x11000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='sdram.s1' start='0x8000000' end='0x10000000' type='altera_avalon_new_sdram_controller.s1' /></address-map>]]></parameter>
   <parameter name="data_master_high_performance_paddr_base" value="0" />
   <parameter name="data_master_high_performance_paddr_size" value="0" />
   <parameter name="data_master_paddr_base" value="0" />
@@ -533,6 +568,11 @@
   <parameter name="baseAddress" value="0x08000000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
+ <connection kind="avalon" version="16.0" start="nios2.data_master" end="keys.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x1080" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
  <connection
    kind="avalon"
    version="16.0"
@@ -606,6 +646,7 @@
    start="clk.out_clk"
    end="VGA_Controller.clk" />
  <connection kind="clock" version="16.0" start="clk.out_clk" end="sdram.clk" />
+ <connection kind="clock" version="16.0" start="clk.out_clk" end="keys.clk" />
  <connection
    kind="clock"
    version="16.0"
@@ -659,6 +700,11 @@
    version="16.0"
    start="reset_controller.reset_out"
    end="sdram.reset" />
+ <connection
+   kind="reset"
+   version="16.0"
+   start="reset_controller.reset_out"
+   end="keys.reset" />
  <connection
    kind="reset"
    version="16.0"
