@@ -2,21 +2,21 @@
 ENTRY (_begin)
 
 SECTIONS
-
 {
-  output 0x8000 :
-    {
-		*(.reset)
-		*(.text)
-		*(.rodata)
-		*(.data)
-		*(.sdata)
-		 __bss_start = .;
-		*(.bss)
-		*(.sbss)
-	}
-  _gp = ALIGN(16);
+  . = 0x8000;
+  .reset : { *(.reset) }
+  .text : { *(.text) }
+  . = ALIGN(16);
+  _gp = .;
   PROVIDE(gp = _gp);
+  .sdata : { *(.sdata) }
+    .data : { *(.data) }
+
+  .rodata : { *(.rodata) }
+  __bss_start = .;
+  .bss : { *(.bss) }
+  .sbss : { *(.sbss) }
+
 
 
   _end = .;
