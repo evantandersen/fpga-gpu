@@ -150,6 +150,14 @@
          type = "String";
       }
    }
+   element vga_clk
+   {
+      datum _sortIndex
+      {
+         value = "11";
+         type = "int";
+      }
+   }
 }
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="FIFO" />
@@ -198,7 +206,8 @@
    internal="VGA_Controller.external_connection"
    type="conduit"
    dir="end" />
- <module name="GPU_core_0" kind="GPU_core" version="0.3" enabled="1" />
+ <interface name="vga_clk" internal="vga_clk.in_clk" type="clock" dir="end" />
+ <module name="GPU_core_0" kind="GPU_core" version="0.3.1" enabled="1" />
  <module name="LED_r" kind="altera_avalon_pio" version="16.0" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
@@ -216,7 +225,7 @@
  <module
    name="VGA_Controller"
    kind="VGA_Controller"
-   version="0.7.0"
+   version="0.7.1"
    enabled="1" />
  <module name="clk" kind="altera_clock_bridge" version="16.0" enabled="1">
   <parameter name="DERIVED_CLOCK_RATE" value="0" />
@@ -531,6 +540,11 @@
   <parameter name="simDrivenValue" value="0" />
   <parameter name="width" value="18" />
  </module>
+ <module name="vga_clk" kind="altera_clock_bridge" version="16.0" enabled="1">
+  <parameter name="DERIVED_CLOCK_RATE" value="0" />
+  <parameter name="EXPLICIT_CLOCK_RATE" value="40000000" />
+  <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
+ </module>
  <connection
    kind="avalon"
    version="16.0"
@@ -658,6 +672,11 @@
    start="clk.out_clk"
    end="GPU_core_0.clock" />
  <connection
+   kind="clock"
+   version="16.0"
+   start="vga_clk.out_clk"
+   end="VGA_Controller.vga_clk" />
+ <connection
    kind="nios_custom_instruction"
    version="16.0"
    start="nios2.custom_instruction_master"
@@ -720,6 +739,11 @@
    version="16.0"
    start="reset_controller.reset_out"
    end="GPU_core_0.reset_sink" />
+ <connection
+   kind="reset"
+   version="16.0"
+   start="reset_controller.reset_out"
+   end="VGA_Controller.vga_reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="FIFO" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="4" />
 </system>

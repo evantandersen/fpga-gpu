@@ -12,9 +12,9 @@ module tile_renderer(
 	input signed [23:0]B12_in,
 	input signed [23:0]B20_in,
 	
-	input signed [37:0]w0_in,
-	input signed [37:0]w1_in,
-	input signed [37:0]w2_in,
+	input signed [31:0]w0_in,
+	input signed [31:0]w1_in,
+	input signed [31:0]w2_in,
 	
 	input [15:0]color_in,
 	
@@ -44,9 +44,9 @@ module tile_renderer(
 	reg signed [23:0]B20;
 	reg signed [23:0]B01;
 	            
-	reg signed [37:0]w0;
-	reg signed [37:0]w1;
-	reg signed [37:0]w2;
+	reg signed [31:0]w0;
+	reg signed [31:0]w1;
+	reg signed [31:0]w2;
 
 
 	reg [15:0]color;
@@ -64,10 +64,9 @@ module tile_renderer(
 	
 	
 	//add Axx for each column, Bxx for rows
-	//multiply the delta by 16 to account for subpixel coordinates
-	wire signed [27:0]delta0 = {(row_end ? B12 : A12_ex), 4'sd0};
-	wire signed [27:0]delta1 = {(row_end ? B20 : A20_ex), 4'sd0};
-	wire signed [27:0]delta2 = {(row_end ? B01 : A01_ex), 4'sd0};
+	wire signed [23:0]delta0 = row_end ? B12 : A12_ex;
+	wire signed [23:0]delta1 = row_end ? B20 : A20_ex;
+	wire signed [23:0]delta2 = row_end ? B01 : A01_ex;
 
 	always @ (posedge clk or negedge resetn) begin
 		if (!resetn) begin

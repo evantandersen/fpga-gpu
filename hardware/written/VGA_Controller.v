@@ -17,14 +17,16 @@ module VGA_Controller(
 	input master_wait_request,
 	input master_read_data_valid,
 	
+	//VGA_clk domain
+	input VGA_CLK,
+	input vga_resetn,
 	output VGA_SYNC_N,
 	output VGA_BLANK_N,
 	output [7:0]VGA_R,
 	output [7:0]VGA_G,
 	output [7:0]VGA_B,
 	output VGA_HS,
-	output VGA_VS,
-	input VGA_CLK
+	output VGA_VS
 );
 
 	//VGA state registers
@@ -90,14 +92,15 @@ module VGA_Controller(
 		master_read_data_valid,
 		
 		//vga_clk
+		VGA_CLK,
+		vga_resetn,
 		VGA_SYNC_N, 
 		VGA_BLANK_N, 
 		VGA_R, 
 		VGA_G, 
 		VGA_B, 
 		VGA_HS, 
-		VGA_VS, 
-		VGA_CLK
+		VGA_VS
 	);
 
 endmodule

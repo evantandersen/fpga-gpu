@@ -46,14 +46,7 @@ module GPU(
 	system_clock_pll P0(reset, CLOCK_50, system_clock, DRAM_CLK, vga_clock);
 	
 	
-	wire [7:0]carry_out;
-	carry_mult #(.WIDTH(4)) lab2_csm(SW[17:14], SW[13:10], carry_out);
-	
-	wire [7:0]array_out;
-	array_mult #(.WIDTH(4)) lab2_bam(SW[17:14], SW[13:10], array_out);
-	assign LEDG[7:0] = SW[9] ? carry_out : array_out;
-	
-	assign LEDG[8] = 0;
+	assign LEDG[7:0] = 0;
 	
 	
 	nios2 u0 (
@@ -84,7 +77,7 @@ module GPU(
         .vga_b                        (VGA_B),                        //                        .B
         .vga_hs                       (VGA_HS),                       //                        .HS
         .vga_vs                       (VGA_VS),                        //                        .VS
-        .vga_clk                      (vga_clock),                        //                        .CLK
+        .vga_clk_clk                  (vga_clock),                        //                        .CLK
 		  
 		  .led_r_export                 (LEDR),                 //                   led_r.export
         .sw_export                    (SW),                     //                      sw.export

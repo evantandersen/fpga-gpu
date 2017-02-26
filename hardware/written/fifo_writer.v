@@ -2,64 +2,69 @@
 module fifo_writer(
 	input clk,
 	input resetn,
-	input [15:0]stride,
-
-	input [15:0]fifo_data,
+	input [15:0]stride_in,
+	input [31:0]addr_in,
+	input start,
+	output running_out,
+	
+	input [31:0]fifo_data,
 	input fifo_empty,
 	output fifo_ack,
 	
 	//avalon master for writing
 	output [31:0]master_address,
 	output master_write,
-	output [15:0]master_write_data,
+	output [31:0]master_write_data,
 	input master_wait_request
 );
+
+//	parameter row_word_width = 16;
+//	parameter rows = 32;
 	
 	reg [31:0]currAddr;
+	reg [15:0]stride;
 	assign master_address = currAddr;
 	assign master_write_data = fifo_data;
 	reg [4:0]currLine;
-	reg [4:0]currCol;
-	reg [1:0]state;
-	assign master_write = (state == 2'd2) & !fifo_empty;
+	reg [3:0]currCol;
+	reg running;
+	assign running_out = running;
+	assign master_write = running & !fifo_empty;
  
- 
-	wire done_row = (currCol == 5'd31);
-	wire last_line = (currLine == 5'd31);
-	assign fifo_ack = !master_wait_request & !fifo_empty;
+	wire done_row = (currCol == 15);
+	wire last_line = (currLine == 31);
+	assign fifo_ack = !master_wait_request && master_write;
  
  
 	always @ (posedge clk or negedge resetn) begin
 		if (!resetn) begin
-			currAddr <= 32'd0;
-			currLine <= 5'd0;
-			currCol <= 5'd0;
-			state <= 2'b0;
+			currAddr <= 0;
+			currLine <= 0;
+			currCol <= 0;
+			running <= 0;
+			stride <= 0;
 		end else begin
-			case(state)
-				2'd0: begin
-					if(!fifo_empty) begin
-						currAddr[31:16] <= fifo_data;
-						state <= 2'd1;
+			case(running)
+				0: begin
+					if(start) begin
+						currAddr <= addr_in;
+						stride <= stride_in;
+						currCol <= 0;
+						currLine <= 0;
+						running <= 1;
 					end
 				end
-				2'd1: begin
-					if(!fifo_empty) begin
-						currAddr[15:0] <= fifo_data;
-						state <= 2'd2;
-					end
-				end
-				2'd2:begin 
-					if(!master_wait_request) begin
-						currCol <= currCol + 5'd1;
+				1:begin 
+					if(fifo_ack) begin
+						currCol <= currCol + 1'd1;
 						if(done_row) begin
-							currLine <= currLine + 5'd1;					
-							currAddr <= currAddr + stride - 62;
+							currLine <= currLine + 1'd1;					
+							currAddr <= currAddr + stride - 60;
 						end else begin
-							currAddr <= currAddr + 2;
+							currAddr <= currAddr + 4;
 						end
 						if(done_row && last_line) begin
-							state <= 2'd0;
+							running <= 0;
 						end
 					end
 				end

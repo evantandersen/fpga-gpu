@@ -102,10 +102,10 @@ module pixel_fifo (
 		dcfifo_mixed_widths_component.lpm_width_r = 16,
 		dcfifo_mixed_widths_component.overflow_checking = "ON",
 		dcfifo_mixed_widths_component.rdsync_delaypipe = 4,
-		dcfifo_mixed_widths_component.read_aclr_synch = "OFF",
+		dcfifo_mixed_widths_component.read_aclr_synch = "ON",
 		dcfifo_mixed_widths_component.underflow_checking = "ON",
 		dcfifo_mixed_widths_component.use_eab = "ON",
-		dcfifo_mixed_widths_component.write_aclr_synch = "OFF",
+		dcfifo_mixed_widths_component.write_aclr_synch = "ON",
 		dcfifo_mixed_widths_component.wrsync_delaypipe = 4;
 
 
@@ -157,10 +157,10 @@ endmodule
 // Retrieval info: CONSTANT: LPM_WIDTH_R NUMERIC "16"
 // Retrieval info: CONSTANT: OVERFLOW_CHECKING STRING "ON"
 // Retrieval info: CONSTANT: RDSYNC_DELAYPIPE NUMERIC "4"
-// Retrieval info: CONSTANT: READ_ACLR_SYNCH STRING "OFF"
+// Retrieval info: CONSTANT: READ_ACLR_SYNCH STRING "ON"
 // Retrieval info: CONSTANT: UNDERFLOW_CHECKING STRING "ON"
 // Retrieval info: CONSTANT: USE_EAB STRING "ON"
-// Retrieval info: CONSTANT: WRITE_ACLR_SYNCH STRING "OFF"
+// Retrieval info: CONSTANT: WRITE_ACLR_SYNCH STRING "ON"
 // Retrieval info: CONSTANT: WRSYNC_DELAYPIPE NUMERIC "4"
 // Retrieval info: USED_PORT: aclr 0 0 0 0 INPUT GND "aclr"
 // Retrieval info: USED_PORT: data 0 0 32 0 INPUT NODEFVAL "data[31..0]"

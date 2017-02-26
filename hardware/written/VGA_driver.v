@@ -12,14 +12,15 @@ module VGA_driver(
 	input master_read_data_valid,
 	
 	//vga_clk
+	input VGA_CLK,
+	input vga_resetn,
 	output VGA_SYNC_N,
 	output VGA_BLANK_N,
 	output [7:0]VGA_R,
 	output [7:0]VGA_G,
 	output [7:0]VGA_B,
 	output VGA_HS,
-	output VGA_VS,
-	input VGA_CLK
+	output VGA_VS
 );
 
 	parameter C_VERT_NUM_PIXELS  = 16'd600;
@@ -60,8 +61,8 @@ module VGA_driver(
 	wire xCounter_clear, yCounter_clear;
 
 	//scan horizontal lines
-	always @(posedge VGA_CLK or negedge resetn) begin
-		if (!resetn) begin
+	always @(posedge VGA_CLK or negedge vga_resetn) begin
+		if (!vga_resetn) begin
 			xCounter <= 16'd0;
 		end
 		else if (xCounter_clear) begin
@@ -73,9 +74,9 @@ module VGA_driver(
 	assign xCounter_clear = (xCounter == (C_HORZ_TOTAL_COUNT-1));
 
 	//scan vertical lines
-	always @(posedge VGA_CLK or negedge resetn)
+	always @(posedge VGA_CLK or negedge vga_resetn)
 	begin
-		if (!resetn) begin
+		if (!vga_resetn) begin
 			yCounter <= 16'd0;
 		end
 		else if (xCounter_clear && yCounter_clear) begin
@@ -102,7 +103,7 @@ module VGA_driver(
 		master_address, master_read, master_read_data, master_wait_request, master_read_data_valid, 
 		
 		//VGA module interface
-		VGA_CLK, read_pixel, pixel
+		VGA_CLK, vga_resetn, read_pixel, pixel
 	);
 	
 endmodule

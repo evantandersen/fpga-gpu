@@ -40,15 +40,15 @@ float sine_inner(float x)
     return result;
 }
 
-float sin(float x) {
+float sine(float x) {
 	if(x > F_PI) {
 		return -sine_inner(x - F_PI);
 	}
 	return sine_inner(x);
 }
 
-float cos(float x) {
-	return sin(x + F_PI/2);
+float cosine(float x) {
+	return sine(x + F_PI/2);
 }
 
 

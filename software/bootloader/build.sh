@@ -1,7 +1,6 @@
 #! /bin/bash
 
 nios2-elf-gcc -g -O2 -std=c99 -ffunction-sections -fverbose-asm -fno-inline -mhw-mulx -mhw-mul -mhw-div -DSYSTEM_BUS_WIDTH=32 -Wall -Werror -DALT_SINGLE_THREADED -Wl,--script=bootloader.ld -o bootloader.elf \
--ffreestanding \
 -mno-gpopt \
 -Wdouble-promotion \
 bootloader.c \

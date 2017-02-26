@@ -16,16 +16,17 @@ module vga_dram_master(
 	
 	//VGA_CLK domain
 		input VGA_CLK,
+		input vga_resetn,
 		input read_pixel,
 		output [15:0]pixel_out
 );	
-	//draw green on the screen if the fifo bottoms out
+	//draw red on the screen if the fifo bottoms out
 	wire [15:0]data_out;
-	assign pixel_out = out_valid ? data_out : 16'h03E0;
+	assign pixel_out = out_valid ? data_out : {1'd0, 5'd31, 5'd0, 5'd0};
 	
 	reg out_valid;
-	always @ (posedge VGA_CLK or negedge resetn) begin
-		if(!resetn) begin
+	always @ (posedge VGA_CLK or negedge vga_resetn) begin
+		if(!vga_resetn) begin
 			out_valid <= 1'd0;
 		end else begin
 			out_valid <= read_pixel && !rdempty;
@@ -43,7 +44,7 @@ module vga_dram_master(
 	assign master_address = currAddress; 
 	
 	//whenever the fifo is at least half-empty, try and read in 8 words
-	wire shouldReadBurst = !wrusedw[6] && (wordsRead < 18'd240000) && (currAddress != 0);
+	wire shouldReadBurst = !wrusedw[6] && !wrfull && (wordsRead < 18'd240000) && (currAddress != 0);
 	assign master_read = shouldReadBurst | (currAddress[4:0] != 0);
 	
 	reg [31:0]currAddress;

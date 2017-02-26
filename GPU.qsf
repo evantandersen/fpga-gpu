@@ -604,7 +604,7 @@ set_global_assignment -name CYCLONEIII_CONFIGURATION_DEVICE EPCS64
 # SignalTap II Assignments
 # ========================
 set_global_assignment -name ENABLE_SIGNALTAP OFF
-set_global_assignment -name USE_SIGNALTAP_FILE Signal_tap_gpu.stp
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 
 # Power Estimation Assignments
 # ============================
@@ -677,6 +677,6 @@ set_global_assignment -name VERILOG_FILE hardware/written/vga_dram_reader.v
 set_global_assignment -name VERILOG_FILE hardware/written/VGA_driver.v
 set_global_assignment -name QIP_FILE hardware/generated/fifo/tile_fifo.qip
 set_global_assignment -name QIP_FILE hardware/generated/ram/tile_ram.qip
-set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/array_mult.sv
-set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/carry_mult.sv
+set_global_assignment -name QIP_FILE hardware/generated/fifo/command_buffer.qip
+set_global_assignment -name SIGNALTAP_FILE stp1.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

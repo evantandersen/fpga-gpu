@@ -13,8 +13,8 @@
 #define F_2_PI 6.28318530718f
 
 
-float sin(float x);
-float cos(float x);
+float sine(float x);
+float cosine(float x);
 
 void mult_4x4(float *a, float *b, float *result);
 void mult_4xVec(float *a, point_t *b, clip_point_t *result);

@@ -37,30 +37,6 @@ int32_t isTopLeft(int_point_t *v0, int_point_t *v1) {
 	return 0;
 }
 
-// float min3(float a, float b, float c) {
-	// float ab = a;
-	// if (b < a) {
-		// ab = b;
-	// }
-	// if(ab < c) {
-		// return ab;
-	// } else {
-		// return c;
-	// }
-// }
-
-// float max3(float a, float b, float c) {
-	// float ab = a;
-	// if(b > ab) {
-		// ab = b;
-	// }
-	// if(ab > c) {
-		// return ab;
-	// } else {
-		// return c;
-	// }
-// }
-
 int keep_tri(triangle_t *tri, clip_point_t *verts, uint8_t *clip_codes) {
 	//cull if bounding box doesn't overlap viewframe
 	if(clip_codes[tri->v0] & clip_codes[tri->v1] & clip_codes[tri->v2]) {
@@ -144,9 +120,14 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 
 void draw_triangles_barycentric_gpu(render_target_t *target, color_t background, polygon_list_t *data) {
 	
+	//reset the sequence number
+	GPU[0] = 5;
+	
+	uint32_t gpu_seq = 0;
 	//set the stride
-	GPU[8] = target->stride;
-
+	GPU[9] = target->stride;
+	gpu_seq++;
+	
 	uint8_t *clip_codes = alloc(data->nvertices);
 	int_point_t *verts = (int_point_t*)data->vertices;
 	
@@ -156,25 +137,24 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 		for(int j = 0; j < tile_width; j++) {
 			//clear tile
 			//x, y and color
-			GPU[0] = (j << 21) | (i << 16) | background;
+			GPU[1] = background;
 
-			GPU[1] = 0;
 			GPU[2] = 0;
 			GPU[3] = 0;
+			GPU[4] = 0;
 			GPU[10] = 0;
 			GPU[11] = 0;
 			GPU[12] = 0;
 			
-			GPU[4] = 1;
 			GPU[5] = 1;
 			GPU[6] = 1;
+			GPU[7] = 1;
 			
-			GPU[7] = (uint32_t)(target->framebuffer) + (i*32*800*2) + (j*32*2);
+			GPU[8] = ((uint32_t)(target->framebuffer)) + (i*32*800*2) + (j*32*2);
 						
 			//start rendering tile
-			GPU[9] = 1;
-			//wait for it to finish
-			while(GPU[9]);
+			GPU[0] = 0;
+			gpu_seq += 12;
 			
 			//generate clip data for vertices
 			int32_t maxX = (j+1)*32*GPU_PIXEL_SUBSTEP - 1;
@@ -201,7 +181,7 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 			//render triangles
 			for(int tri = 0; tri < data->ntris; tri++) {
 				triangle_t* curr = &data->triangles[tri];
-				
+								
 				//if triangle doesn't overlap tile, no need to render
 				if(clip_codes[curr->v0] & clip_codes[curr->v1] & clip_codes[curr->v2]) {
 					continue;
@@ -222,12 +202,12 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 				int32_t B20 = (v0.x - v2.x) - 31*A20;
 
 							
-				//x, y and color
-				GPU[0] = (j << 21) | (i << 16) | curr->color;
+				//color
+				GPU[1] = curr->color;
 
-				GPU[1] = A01;
-				GPU[2] = A12;
-				GPU[3] = A20;
+				GPU[2] = A01;
+				GPU[3] = A12;
+				GPU[4] = A20;
 				
 				GPU[10] = B01;
 				GPU[11] = B12;
@@ -244,22 +224,24 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 				w1_row -= isTopLeft(&v2, &v0) ? 0 : 1;
 				w2_row -= isTopLeft(&v0, &v1) ? 0 : 1;
 
-				GPU[4] = w0_row;
-				GPU[5] = w1_row;
-				GPU[6] = w2_row;
+				GPU[5] = w0_row >> 4;
+				GPU[6] = w1_row >> 4;
+				GPU[7] = w2_row >> 4;
 				
 				//start rendering tile
-				GPU[9] = 1;
-				//wait for it to finish
-				while(GPU[9]);
+				GPU[0] = 0;			
+				gpu_seq += 11;
 			}
-			//write it to memory
-			GPU[9] = 2;
-						
-			//wait to complete
-			while(GPU[9]);
+			//write it to fifo
+			GPU[0] = 2;
+			gpu_seq++;
 		}
 	}	
+	//wait for all data to finish writing
+	GPU[0] = 3;
+	GPU[0] = 4;
+	gpu_seq += 2;
+	while(GPU[0] < gpu_seq);
 }
 
 
