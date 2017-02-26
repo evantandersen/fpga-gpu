@@ -55,7 +55,7 @@ module VGA_driver(
 	vga_sync F0(display_start, clk, 1'b1, VGA_CLK, display_done | display_start, dout, rdempty, wrfull);
 	
 	assign frame_finished = !rdempty & !dout;
-	wire startNew = !rdempty & dout & (fbAddr != 32'd0);
+	wire startNew = !rdempty & dout;
 		
 	reg [15:0] xCounter, yCounter;
 	wire xCounter_clear, yCounter_clear;

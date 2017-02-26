@@ -402,7 +402,7 @@ int main(void) {
 		}
 		
 		gpu_render_scene(&target, &scene);
-			
+		
 		int frames;
 		while(!(frames = VGA[0]));
 		*LEDR = frames;
