@@ -198,10 +198,9 @@ module gpu_core (
 	);
 	
 	
-	
 	//whenever the fifo is at least half-empty, write 8 pixels into it
 	wire shouldWriteBurst = !usedw[8] && !full && writing_to_fifo;
-	assign shouldWrite = shouldWriteBurst || (ram_addr[2:0] != 0);
+	wire shouldWrite = shouldWriteBurst || (ram_addr[2:0] != 0);
 	
 	reg fifo_wren;
 	reg [9:0]ram_addr;

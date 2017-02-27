@@ -45,16 +45,16 @@ module VGA_driver(
 	
 	//fifo to get vertical sync signal
 	wire dout, rdempty, wrfull, display_done, display_start;
-	assign display_done = xCounter_clear && (yCounter == (C_VERT_NUM_PIXELS-1));
+	//assign display_done = xCounter_clear && (yCounter == (C_VERT_NUM_PIXELS-1));
 	assign display_start = xCounter_clear && (yCounter == (C_VERT_TOTAL_COUNT-2));
 	
 	//two signals sent per frame:
 	//a '0' indicates when the monitor has finished rendering the current frame
 	//a '1' indicates when to start loading the next frame from memory
 	//software should use the time between these signals to swap the buffers 
-	vga_sync F0(display_start, clk, 1'b1, VGA_CLK, display_done | display_start, dout, rdempty, wrfull);
+	vga_sync F0(display_start, clk, 1'b1, VGA_CLK, /*display_done |*/ display_start, dout, rdempty, wrfull);
 	
-	wire frame_finished = !rdempty & !dout;
+	//wire frame_finished = !rdempty & !dout;
 	assign startNew = !rdempty & dout;
 		
 	reg [15:0] xCounter, yCounter;
