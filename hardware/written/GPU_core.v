@@ -1,5 +1,10 @@
 
 module gpu_core (
+	//GPU clk domain
+	input gpu_clk,
+	input gpu_resetn,
+
+	//clk domain
 	input clk,
 	input resetn,
 	
@@ -25,17 +30,30 @@ module gpu_core (
 	wire [7:0]cb_usedw;
 	wire [35:0]cb_readdata;
 	
-	command_buffer cb0(
-	clk,
-	{slave_address, slave_write_data},
-	cb_rdreq,
-	!resetn,
-	slave_write_en & !slave_wait_request,
-	cb_empty,
-	cb_full,
-	cb_readdata,
-	cb_usedw);
+	//read requests
+	reg [31:0]read_reg;
+	assign slave_read_data = read_reg;
+	always @ (*) begin
+		case(slave_address)
+			4'd0 : read_reg = seq_no;
+			4'd1 : read_reg = cb_usedw;
+			default: read_reg = 32'd0;
+		endcase
+	end
 	
+	command_buffer cb0(
+		.aclr		(!resetn),
+		.data		({slave_address, slave_write_data}),
+		.rdclk	(gpu_clk),
+		.rdreq	(cb_rdreq),
+		.wrclk	(clk),
+		.wrreq	(slave_write_en & !slave_wait_request),
+		.q			(cb_readdata),
+		.rdempty	(cb_empty),
+		.wrfull	(cb_full),
+		.wrusedw (cb_usedw)
+	);
+		
 	assign slave_wait_request = slave_write_en & cb_full;
 
 	wire [3:0]cmd_addr = cb_readdata[35:32];
@@ -91,24 +109,11 @@ module gpu_core (
 			end
 		end
 	end
-
-	
-	//read requests
-	reg [31:0]read_reg;
-	assign slave_read_data = read_reg;
-	always @ (*) begin
-		case(slave_address)
-			4'd0 : read_reg = seq_no;
-			4'd1 : read_reg = cb_usedw;
-			default: read_reg = 32'd0;
-		endcase
-	end
-
 	
 	//process command buffer
 	reg [31:0]seq_no;
-	always @ (posedge clk or negedge resetn) begin
-		if (!resetn) begin
+	always @ (posedge gpu_clk or negedge gpu_resetn) begin
+		if (!gpu_resetn) begin
 			color <= 0;
 			A01 <= 0;
 			A12 <= 0;
@@ -171,8 +176,8 @@ module gpu_core (
 	reg tile_start;
 	wire [15:0]tile_out;
 	tile_renderer t0(
-		.clk 			(clk),
-		.resetn 		(resetn),
+		.clk 			(gpu_clk),
+		.resetn 		(gpu_resetn),
 		.start		(tile_start),
 	
 		.A01_in			(A01),
@@ -202,8 +207,8 @@ module gpu_core (
 	reg [9:0]ram_addr;
 	reg writing_to_fifo;
 
-	always @ (posedge clk or negedge resetn) begin
-		if(!resetn) begin
+	always @ (posedge gpu_clk or negedge gpu_resetn) begin
+		if(!gpu_resetn) begin
 			ram_addr <= 0;
 			writing_to_fifo <= 0;
 			fifo_wren <= 0;
@@ -228,11 +233,11 @@ module gpu_core (
 	wire fifo_ack;
 	wire [8:0]usedw;
 	tile_fifo f0(
-		.aclr (!resetn),
+		.aclr (!gpu_resetn),
 		.data (tile_out),
 		.rdclk(clk),
 		.rdreq(fifo_ack),
-		.wrclk(clk),
+		.wrclk(gpu_clk),
 		.wrreq(fifo_wren),
 		.q(fifo_d_out),
 		.rdempty(empty),

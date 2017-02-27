@@ -203,7 +203,7 @@ void draw_checkerboard_gpu(uint16_t *addr) {
 
 
 int main(void) {
-	uint16_t *frontFB = (uint16_t*)(DRAM + 8);
+	uint16_t *frontFB = (uint16_t*)(DRAM);
 	uint16_t *backFB = (uint16_t*)(DRAM + 243200);
 
 	
@@ -401,14 +401,19 @@ int main(void) {
 			while(SW[0] & 0x4);
 		}
 		
+		//time for the magic
 		gpu_render_scene(&target, &scene);
-		
-		int frames;
-		while(!(frames = VGA[0]));
-		*LEDR = frames;
-		
-		//swap the buffers
+				
+		//send the fresh frame to the VGA module
 		VGA[1] = (uint32_t)backFB;
+		
+		//wait for the VGA module to start using the new buffer
+		while(VGA[1] != (uint32_t)backFB);
+		
+		//how many times did the screen draw while we rendered this frame?
+		*LEDR = VGA[0];
+		
+		//swap back/front buffers 
 		uint16_t *tmpFB = backFB;
 		backFB = frontFB;
 		frontFB = tmpFB;

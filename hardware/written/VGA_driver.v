@@ -3,7 +3,7 @@ module VGA_driver(
 	input clk,
 	input resetn,
 	input [31:0]fbAddr,
-	output frame_finished,
+	output startNew,
 
 	output [31:0]master_address, 
 	output master_read, 
@@ -54,8 +54,8 @@ module VGA_driver(
 	//software should use the time between these signals to swap the buffers 
 	vga_sync F0(display_start, clk, 1'b1, VGA_CLK, display_done | display_start, dout, rdempty, wrfull);
 	
-	assign frame_finished = !rdempty & !dout;
-	wire startNew = !rdempty & dout;
+	wire frame_finished = !rdempty & !dout;
+	assign startNew = !rdempty & dout;
 		
 	reg [15:0] xCounter, yCounter;
 	wire xCounter_clear, yCounter_clear;

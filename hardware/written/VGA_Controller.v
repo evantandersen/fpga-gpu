@@ -31,27 +31,24 @@ module VGA_Controller(
 
 	//VGA state registers
 	reg [31:0]fbAddr;
+	reg [31:0]currUsing;
 	reg [31:0]framesDone;
 	
 	//read requests
 	reg [31:0]READ_REG;
 	assign slave_read_data = READ_REG;
 	always @ (*) begin
-		if(slave_read_en) begin
-			case(slave_address)
-				2'd0: READ_REG = framesDone;
-				2'd1: READ_REG = fbAddr;
-				default: READ_REG = 32'd0;
-			endcase
-		end else begin
-			READ_REG = 32'd0;
-		end
+		case(slave_address)
+			2'd0: READ_REG = framesDone;
+			2'd1: READ_REG = currUsing;
+			default: READ_REG = 0;
+		endcase
 	end
 	
 	//writing
 	always @ (posedge clk or negedge resetn) begin
 		if (!resetn) begin
-			fbAddr <= 32'd0;
+			fbAddr <= 0;
 		end else begin
 			if(slave_write_en) begin
 				case(slave_address)
@@ -64,26 +61,30 @@ module VGA_Controller(
 	
 	always @ (posedge clk or negedge resetn) begin
 		if (!resetn) begin
-			framesDone <= 32'd0;
+			framesDone <= 0;
+			currUsing <= 0;
 		end else begin
 			//clear the frame status when read
-			if(slave_read_en && slave_address == 2'd0) begin
-				framesDone <= frame_finished;
+			if(slave_read_en && slave_address == 0) begin
+				framesDone <= starting_new;
 			end else begin
-				framesDone <= framesDone + frame_finished;
+				framesDone <= framesDone + starting_new;
+			end
+			if(starting_new) begin
+				currUsing <= fbAddr;
 			end
 		end
 	end
 	
 	
 	
-	wire frame_finished;
+	wire starting_new;
 	VGA_driver VGA0(
 		//sys_clk
 		clk, 
 		resetn, 
 		fbAddr,
-		frame_finished,
+		starting_new,
 		
 		master_address, 
 		master_read, 

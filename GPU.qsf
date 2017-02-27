@@ -660,7 +660,7 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 # ---------------
 set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY compiler_output
-set_global_assignment -name QIP_FILE hardware/generated/fifo/gpu_dram_read.qip
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name QIP_FILE hardware/generated/fifo/vga_sync.qip
 set_global_assignment -name QSYS_FILE nios2.qsys
 set_global_assignment -name SOURCE_FILE nios2.cmp
@@ -679,4 +679,4 @@ set_global_assignment -name QIP_FILE hardware/generated/fifo/tile_fifo.qip
 set_global_assignment -name QIP_FILE hardware/generated/ram/tile_ram.qip
 set_global_assignment -name QIP_FILE hardware/generated/fifo/command_buffer.qip
 set_global_assignment -name SIGNALTAP_FILE stp1.stp
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name QIP_FILE hardware/generated/plls/gpu_clock.qip

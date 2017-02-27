@@ -45,8 +45,12 @@ module GPU(
 	//main clock
 	system_clock_pll P0(reset, CLOCK_50, system_clock, DRAM_CLK, vga_clock);
 	
+	//GPU core clock
+	wire gpu_clk;
+	gpu_clock P1(reset, CLOCK_50, gpu_clk);
+
 	
-	assign LEDG[7:0] = 0;
+	assign LEDG[8:0] = 0;
 	
 	
 	nios2 u0 (
@@ -60,28 +64,30 @@ module GPU(
 //        .sram_OE_N (SRAM_OE_N), //                        .OE_N
 //        .sram_WE_N (SRAM_WE_N),  //                        .WE_N
 
-		  .dram_addr                   (DRAM_ADDR),                   //                   sdram.addr
-        .dram_ba                     (DRAM_BA),                     //                        .ba
-        .dram_cas_n                  (DRAM_CAS_N),                  //                        .cas_n
-        .dram_cke                    (DRAM_CKE),                    //                        .cke
-        .dram_cs_n                   (DRAM_CS_N),                   //                        .cs_n
-        .dram_dq                     (DRAM_DQ),                     //                        .dq
-        .dram_dqm                    (DRAM_DQM),                    //                        .dqm
-        .dram_ras_n                  (DRAM_RAS_N),                  //                        .ras_n
-        .dram_we_n                   (DRAM_WE_N),                    //                        .we_n
+		  .dram_addr 						(DRAM_ADDR),                   //                   sdram.addr
+        .dram_ba   						(DRAM_BA),                     //                        .ba
+        .dram_cas_n						(DRAM_CAS_N),                  //                        .cas_n
+        .dram_cke  						(DRAM_CKE),                    //                        .cke
+        .dram_cs_n 						(DRAM_CS_N),                   //                        .cs_n
+        .dram_dq   						(DRAM_DQ),                     //                        .dq
+        .dram_dqm  						(DRAM_DQM),                    //                        .dqm
+        .dram_ras_n						(DRAM_RAS_N),                  //                        .ras_n
+        .dram_we_n 						(DRAM_WE_N),                    //                        .we_n
 		  
-		  .vga_sync_n                   (VGA_SYNC_N),                   //                     gpu.SYNC_N
-        .vga_blank_n                  (VGA_BLANK_N),                  //                        .BLANK_N
-        .vga_r                        (VGA_R),                        //                        .R
-        .vga_g                        (VGA_G),                        //                        .G
-        .vga_b                        (VGA_B),                        //                        .B
-        .vga_hs                       (VGA_HS),                       //                        .HS
-        .vga_vs                       (VGA_VS),                        //                        .VS
-        .vga_clk_clk                  (vga_clock),                        //                        .CLK
+		  .vga_sync_n   					(VGA_SYNC_N),                   //                     gpu.SYNC_N
+        .vga_blank_n  					(VGA_BLANK_N),                  //                        .BLANK_N
+        .vga_r        					(VGA_R),                        //                        .R
+        .vga_g        					(VGA_G),                        //                        .G
+        .vga_b        					(VGA_B),                        //                        .B
+        .vga_hs       					(VGA_HS),                       //                        .HS
+        .vga_vs       					(VGA_VS),                        //                        .VS
+        .vga_clk_clk						(vga_clock),                        //                        .CLK
 		  
-		  .led_r_export                 (LEDR),                 //                   led_r.export
-        .sw_export                    (SW),                     //                      sw.export
-		  .key_export   (~KEY[3:1])    //   key.export
+		  .gpu_clock_clk 					(system_clock),
+		  
+		  .led_r_export					(LEDR),                 //                   led_r.export
+        .sw_export						(SW),                     //                      sw.export
+		  .key_export   					(~KEY[3:1])    //   key.export
     );
 
 	

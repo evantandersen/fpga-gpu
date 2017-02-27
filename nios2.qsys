@@ -49,6 +49,14 @@
          type = "int";
       }
    }
+   element gpu_clk
+   {
+      datum _sortIndex
+      {
+         value = "12";
+         type = "int";
+      }
+   }
    element keys
    {
       datum _sortIndex
@@ -181,6 +189,7 @@
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk.in_clk" type="clock" dir="end" />
  <interface name="dram" internal="sdram.wire" type="conduit" dir="end" />
+ <interface name="gpu_clock" internal="gpu_clk.in_clk" type="clock" dir="end" />
  <interface
    name="key"
    internal="keys.external_connection"
@@ -207,7 +216,7 @@
    type="conduit"
    dir="end" />
  <interface name="vga_clk" internal="vga_clk.in_clk" type="clock" dir="end" />
- <module name="GPU_core_0" kind="GPU_core" version="0.3.1" enabled="1" />
+ <module name="GPU_core_0" kind="GPU_core" version="0.4.0" enabled="1" />
  <module name="LED_r" kind="altera_avalon_pio" version="16.0" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
@@ -230,6 +239,11 @@
  <module name="clk" kind="altera_clock_bridge" version="16.0" enabled="1">
   <parameter name="DERIVED_CLOCK_RATE" value="0" />
   <parameter name="EXPLICIT_CLOCK_RATE" value="90000000" />
+  <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
+ </module>
+ <module name="gpu_clk" kind="altera_clock_bridge" version="16.0" enabled="1">
+  <parameter name="DERIVED_CLOCK_RATE" value="0" />
+  <parameter name="EXPLICIT_CLOCK_RATE" value="100000000" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
  </module>
  <module name="keys" kind="altera_avalon_pio" version="16.0" enabled="1">
@@ -674,6 +688,11 @@
  <connection
    kind="clock"
    version="16.0"
+   start="gpu_clk.out_clk"
+   end="GPU_core_0.gpu_clock" />
+ <connection
+   kind="clock"
+   version="16.0"
    start="vga_clk.out_clk"
    end="VGA_Controller.vga_clk" />
  <connection
@@ -699,6 +718,11 @@
    version="16.0"
    start="nios2.debug_reset_request"
    end="reset_controller.reset_in1" />
+ <connection
+   kind="reset"
+   version="16.0"
+   start="reset_controller.reset_out"
+   end="GPU_core_0.gpu_reset_sink" />
  <connection
    kind="reset"
    version="16.0"
