@@ -97,7 +97,7 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 		float zNDC = (clip_vertices[i].z/clip_vertices[i].w);
 		screen_vertices[i].x = (xNDC+1)*0.5f*(target->width-1)*GPU_PIXEL_SUBSTEP;
 		screen_vertices[i].y = (yNDC+1)*0.5f*(target->height-1)*GPU_PIXEL_SUBSTEP;
-		screen_vertices[i].z = zNDC;
+		screen_vertices[i].z = ((zNDC+1)*32767)-32767;
 	}
 
 	size_t num_kept_2 = 0;
@@ -238,9 +238,8 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 		}
 	}	
 	//wait for all data to finish writing
-	GPU[0] = 3;
 	GPU[0] = 4;
-	gpu_seq += 2;
+	gpu_seq++;
 	while(GPU[0] < gpu_seq);
 }
 

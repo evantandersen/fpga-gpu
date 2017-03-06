@@ -74,31 +74,23 @@ module gpu_core (
 				case(cmd_data[3:0])
 					//start tile raster
 					0: begin
-						if(tile_done && !writing_to_fifo) begin
+						if(tile_done) begin
 							tile_start = 1;
 						end else begin
 							cb_rdreq = 0;
 						end
 					end
-					//wait for tile raster to finish
-					1: begin
-						cb_rdreq = tile_done;
-					end
 					//start tile write to fifo
 					2: begin
-						if(!fifo_writer_running && !writing_to_fifo && tile_done) begin
+						if(!reading_from_tile && tile_done) begin
 							start_write = 1;
 						end else begin
 							cb_rdreq = 0;
 						end
 					end
-					//wait for title to finish writing to fifo
-					3: begin
-						cb_rdreq = !writing_to_fifo;
-					end
 					//wait for fifo to finish writing to RAM
 					4: begin
-						cb_rdreq = !fifo_writer_running;
+						cb_rdreq = flushed_to_bus;
 					end
 					//reset the seq_no
 					5: begin
@@ -112,6 +104,7 @@ module gpu_core (
 	
 	//process command buffer
 	reg [31:0]seq_no;
+	reg buffers_swapped;
 	always @ (posedge gpu_clk or negedge gpu_resetn) begin
 		if (!gpu_resetn) begin
 			color <= 0;
@@ -127,12 +120,16 @@ module gpu_core (
 			B12 <= 0;
 			B20 <= 0;
 			seq_no <= 0;
+			buffers_swapped <= 0;
 		end else begin
 			if(!cb_empty) begin
 				if(seq_reset) begin
 					seq_no <= 0;
 				end else if(cb_rdreq) begin
 					seq_no <= seq_no + 1;
+				end
+				if(start_write) begin
+					buffers_swapped <= !buffers_swapped;
 				end
 				case(cmd_addr)
 					4'd1 : color <= cmd_data[15:0];
@@ -174,95 +171,76 @@ module gpu_core (
 	
 	wire tile_done;
 	reg tile_start;
+	wire tile_wren;
 	wire [15:0]tile_out;
+	wire [9:0]tile_ram_addr;
 	tile_renderer t0(
 		.clk 			(gpu_clk),
 		.resetn 		(gpu_resetn),
 		.start		(tile_start),
 	
-		.A01_in			(A01),
-		.B01_in			(B01),
-		.A12_in			(A12),
-		.B12_in			(B12),
-		.A20_in			(A20),
-		.B20_in			(B20),
-	
-		.w0_in			(w0),
-		.w1_in			(w1),
-		.w2_in			(w2),
+		.A01_in		(A01),
+		.B01_in		(B01),
+		.A12_in		(A12),
+		.B12_in		(B12),
+		.A20_in		(A20),
+		.B20_in		(B20),
+
+		.w0_in		(w0),
+		.w1_in		(w1),
+		.w2_in		(w2),
 		
-		.color_in		(color),
+		.color_in	(color),
+		.wren			(tile_wren),
 		.done			(tile_done),
-		.addr			(ram_addr),
+		.addr			(tile_ram_addr),
 		.data			(tile_out)
 	);
 	
+	wire [15:0]r0_out;
+	big_tile_ram r0(
+		.clock		(gpu_clk),
+		.data			(tile_out),
+		.rdaddress	(writer_ram_addr),
+		.wraddress	(tile_ram_addr),
+		.wren			(tile_wren && !buffers_swapped),
+		.q				(r0_out)
+	);
 	
-	//whenever the fifo is at least half-empty, write 8 pixels into it
-	wire shouldWriteBurst = !usedw[8] && !full && writing_to_fifo;
-	wire shouldWrite = shouldWriteBurst || (ram_addr[2:0] != 0);
-	
-	reg fifo_wren;
-	reg [9:0]ram_addr;
-	reg writing_to_fifo;
-
-	always @ (posedge gpu_clk or negedge gpu_resetn) begin
-		if(!gpu_resetn) begin
-			ram_addr <= 0;
-			writing_to_fifo <= 0;
-			fifo_wren <= 0;
-		end else begin
-			fifo_wren <= 0;
-			if (start_write) begin
-				ram_addr <= 0;
-				writing_to_fifo <= 1;
-			end else if (shouldWrite) begin
-				if(ram_addr == 1023) begin
-					writing_to_fifo <= 0;
-				end
-				fifo_wren <= 1;
-				ram_addr <= ram_addr + 1'd1;
-			end
-		end
-	end	
-	
-	wire [31:0]fifo_d_out;
-	wire empty;
-	wire full;
-	wire fifo_ack;
-	wire [8:0]usedw;
-	tile_fifo f0(
-		.aclr (!gpu_resetn),
-		.data (tile_out),
-		.rdclk(clk),
-		.rdreq(fifo_ack),
-		.wrclk(gpu_clk),
-		.wrreq(fifo_wren),
-		.q(fifo_d_out),
-		.rdempty(empty),
-		.wrfull(full),
-		.wrusedw(usedw)
+	wire [15:0]r1_out;
+	big_tile_ram r1(
+		.clock		(gpu_clk),
+		.data			(tile_out),
+		.rdaddress	(writer_ram_addr),
+		.wraddress	(tile_ram_addr),
+		.wren			(tile_wren && buffers_swapped),
+		.q				(r1_out)
 	);
 
 	
-	wire fifo_writer_running;
-	fifo_writer p0(
-		.clk 						(clk),
-		.resetn					(resetn),
-		.stride_in				(stride),
-		.addr_in					(addr),
-		.start					(start_write),
-		.running_out			(fifo_writer_running),
-		
-		.fifo_data				(fifo_d_out),
-		.fifo_empty				(empty),
-		.fifo_ack				(fifo_ack),
+	wire reading_from_tile;
+	wire flushed_to_bus;
+	wire [9:0]writer_ram_addr;
+	wire [15:0]ram_data_out = buffers_swapped ? r0_out : r1_out;
+	tile_writer d0(
+		.clk				(gpu_clk),
+		.resetn			(gpu_resetn),
+		.stride_in		(stride),
+		.addr_in			(addr),
+		.start			(start_write),
+		.reading 		(reading_from_tile),
+		.flushed			(flushed_to_bus),
+
+		.ram_addr_out	(writer_ram_addr),
+		.ram_data		(ram_data_out),
 	
-		.master_address 		(master_address), 
-		.master_write 			(master_write),
+		//avalon master for writing
+		.master_address		(master_address),
+		.master_write			(master_write),
 		.master_write_data	(master_write_data),
 		.master_wait_request	(master_wait_request)
-);
+	);
+
 
 	
 endmodule

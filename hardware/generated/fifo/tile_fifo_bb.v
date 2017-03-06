@@ -41,19 +41,21 @@ module tile_fifo (
 	wrreq,
 	q,
 	rdempty,
+	wrempty,
 	wrfull,
 	wrusedw);
 
 	input	  aclr;
-	input	[15:0]  data;
+	input	[63:0]  data;
 	input	  rdclk;
 	input	  rdreq;
 	input	  wrclk;
 	input	  wrreq;
-	output	[31:0]  q;
+	output	[63:0]  q;
 	output	  rdempty;
+	output	  wrempty;
 	output	  wrfull;
-	output	[8:0]  wrusedw;
+	output	[7:0]  wrusedw;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -71,9 +73,9 @@ endmodule
 // Retrieval info: PRIVATE: AlmostEmptyThr NUMERIC "-1"
 // Retrieval info: PRIVATE: AlmostFull NUMERIC "0"
 // Retrieval info: PRIVATE: AlmostFullThr NUMERIC "-1"
-// Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "1"
+// Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "0"
 // Retrieval info: PRIVATE: Clock NUMERIC "4"
-// Retrieval info: PRIVATE: Depth NUMERIC "512"
+// Retrieval info: PRIVATE: Depth NUMERIC "256"
 // Retrieval info: PRIVATE: Empty NUMERIC "1"
 // Retrieval info: PRIVATE: Full NUMERIC "1"
 // Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
@@ -86,28 +88,28 @@ endmodule
 // Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "0"
 // Retrieval info: PRIVATE: UNDERFLOW_CHECKING NUMERIC "0"
 // Retrieval info: PRIVATE: UsedW NUMERIC "1"
-// Retrieval info: PRIVATE: Width NUMERIC "16"
+// Retrieval info: PRIVATE: Width NUMERIC "64"
 // Retrieval info: PRIVATE: dc_aclr NUMERIC "1"
 // Retrieval info: PRIVATE: diff_widths NUMERIC "1"
 // Retrieval info: PRIVATE: msb_usedw NUMERIC "0"
-// Retrieval info: PRIVATE: output_width NUMERIC "32"
+// Retrieval info: PRIVATE: output_width NUMERIC "64"
 // Retrieval info: PRIVATE: rsEmpty NUMERIC "1"
 // Retrieval info: PRIVATE: rsFull NUMERIC "0"
 // Retrieval info: PRIVATE: rsUsedW NUMERIC "0"
 // Retrieval info: PRIVATE: sc_aclr NUMERIC "0"
 // Retrieval info: PRIVATE: sc_sclr NUMERIC "0"
-// Retrieval info: PRIVATE: wsEmpty NUMERIC "0"
+// Retrieval info: PRIVATE: wsEmpty NUMERIC "1"
 // Retrieval info: PRIVATE: wsFull NUMERIC "1"
 // Retrieval info: PRIVATE: wsUsedW NUMERIC "1"
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
-// Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "512"
+// Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "256"
 // Retrieval info: CONSTANT: LPM_SHOWAHEAD STRING "ON"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "dcfifo_mixed_widths"
-// Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "16"
-// Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "9"
+// Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "64"
+// Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "8"
 // Retrieval info: CONSTANT: LPM_WIDTHU_R NUMERIC "8"
-// Retrieval info: CONSTANT: LPM_WIDTH_R NUMERIC "32"
+// Retrieval info: CONSTANT: LPM_WIDTH_R NUMERIC "64"
 // Retrieval info: CONSTANT: OVERFLOW_CHECKING STRING "ON"
 // Retrieval info: CONSTANT: RDSYNC_DELAYPIPE NUMERIC "5"
 // Retrieval info: CONSTANT: READ_ACLR_SYNCH STRING "ON"
@@ -116,25 +118,27 @@ endmodule
 // Retrieval info: CONSTANT: WRITE_ACLR_SYNCH STRING "ON"
 // Retrieval info: CONSTANT: WRSYNC_DELAYPIPE NUMERIC "5"
 // Retrieval info: USED_PORT: aclr 0 0 0 0 INPUT GND "aclr"
-// Retrieval info: USED_PORT: data 0 0 16 0 INPUT NODEFVAL "data[15..0]"
-// Retrieval info: USED_PORT: q 0 0 32 0 OUTPUT NODEFVAL "q[31..0]"
+// Retrieval info: USED_PORT: data 0 0 64 0 INPUT NODEFVAL "data[63..0]"
+// Retrieval info: USED_PORT: q 0 0 64 0 OUTPUT NODEFVAL "q[63..0]"
 // Retrieval info: USED_PORT: rdclk 0 0 0 0 INPUT NODEFVAL "rdclk"
 // Retrieval info: USED_PORT: rdempty 0 0 0 0 OUTPUT NODEFVAL "rdempty"
 // Retrieval info: USED_PORT: rdreq 0 0 0 0 INPUT NODEFVAL "rdreq"
 // Retrieval info: USED_PORT: wrclk 0 0 0 0 INPUT NODEFVAL "wrclk"
+// Retrieval info: USED_PORT: wrempty 0 0 0 0 OUTPUT NODEFVAL "wrempty"
 // Retrieval info: USED_PORT: wrfull 0 0 0 0 OUTPUT NODEFVAL "wrfull"
 // Retrieval info: USED_PORT: wrreq 0 0 0 0 INPUT NODEFVAL "wrreq"
-// Retrieval info: USED_PORT: wrusedw 0 0 9 0 OUTPUT NODEFVAL "wrusedw[8..0]"
+// Retrieval info: USED_PORT: wrusedw 0 0 8 0 OUTPUT NODEFVAL "wrusedw[7..0]"
 // Retrieval info: CONNECT: @aclr 0 0 0 0 aclr 0 0 0 0
-// Retrieval info: CONNECT: @data 0 0 16 0 data 0 0 16 0
+// Retrieval info: CONNECT: @data 0 0 64 0 data 0 0 64 0
 // Retrieval info: CONNECT: @rdclk 0 0 0 0 rdclk 0 0 0 0
 // Retrieval info: CONNECT: @rdreq 0 0 0 0 rdreq 0 0 0 0
 // Retrieval info: CONNECT: @wrclk 0 0 0 0 wrclk 0 0 0 0
 // Retrieval info: CONNECT: @wrreq 0 0 0 0 wrreq 0 0 0 0
-// Retrieval info: CONNECT: q 0 0 32 0 @q 0 0 32 0
+// Retrieval info: CONNECT: q 0 0 64 0 @q 0 0 64 0
 // Retrieval info: CONNECT: rdempty 0 0 0 0 @rdempty 0 0 0 0
+// Retrieval info: CONNECT: wrempty 0 0 0 0 @wrempty 0 0 0 0
 // Retrieval info: CONNECT: wrfull 0 0 0 0 @wrfull 0 0 0 0
-// Retrieval info: CONNECT: wrusedw 0 0 9 0 @wrusedw 0 0 9 0
+// Retrieval info: CONNECT: wrusedw 0 0 8 0 @wrusedw 0 0 8 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL tile_fifo.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL tile_fifo.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL tile_fifo.cmp FALSE

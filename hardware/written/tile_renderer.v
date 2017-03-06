@@ -18,20 +18,15 @@ module tile_renderer(
 	
 	input [15:0]color_in,
 	
-	input [9:0]addr,
-	output done,
-	output [15:0]data
+	output [9:0]addr,
+	output wren,
+	output [15:0]data,
+	
+	output done
 );
 
-	wire [9:0]address = enable ? index : addr;
-	
-	tile_ram r0(
-		.address  	(address),
-		.clock 		(clk),
-		.data			(color),
-		.wren			(point_inside & enable),
-		.q				(data)
-	);
+	assign wren = point_inside & enable;
+	assign data = color;
 	
 	//point is inside triangle as long as all 3 values are positive
 	wire point_inside = !(w0[31] | w1[31] | w2[31]);
@@ -52,6 +47,8 @@ module tile_renderer(
 	reg [15:0]color;
 	
 	reg [9:0]index;
+	assign addr = index;
+	
 	reg enable;
 	assign done = !enable;	
 	

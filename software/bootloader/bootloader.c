@@ -190,7 +190,8 @@ void draw_checkerboard_gpu(uint16_t *addr) {
 			
 			//write it to fifo
 			GPU[0] = 2;
-			gpu_seq++;
+			GPU[0] = 4;
+			gpu_seq += 2;
 		}
 	}	
 	//wait for all data to finish writing
@@ -198,6 +199,51 @@ void draw_checkerboard_gpu(uint16_t *addr) {
 	GPU[0] = 4;
 	gpu_seq += 2;
 	while(GPU[0] < gpu_seq);
+
+}
+
+void gpu_test(uint16_t *addr, color_t color) {
+	//reset the sequence number
+	GPU[0] = 5;
+	
+	uint32_t gpu_seq = 0;
+	//set the stride
+	GPU[9] = 800*2;
+	gpu_seq++;
+	
+	//clear tile
+	GPU[1] = color;
+
+	GPU[2] = 0;
+	GPU[3] = 0;
+	GPU[4] = 0;
+	GPU[10] = 0;
+	GPU[11] = 0;
+	GPU[12] = 0;
+	
+	GPU[5] = 1;
+	GPU[6] = 1;
+	GPU[7] = 1;
+	
+	GPU[8] = ((uint32_t)(addr));
+				
+	//start rendering tile
+	GPU[0] = 0;
+	gpu_seq += 12;
+	
+	//write it to fifo
+	GPU[0] = 2;
+	gpu_seq++;
+
+	//wait for all data to finish writing
+	GPU[0] = 3;
+	GPU[0] = 4;
+	gpu_seq += 2;
+	uint32_t seq_no = 0;
+	while(seq_no < gpu_seq) {
+		seq_no = GPU[0];
+		*LEDR = seq_no;
+	}
 
 }
 
@@ -213,7 +259,13 @@ int main(void) {
 	color_t green = COLOR(0,29,5);
 	color_t purple = COLOR(15,0,19);
 	color_t orange = COLOR(31,16,0);
-			
+	
+	VGA[1] = (uint32_t)frontFB;
+	gpu_test(frontFB, orange);
+	while(*SW & 0x2);
+	gpu_test(frontFB+32, lightBlue);
+	while(*SW & 0x4);
+	
 	// int32_t pos = 0;
 	// int32_t angle = 180;
 	// uint32_t width = 50;
@@ -320,14 +372,7 @@ int main(void) {
 			.width = 800,
 			.height = 600,
 		};
-		
-		float near = 0.1;
-		float far = 1;
-		float top = 0.1;
-		float bottom = -top;
-		float right = (4.0f/3.0f) * top;
-		float left = -right;
-		
+				
 		float xAngle = (xpos/360.0f)*F_2_PI;
 		float sinX = sine(xAngle);
 		float cosX = cosine(xAngle);
@@ -362,6 +407,14 @@ int main(void) {
 			0, 0, 0.5, -0.7,
 			0, 0, 0, 1,			
 		};
+		
+		float near = 0.1;
+		float far = 100;
+		float top = 0.1;
+		float bottom = -top;
+		float right = (4.0f/3.0f) * top;
+		float left = -right;
+		
 		float tmp[16];
 		scene_t scene = {
 			.background = COLOR(0, 0, 0),
