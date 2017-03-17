@@ -4,7 +4,7 @@
 // MODULE: altsyncram 
 
 // ============================================================
-// File Name: big_tile_ram.v
+// File Name: depth_buffer.v
 // Megafunction Name(s):
 // 			altsyncram
 //
@@ -32,7 +32,7 @@
 //authorized distributors.  Please refer to the applicable 
 //agreement for further details.
 
-module big_tile_ram (
+module depth_buffer (
 	clock,
 	data,
 	rdaddress,
@@ -41,11 +41,11 @@ module big_tile_ram (
 	q);
 
 	input	  clock;
-	input	[15:0]  data;
+	input	[26:0]  data;
 	input	[9:0]  rdaddress;
 	input	[9:0]  wraddress;
 	input	  wren;
-	output	[15:0]  q;
+	output	[26:0]  q;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -66,7 +66,7 @@ endmodule
 // Retrieval info: PRIVATE: BYTEENA_ACLR_B NUMERIC "0"
 // Retrieval info: PRIVATE: BYTE_ENABLE_A NUMERIC "0"
 // Retrieval info: PRIVATE: BYTE_ENABLE_B NUMERIC "0"
-// Retrieval info: PRIVATE: BYTE_SIZE NUMERIC "8"
+// Retrieval info: PRIVATE: BYTE_SIZE NUMERIC "9"
 // Retrieval info: PRIVATE: BlankMemory NUMERIC "1"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_INPUT_A NUMERIC "0"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_INPUT_B NUMERIC "0"
@@ -90,12 +90,12 @@ endmodule
 // Retrieval info: PRIVATE: JTAG_ENABLED NUMERIC "0"
 // Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 // Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
-// Retrieval info: PRIVATE: MEMSIZE NUMERIC "16384"
+// Retrieval info: PRIVATE: MEMSIZE NUMERIC "27648"
 // Retrieval info: PRIVATE: MEM_IN_BITS NUMERIC "0"
 // Retrieval info: PRIVATE: MIFfilename STRING ""
 // Retrieval info: PRIVATE: OPERATION_MODE NUMERIC "2"
 // Retrieval info: PRIVATE: OUTDATA_ACLR_B NUMERIC "0"
-// Retrieval info: PRIVATE: OUTDATA_REG_B NUMERIC "0"
+// Retrieval info: PRIVATE: OUTDATA_REG_B NUMERIC "1"
 // Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
 // Retrieval info: PRIVATE: READ_DURING_WRITE_MODE_MIXED_PORTS NUMERIC "2"
 // Retrieval info: PRIVATE: READ_DURING_WRITE_MODE_PORT_A NUMERIC "3"
@@ -110,10 +110,10 @@ endmodule
 // Retrieval info: PRIVATE: USE_DIFF_CLKEN NUMERIC "0"
 // Retrieval info: PRIVATE: UseDPRAM NUMERIC "1"
 // Retrieval info: PRIVATE: VarWidth NUMERIC "0"
-// Retrieval info: PRIVATE: WIDTH_READ_A NUMERIC "16"
-// Retrieval info: PRIVATE: WIDTH_READ_B NUMERIC "16"
-// Retrieval info: PRIVATE: WIDTH_WRITE_A NUMERIC "16"
-// Retrieval info: PRIVATE: WIDTH_WRITE_B NUMERIC "16"
+// Retrieval info: PRIVATE: WIDTH_READ_A NUMERIC "27"
+// Retrieval info: PRIVATE: WIDTH_READ_B NUMERIC "27"
+// Retrieval info: PRIVATE: WIDTH_WRITE_A NUMERIC "27"
+// Retrieval info: PRIVATE: WIDTH_WRITE_B NUMERIC "27"
 // Retrieval info: PRIVATE: WRADDR_ACLR_B NUMERIC "0"
 // Retrieval info: PRIVATE: WRADDR_REG_B NUMERIC "0"
 // Retrieval info: PRIVATE: WRCTRL_ACLR_B NUMERIC "0"
@@ -131,30 +131,30 @@ endmodule
 // Retrieval info: CONSTANT: NUMWORDS_B NUMERIC "1024"
 // Retrieval info: CONSTANT: OPERATION_MODE STRING "DUAL_PORT"
 // Retrieval info: CONSTANT: OUTDATA_ACLR_B STRING "NONE"
-// Retrieval info: CONSTANT: OUTDATA_REG_B STRING "UNREGISTERED"
+// Retrieval info: CONSTANT: OUTDATA_REG_B STRING "CLOCK0"
 // Retrieval info: CONSTANT: POWER_UP_UNINITIALIZED STRING "FALSE"
 // Retrieval info: CONSTANT: READ_DURING_WRITE_MODE_MIXED_PORTS STRING "DONT_CARE"
 // Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "10"
 // Retrieval info: CONSTANT: WIDTHAD_B NUMERIC "10"
-// Retrieval info: CONSTANT: WIDTH_A NUMERIC "16"
-// Retrieval info: CONSTANT: WIDTH_B NUMERIC "16"
+// Retrieval info: CONSTANT: WIDTH_A NUMERIC "27"
+// Retrieval info: CONSTANT: WIDTH_B NUMERIC "27"
 // Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "1"
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT VCC "clock"
-// Retrieval info: USED_PORT: data 0 0 16 0 INPUT NODEFVAL "data[15..0]"
-// Retrieval info: USED_PORT: q 0 0 16 0 OUTPUT NODEFVAL "q[15..0]"
+// Retrieval info: USED_PORT: data 0 0 27 0 INPUT NODEFVAL "data[26..0]"
+// Retrieval info: USED_PORT: q 0 0 27 0 OUTPUT NODEFVAL "q[26..0]"
 // Retrieval info: USED_PORT: rdaddress 0 0 10 0 INPUT NODEFVAL "rdaddress[9..0]"
 // Retrieval info: USED_PORT: wraddress 0 0 10 0 INPUT NODEFVAL "wraddress[9..0]"
 // Retrieval info: USED_PORT: wren 0 0 0 0 INPUT GND "wren"
 // Retrieval info: CONNECT: @address_a 0 0 10 0 wraddress 0 0 10 0
 // Retrieval info: CONNECT: @address_b 0 0 10 0 rdaddress 0 0 10 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
-// Retrieval info: CONNECT: @data_a 0 0 16 0 data 0 0 16 0
+// Retrieval info: CONNECT: @data_a 0 0 27 0 data 0 0 27 0
 // Retrieval info: CONNECT: @wren_a 0 0 0 0 wren 0 0 0 0
-// Retrieval info: CONNECT: q 0 0 16 0 @q_b 0 0 16 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL big_tile_ram.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL big_tile_ram.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL big_tile_ram.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL big_tile_ram.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL big_tile_ram_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL big_tile_ram_bb.v TRUE
+// Retrieval info: CONNECT: q 0 0 27 0 @q_b 0 0 27 0
+// Retrieval info: GEN_FILE: TYPE_NORMAL depth_buffer.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL depth_buffer.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL depth_buffer.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL depth_buffer.bsf FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL depth_buffer_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL depth_buffer_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf

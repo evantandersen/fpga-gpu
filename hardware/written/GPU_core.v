@@ -62,11 +62,13 @@ module gpu_core (
 	//asert cb_rdreq if the command can be completed this cycle
 	reg seq_reset;
 	reg start_write;
+	reg set_clear;
 	always @ (*) begin
 		cb_rdreq = 1;
 		tile_start = 0;
 		start_write = 0;
 		seq_reset = 0;
+		set_clear = 0;
 		if(cb_empty) begin
 			cb_rdreq = 0;
 		end else begin
@@ -84,6 +86,7 @@ module gpu_core (
 					2: begin
 						if(!reading_from_tile && tile_done) begin
 							start_write = 1;
+							set_clear = 1;
 						end else begin
 							cb_rdreq = 0;
 						end
@@ -92,9 +95,10 @@ module gpu_core (
 					4: begin
 						cb_rdreq = flushed_to_bus;
 					end
-					//reset the seq_no
+					//reset the GPU state
 					5: begin
 						seq_reset = 1;
+						set_clear = 1;
 					end
 					default: ;//do nothing
 				endcase
@@ -108,6 +112,7 @@ module gpu_core (
 	always @ (posedge gpu_clk or negedge gpu_resetn) begin
 		if (!gpu_resetn) begin
 			color <= 0;
+			clear <= 0;
 			A01 <= 0;
 			A12 <= 0;
 			A20 <= 0;
@@ -121,6 +126,9 @@ module gpu_core (
 			B20 <= 0;
 			seq_no <= 0;
 			buffers_swapped <= 0;
+			zX <= 0;
+			zY <= 0;
+			zC <= 0;
 		end else begin
 			if(!cb_empty) begin
 				if(seq_reset) begin
@@ -130,6 +138,11 @@ module gpu_core (
 				end
 				if(start_write) begin
 					buffers_swapped <= !buffers_swapped;
+				end
+				if(set_clear) begin
+					clear <= 1;
+				end else if(tile_start) begin
+					clear <= 0;
 				end
 				case(cmd_addr)
 					4'd1 : color <= cmd_data[15:0];
@@ -144,13 +157,25 @@ module gpu_core (
 					4'd10: B01 <= cmd_data[23:0];
 					4'd11: B12 <= cmd_data[23:0];
 					4'd12: B20 <= cmd_data[23:0];
+					4'd13: zX <= GPUFout;
+					4'd14: zY <= GPUFout;
+					4'd15: zC <= GPUFout;
 				endcase	
 			end
 		end
 	end
 	
+	wire [26:0]GPUFout;
+	IEEEtoGPUF c0(
+		.clk		(gpu_clk),
+		.rst		(!gou_resetn),
+		.X			(cmd_data),
+		.R			(GPUFout)
+	);
 	
-	reg [15:0]color; 
+	
+	reg [15:0]color;
+	reg clear;
 	
 	reg signed [18:0]A01;
 	reg signed [18:0]A12;
@@ -168,6 +193,9 @@ module gpu_core (
 	reg signed [23:0]B12;
 	reg signed [23:0]B20;
 
+	reg [26:0]zX;
+	reg [26:0]zY;
+	reg [26:0]zC;
 	
 	wire tile_done;
 	reg tile_start;
@@ -191,6 +219,7 @@ module gpu_core (
 		.w2_in		(w2),
 		
 		.color_in	(color),
+		.clear_in	(clear),
 		.wren			(tile_wren),
 		.done			(tile_done),
 		.addr			(tile_ram_addr),

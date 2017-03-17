@@ -135,27 +135,6 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 	uint16_t tile_width = ((target->width + 31)/32);
 	for(int i = 0; i < tile_height; i++) {
 		for(int j = 0; j < tile_width; j++) {
-			//clear tile
-			//x, y and color
-			GPU[1] = background;
-
-			GPU[2] = 0;
-			GPU[3] = 0;
-			GPU[4] = 0;
-			GPU[10] = 0;
-			GPU[11] = 0;
-			GPU[12] = 0;
-			
-			GPU[5] = 1;
-			GPU[6] = 1;
-			GPU[7] = 1;
-			
-			GPU[8] = ((uint32_t)(target->framebuffer)) + (i*32*800*2) + (j*32*2);
-						
-			//start rendering tile
-			GPU[0] = 0;
-			gpu_seq += 12;
-			
 			//generate clip data for vertices
 			int32_t maxX = (j+1)*32*GPU_PIXEL_SUBSTEP - 1;
 			int32_t minX = j*32*GPU_PIXEL_SUBSTEP;
@@ -179,6 +158,7 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 			}
 			
 			//render triangles
+			uint16_t tri_rendered = 0;
 			for(int tri = 0; tri < data->ntris; tri++) {
 				triangle_t* curr = &data->triangles[tri];
 								
@@ -186,6 +166,7 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 				if(clip_codes[curr->v0] & clip_codes[curr->v1] & clip_codes[curr->v2]) {
 					continue;
 				}
+				tri_rendered++;				
 
 				int_point_t v0 = verts[curr->v0];
 				int_point_t v1 = verts[curr->v1];
@@ -232,9 +213,30 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 				GPU[0] = 0;			
 				gpu_seq += 11;
 			}
+			if(tri_rendered == 0) {
+				//clear tile
+				GPU[2] = 0;
+				GPU[3] = 0;
+				GPU[4] = 0;
+				GPU[10] = 0;
+				GPU[11] = 0;
+				GPU[12] = 0;
+			
+				GPU[5] = -1;
+				GPU[6] = -1;
+				GPU[7] = -1;
+
+				//render the "triangle"
+				GPU[0] = 0;
+
+				gpu_seq += 10;
+			}
+			//set the address to write to RAM
+			GPU[8] = ((uint32_t)(target->framebuffer)) + (i*32*800*2) + (j*32*2);
+
 			//write it to fifo
 			GPU[0] = 2;
-			gpu_seq++;
+			gpu_seq += 2;
 		}
 	}	
 	//wait for all data to finish writing
