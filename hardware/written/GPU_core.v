@@ -167,8 +167,6 @@ module gpu_core (
 	
 	wire [26:0]GPUFout;
 	IEEEtoGPUF c0(
-		.clk		(gpu_clk),
-		.rst		(!gou_resetn),
 		.X			(cmd_data),
 		.R			(GPUFout)
 	);
@@ -204,7 +202,7 @@ module gpu_core (
 	wire [9:0]tile_ram_addr;
 	tile_renderer t0(
 		.clk 			(gpu_clk),
-		.resetn 		(gpu_resetn),
+		.rst			(!gpu_resetn),
 		.start		(tile_start),
 	
 		.A01_in		(A01),
@@ -218,12 +216,17 @@ module gpu_core (
 		.w1_in		(w1),
 		.w2_in		(w2),
 		
+		.dzdx_in		(zX),
+		.dzdy_in		(zY),
+		.zC_in		(zC),
+		
 		.color_in	(color),
 		.clear_in	(clear),
 		.wren			(tile_wren),
 		.done			(tile_done),
-		.addr			(tile_ram_addr),
-		.data			(tile_out)
+		.X				(tile_ram_addr[4:0]),
+		.Y				(tile_ram_addr[9:5]),
+		.color_out	(tile_out)
 	);
 	
 	wire [15:0]r0_out;

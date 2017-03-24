@@ -82,9 +82,11 @@ derive_clock_uncertainty
 #**************************************************************
 # Set False Path
 #**************************************************************
-set_false_path -from {nios2:u0|altera_reset_controller:rst_controller|r_sync_rst} -to {nios2:u0|VGA_Controller:vga_controller|VGA_driver:VGA0|vga_dram_master:DM0|pixel_fifo:F1|dcfifo_mixed_widths:dcfifo_mixed_widths_component|dcfifo_brk1:auto_generated|dffpipe_3dc:rdaclr|dffe6a[0]}; set_false_path -from {nios2:u0|altera_reset_controller:rst_controller|r_sync_rst} -to {nios2:u0|VGA_Controller:vga_controller|VGA_driver:VGA0|vga_dram_master:DM0|pixel_fifo:F1|dcfifo_mixed_widths:dcfifo_mixed_widths_component|dcfifo_brk1:auto_generated|dffpipe_3dc:rdaclr|dffe6a[0]}
-set_false_path -from {nios2:u0|altera_reset_controller:rst_controller|r_sync_rst} -to {nios2:u0|VGA_Controller:vga_controller|VGA_driver:VGA0|vga_dram_master:DM0|pixel_fifo:F1|dcfifo_mixed_widths:dcfifo_mixed_widths_component|dcfifo_brk1:auto_generated|dffpipe_3dc:rdaclr|dffe5a[0]}; set_false_path -from {nios2:u0|altera_reset_controller:rst_controller|r_sync_rst} -to {nios2:u0|VGA_Controller:vga_controller|VGA_driver:VGA0|vga_dram_master:DM0|pixel_fifo:F1|dcfifo_mixed_widths:dcfifo_mixed_widths_component|dcfifo_brk1:auto_generated|dffpipe_3dc:rdaclr|dffe5a[0]}
-set_false_path -from {nios2:u0|altera_reset_controller:rst_controller|r_sync_rst} -to {nios2:u0|VGA_Controller:vga_controller|VGA_driver:VGA0|vga_dram_master:DM0|pixel_fifo:F1|dcfifo_mixed_widths:dcfifo_mixed_widths_component|dcfifo_brk1:auto_generated|cntr_54e:cntr_b|counter_reg_bit[0]}; set_false_path -from {nios2:u0|altera_reset_controller:rst_controller|r_sync_rst} -to {nios2:u0|VGA_Controller:vga_controller|VGA_driver:VGA0|vga_dram_master:DM0|pixel_fifo:F1|dcfifo_mixed_widths:dcfifo_mixed_widths_component|dcfifo_brk1:auto_generated|cntr_54e:cntr_b|counter_reg_bit[0]}
+
+set_false_path -from {nios2:u0|altera_reset_controller:rst_controller|r_sync_rst} -to {nios2:u0|VGA_Controller:vga_controller|VGA_driver:VGA0|vga_dram_master:DM0|pixel_fifo:F1|dcfifo_mixed_widths:dcfifo_mixed_widths_component|dcfifo_brk1:auto_generated|dffpipe_3dc:rdaclr|dffe12a[0]}
+set_false_path -from {nios2:u0|altera_reset_controller:rst_controller|r_sync_rst} -to {nios2:u0|VGA_Controller:vga_controller|VGA_driver:VGA0|vga_dram_master:DM0|pixel_fifo:F1|dcfifo_mixed_widths:dcfifo_mixed_widths_component|dcfifo_brk1:auto_generated|cntr_54e:cntr_b|counter_reg_bit[0]}
+set_false_path -from {nios2:u0|altera_reset_controller:rst_controller|r_sync_rst} -to {nios2:u0|VGA_Controller:vga_controller|VGA_driver:VGA0|vga_dram_master:DM0|pixel_fifo:F1|dcfifo_mixed_widths:dcfifo_mixed_widths_component|dcfifo_brk1:auto_generated|dffpipe_3dc:rdaclr|dffe13a[0]}
+
 
 #**************************************************************
 # Set Multicycle Path

@@ -6,7 +6,7 @@
 #include "gpu_driver.h"
 
 
-#define MEM_START (DRAM+(243200*2))
+#define MEM_START (DRAM+(243200*3))
 
 static uint8_t *memory_ptr = (uint8_t*)MEM_START;
 
@@ -20,12 +20,12 @@ void reset_mem() {
 	memory_ptr = (uint8_t*)MEM_START;
 }
 
-int32_t orient2d(int_point_t *a, int_point_t *b, int_point_t *c)
+int32_t orient2d(screen_point_t *a, screen_point_t *b, screen_point_t *c)
 {
     return (b->x - a->x)*(c->y - a->y) - (b->y - a->y)*(c->x - a->x);
 }
 
-int32_t isTopLeft(int_point_t *v0, int_point_t *v1) {
+int32_t isTopLeft(screen_point_t *v0, screen_point_t *v1) {
 	//top edge
 	if(v0->y == v1->y && v0->x < v1->x) {
 		return 1;
@@ -90,21 +90,21 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 	}
 	
 	//do perspective division/scaling
-	int_point_t *screen_vertices = alloc(sizeof(int_point_t) * scene->poly_list.nvertices);
+	screen_point_t *screen_vertices = alloc(sizeof(screen_point_t) * scene->poly_list.nvertices);
 	for(size_t i = 0; i < scene->poly_list.nvertices; i++) {
 		float xNDC = (clip_vertices[i].x/clip_vertices[i].w);
 		float yNDC = (clip_vertices[i].y/clip_vertices[i].w);
 		float zNDC = (clip_vertices[i].z/clip_vertices[i].w);
 		screen_vertices[i].x = (xNDC+1)*0.5f*(target->width-1)*GPU_PIXEL_SUBSTEP;
 		screen_vertices[i].y = (yNDC+1)*0.5f*(target->height-1)*GPU_PIXEL_SUBSTEP;
-		screen_vertices[i].z = ((zNDC+1)*32767)-32767;
+		screen_vertices[i].z = 1-((zNDC+1)*0.5f);
 	}
 
 	size_t num_kept_2 = 0;
 	for(size_t i = 0; i < num_kept; i++) {
-		int_point_t *v0 = &screen_vertices[kept_tris[i].v0];
-		int_point_t *v1 = &screen_vertices[kept_tris[i].v1];
-		int_point_t *v2 = &screen_vertices[kept_tris[i].v2];
+		screen_point_t *v0 = &screen_vertices[kept_tris[i].v0];
+		screen_point_t *v1 = &screen_vertices[kept_tris[i].v1];
+		screen_point_t *v2 = &screen_vertices[kept_tris[i].v2];
 		if(orient2d(v0, v1, v2) > 0) {
 			kept_tris[num_kept_2] = kept_tris[i];
 			num_kept_2++;
@@ -122,14 +122,30 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 	
 	//reset the sequence number
 	GPU[0] = 5;
-	
-	uint32_t gpu_seq = 0;
+    
+    uint8_t *clip_codes = alloc(data->nvertices);
+	screen_point_t *verts = (screen_point_t*)data->vertices;
+    
+    //compute Z values for all tris
+    struct {
+        float dzdx;
+        float dzdy;
+        float c;
+    } *z_info = alloc(sizeof(float)*3*data->ntris);
+    for(size_t i = 0; i < data->ntris; i++) {
+        triangle_t* curr = &data->triangles[i];
+        screen_point_t *v0 = &verts[curr->v0];
+        screen_point_t *v1 = &verts[curr->v1];
+        screen_point_t *v2 = &verts[curr->v2];
+
+        z_info[i].c = equationOfPlane(v0, v1, v2, &z_info[i].dzdx, &z_info[i].dzdy);
+    }
+            
+    uint32_t gpu_seq = 0;
 	//set the stride
 	GPU[9] = target->stride;
 	gpu_seq++;
 	
-	uint8_t *clip_codes = alloc(data->nvertices);
-	int_point_t *verts = (int_point_t*)data->vertices;
 	
 	uint16_t tile_height = ((target->height + 31)/32);
 	uint16_t tile_width = ((target->width + 31)/32);
@@ -168,9 +184,9 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 				}
 				tri_rendered++;				
 
-				int_point_t v0 = verts[curr->v0];
-				int_point_t v1 = verts[curr->v1];
-				int_point_t v2 = verts[curr->v2];
+				screen_point_t v0 = verts[curr->v0];
+				screen_point_t v1 = verts[curr->v1];
+				screen_point_t v2 = verts[curr->v2];
 				
 				//compute the step functions
 				int32_t A01 = (v0.y - v1.y);
@@ -195,7 +211,7 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 				GPU[12] = B20;
 			
 				//set the w's
-				int_point_t p = { j*16*32, i*16*32 };
+				screen_point_t p = { j*GPU_PIXEL_SUBSTEP*32, i*GPU_PIXEL_SUBSTEP*32 };
 				int32_t w0_row = orient2d(&v1, &v2, &p);
 				int32_t w1_row = orient2d(&v2, &v0, &p);
 				int32_t w2_row = orient2d(&v0, &v1, &p);
@@ -208,10 +224,15 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 				GPU[5] = w0_row >> 4;
 				GPU[6] = w1_row >> 4;
 				GPU[7] = w2_row >> 4;
+                
+                //set the Z data
+                *((float*)&GPU[13]) = z_info[tri].dzdx*GPU_PIXEL_SUBSTEP;
+                *((float*)&GPU[14]) = z_info[tri].dzdy*GPU_PIXEL_SUBSTEP;
+                *((float*)&GPU[15]) = z_info[tri].c + p.x*z_info[tri].dzdx + p.y*z_info[tri].dzdy;
 				
 				//start rendering tile
 				GPU[0] = 0;			
-				gpu_seq += 11;
+				gpu_seq += 14;
 			}
 			if(tri_rendered == 0) {
 				//clear tile

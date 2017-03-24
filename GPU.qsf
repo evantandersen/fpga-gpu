@@ -685,5 +685,7 @@ set_global_assignment -name QIP_FILE hardware/generated/ram/big_tile_ram.qip
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/z_interpolation.sv
 set_global_assignment -name QIP_FILE hardware/generated/ram/depth_buffer.qip
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/shift_reg.sv
-set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/z_tester.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/raster_end.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/compare_float.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/rasterizer.sv
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

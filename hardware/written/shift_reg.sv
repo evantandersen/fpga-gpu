@@ -4,23 +4,19 @@ module shift_reg #(
 )
 (
 	input clk,
-	input rst,
 	input [WIDTH-1:0]in,
 	output [WIDTH-1:0]out
 );
 
 	reg [WIDTH-1:0]flops[DEPTH];
 	
-	wire [WIDTH-1:0]next[DEPTH] = '{in, flops[DEPTH-2:0]};
-	
-	always_ff @ (posedge clk or rst) begin
-		if(rst) begin
-			flops <= 0;
-		end else begin
-			flops <= next;
+	always_ff @ (posedge clk) begin
+		for(int i = 1; i < DEPTH; i = i + 1) begin
+			flops[i-1] <= flops[i];
 		end
+		flops[DEPTH-1] <= in;
 	end
-	
-	assign out = flops[DEPTH-1];
+		
+	assign out = flops[0];
 
 endmodule

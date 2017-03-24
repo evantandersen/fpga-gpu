@@ -19,5 +19,5 @@ cache_clear.s \
 -mcustom-fsubs=254 \
 -mcustom-fdivs=255
 
-elf2hex --input=bootloader.elf --base=0x08000 --end=0x10000 --width=32 --output=nios_system_bootloader.hex --no-zero-fill
+elf2hex --input=bootloader.elf --base=0x08000 --end=0x0ffff --width=32 --output=nios_system_bootloader.hex
 

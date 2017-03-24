@@ -247,33 +247,127 @@ void gpu_test(uint16_t *addr, color_t color) {
 
 }
 
+void set_rect(point_t *vertices, uint32_t start, float x, float y, float size) {
+    vertices[start + 0] = (point_t){.x = x, .y = y-size, .z = -size};
+    vertices[start + 1] = (point_t){.x = x, .y = y-size, .z = size};
+    vertices[start + 2] = (point_t){.x = x, .y = y+size, .z = size};
+    vertices[start + 3] = (point_t){.x = x, .y = y+size, .z = -size};
+}
 
-int main(void) {
-	uint16_t *frontFB = (uint16_t*)(DRAM);
-	uint16_t *backFB = (uint16_t*)(DRAM + 243200);
-
-	
-	color_t lightBlue = COLOR(13,20,31);
+void create_rect_prisim(triangle_t *tris, uint32_t start, uint32_t v) {
+    color_t lightBlue = COLOR(13,20,31);
 	color_t yellow = COLOR(31,31,0);
 	color_t red = COLOR(31,0,0);
 	color_t green = COLOR(0,29,5);
 	color_t purple = COLOR(15,0,19);
 	color_t orange = COLOR(31,16,0);
-	
+    
+    //left
+    tris[start + 0] = (triangle_t){.v0 = v + 0, .v1 = v + 1, .v2 = v + 2, .color = yellow};
+    tris[start + 1] = (triangle_t){.v0 = v + 0, .v1 = v + 2, .v2 = v + 3, .color = yellow};
+    
+    //right
+    tris[start + 2] = (triangle_t){.v0 = v + 4, .v1 = v + 6, .v2 = v + 5, .color = lightBlue};
+    tris[start + 3] = (triangle_t){.v0 = v + 4, .v1 = v + 7, .v2 = v + 6, .color = lightBlue};
+    
+    //front
+    tris[start + 4] = (triangle_t){.v0 = v + 1, .v1 = v + 5, .v2 = v + 6, .color = red};
+    tris[start + 5] = (triangle_t){.v0 = v + 1, .v1 = v + 6, .v2 = v + 2, .color = red};
+    
+    //back
+    tris[start + 6] = (triangle_t){.v0 = v + 4, .v1 = v + 3, .v2 = v + 7, .color = green};
+    tris[start + 7] = (triangle_t){.v0 = v + 4, .v1 = v + 0, .v2 = v + 3, .color = green};
+    
+    //top
+    tris[start + 8] = (triangle_t){.v0 = v + 0, .v1 = v + 4, .v2 = v + 5, .color = orange};
+    tris[start + 9] = (triangle_t){.v0 = v + 0, .v1 = v + 5, .v2 = v + 1, .color = orange};
+    
+    //bottom
+    tris[start + 10] = (triangle_t){.v0 = v + 2, .v1 = v + 6, .v2 = v + 7, .color = purple};
+    tris[start + 11] = (triangle_t){.v0 = v + 2, .v1 = v + 7, .v2 = v + 3, .color = purple};
+}
+
+void create_rect_prisim_back_face(triangle_t *tris, uint32_t start, uint32_t v) {
+    color_t lightBlue = COLOR(13,20,31);
+	color_t yellow = COLOR(31,31,0);
+	color_t red = COLOR(31,0,0);
+	color_t green = COLOR(0,29,5);
+	color_t purple = COLOR(15,0,19);
+	color_t orange = COLOR(31,16,0);
+    
+    //left
+    tris[start + 0] = (triangle_t){.v0 = v + 0, .v1 = v + 2, .v2 = v + 1, .color = yellow};
+    tris[start + 1] = (triangle_t){.v0 = v + 0, .v1 = v + 3, .v2 = v + 2, .color = yellow};
+    
+    //right
+    tris[start + 2] = (triangle_t){.v0 = v + 4, .v1 = v + 5, .v2 = v + 6, .color = lightBlue};
+    tris[start + 3] = (triangle_t){.v0 = v + 4, .v1 = v + 6, .v2 = v + 7, .color = lightBlue};
+    
+    //front
+    tris[start + 4] = (triangle_t){.v0 = v + 1, .v1 = v + 6, .v2 = v + 5, .color = red};
+    tris[start + 5] = (triangle_t){.v0 = v + 1, .v1 = v + 2, .v2 = v + 6, .color = red};
+    
+    //back
+    tris[start + 6] = (triangle_t){.v0 = v + 4, .v1 = v + 7, .v2 = v + 3, .color = green};
+    tris[start + 7] = (triangle_t){.v0 = v + 4, .v1 = v + 3, .v2 = v + 0, .color = green};
+    
+    //top
+    tris[start + 8] = (triangle_t){.v0 = v + 0, .v1 = v + 5, .v2 = v + 4, .color = orange};
+    tris[start + 9] = (triangle_t){.v0 = v + 0, .v1 = v + 1, .v2 = v + 5, .color = orange};
+    
+    //bottom
+    tris[start + 10] = (triangle_t){.v0 = v + 2, .v1 = v + 7, .v2 = v + 6, .color = purple};
+    tris[start + 11] = (triangle_t){.v0 = v + 2, .v1 = v + 3, .v2 = v + 7, .color = purple};
+}
+
+
+int main(void) {
+	uint16_t *frontFB = (uint16_t*)(DRAM);
+	uint16_t *backFB = (uint16_t*)(DRAM + 243200);
+
+    point_t *vertices = (point_t*)(DRAM + 243200*2);
+    uint16_t nvertices = 0;
+    triangle_t *tris = (triangle_t*)(DRAM + (uint32_t)(243200*2.5f));
+    uint16_t ntris = 0;
+    
+    set_rect(vertices, nvertices, 0, 0, 0.2);
+    nvertices += 4;
+    
+    set_rect(vertices, nvertices, 0.4, 0, 0.2);
+    nvertices += 4;
+    
+    create_rect_prisim(tris, ntris, 0);
+    ntris += 12;
+    
+    nvertices += 4;
+    ntris += 12;
+
+    	
 	VGA[1] = (uint32_t)frontFB;
-	gpu_test(frontFB, orange);
-	while(*SW & 0x2);
-	gpu_test(frontFB+32, lightBlue);
-	while(*SW & 0x4);
 	
-	// int32_t pos = 0;
-	// int32_t angle = 180;
-	// uint32_t width = 50;
-	// uint32_t distance = 600 - width*2;
 	int32_t xpos = 0;
 	int32_t ypos = 0;
 	int32_t zpos = 0;
+    
+    float currX = 0.4;
+    float currY = 0;
+    uint32_t index = 1;
+    uint32_t frame = 0;
 	while(1) {
+        //update the preview pos with the switches
+        uint32_t sw = *SW;
+        uint32_t size = sw & 0x3;
+        float newX = (((sw >> 2) & 0xff)/128.0f)-1;
+        float newY = (((sw >> 10) & 0xff)/128.0f)-1;
+        //draw it
+        set_rect(vertices, nvertices-4, newX, newY, size*0.2f);
+
+        if(newX < currX) {
+            create_rect_prisim_back_face(tris, ntris-12, index*4);
+        } else {
+            create_rect_prisim(tris, ntris-12, index*4);
+        }
+
 		if(*KEY & 0x1) {
 			xpos += 1;
 			xpos %= 360;
@@ -283,110 +377,19 @@ int main(void) {
 			ypos %= 360;
 		}
 		if(*KEY & 0x4) {
-			zpos += 1;
-			zpos %= 360;
+            //draw another section
+            if(newX != currX || newY != currY) {
+                nvertices += 4;
+                ntris += 12;
+                currX = newX;
+                currY = newY;
+                index++;
+            }
+//			zpos += 1;
+//			zpos %= 360;
+            
 		}
-		// uint32_t y = pos;
-		// if(y > distance) {
-			// y = distance*2 - y;
-		// }
-		// y += width;
-		
-		// uint32_t keys = *KEY;
-		// if(keys & 0x4) {
-			// pos += 2;
-			// pos %= distance*2;
-		// }
-		
-		// if(keys & 0x1) {
-			// angle += 1;
-			// if(angle >= 360) {
-				// angle -= 360;
-			// }
-		// } else if(keys & 0x2) {
-			// angle -= 1;
-			// if(angle < 0) {
-				// angle += 360;
-			// }
-		// }
-		
-		//uint32_t y = 100;
-		// float rad = (360-angle)*F_2_PI/360.0f;
-		// float cosT = cos(rad);
-		// float sinT = sin(rad);
-		
-		point_t vertices[] = {
-			{.x = -0.2, .y = -0.2, .z = 0.2},
-			{.x = 0.2,  .y = -0.2, .z = 0.2},
-			{.x = -0.2, .y = 0.2,  .z = 0.2},
-			{.x = 0.2,  .y = 0.2,  .z = 0.2},
-			{.x = -0.2, .y = -0.2, .z = -0.2},
-			{.x = 0.2,  .y = -0.2, .z = -0.2},
-			{.x = -0.2, .y = 0.2,  .z = -0.2},
-			{.x = 0.2,  .y = 0.2,  .z = -0.2},
-
-			{.x = 0.6, .y = -0.2, .z = 0.2},
-			{.x = 1.0,  .y = -0.2, .z = 0.2},
-			{.x = 0.6, .y = 0.2,  .z = 0.2},
-			{.x = 1.0,  .y = 0.2,  .z = 0.2},
-			{.x = 0.6, .y = -0.2, .z = -0.2},
-			{.x = 1.0,  .y = -0.2, .z = -0.2},
-			{.x = 0.6, .y = 0.2,  .z = -0.2},
-			{.x = 1.0,  .y = 0.2,  .z = -0.2},
-		};
-		if(ypos < 180) {
-			vertices = {
-				{.x = 0.6, .y = -0.2, .z = 0.2},
-				{.x = 1.0,  .y = -0.2, .z = 0.2},
-				{.x = 0.6, .y = 0.2,  .z = 0.2},
-				{.x = 1.0,  .y = 0.2,  .z = 0.2},
-				{.x = 0.6, .y = -0.2, .z = -0.2},
-				{.x = 1.0,  .y = -0.2, .z = -0.2},
-				{.x = 0.6, .y = 0.2,  .z = -0.2},
-				{.x = 1.0,  .y = 0.2,  .z = -0.2},
-
-				{.x = -0.2, .y = -0.2, .z = 0.2},
-				{.x = 0.2,  .y = -0.2, .z = 0.2},
-				{.x = -0.2, .y = 0.2,  .z = 0.2},
-				{.x = 0.2,  .y = 0.2,  .z = 0.2},
-				{.x = -0.2, .y = -0.2, .z = -0.2},
-				{.x = 0.2,  .y = -0.2, .z = -0.2},
-				{.x = -0.2, .y = 0.2,  .z = -0.2},
-				{.x = 0.2,  .y = 0.2,  .z = -0.2},
-			};
-		}
-
-		int32_t nvertices = sizeof(vertices)/sizeof(point_t);
-
-		triangle_t tris[] =  {
-			{.v0 = 2, .v1 = 0, .v2 = 1, .color = yellow},
-			{.v0 = 2, .v1 = 1, .v2 = 3, .color = yellow},
-			{.v0 = 3, .v1 = 1, .v2 = 7, .color = lightBlue},
-			{.v0 = 1, .v1 = 5, .v2 = 7, .color = lightBlue},
-			{.v0 = 6, .v1 = 2, .v2 = 7, .color = red},
-			{.v0 = 2, .v1 = 3, .v2 = 7, .color = red},
-			{.v0 = 6, .v1 = 4, .v2 = 2, .color = green},
-			{.v0 = 4, .v1 = 0, .v2 = 2, .color = green},
-			{.v0 = 0, .v1 = 4, .v2 = 1, .color = orange},
-			{.v0 = 4, .v1 = 5, .v2 = 1, .color = orange},
-			{.v0 = 6, .v1 = 7, .v2 = 4, .color = purple},
-			{.v0 = 5, .v1 = 4, .v2 = 7, .color = purple},
-			
-			{.v0 = 10, .v1 = 8, .v2 = 9, .color = yellow},
-			{.v0 = 10, .v1 = 9, .v2 = 11, .color = yellow},
-			{.v0 = 11, .v1 = 9, .v2 = 15, .color = lightBlue},
-			{.v0 = 9, .v1 = 13, .v2 = 15, .color = lightBlue},
-			{.v0 = 14, .v1 = 10, .v2 = 15, .color = red},
-			{.v0 = 10, .v1 = 11, .v2 = 15, .color = red},
-			{.v0 = 14, .v1 = 12, .v2 = 10, .color = green},
-			{.v0 = 12, .v1 = 8, .v2 = 10, .color = green},
-			{.v0 = 8, .v1 = 12, .v2 = 9, .color = orange},
-			{.v0 = 12, .v1 = 13, .v2 = 9, .color = orange},
-			{.v0 = 14, .v1 = 15, .v2 = 12, .color = purple},
-			{.v0 = 13, .v1 = 12, .v2 = 15, .color = purple},
-		};
-		int32_t ntris = sizeof(tris)/sizeof(triangle_t);
-		
+				        
 		render_target_t target = {
 			.framebuffer = backFB,
 			.stride = 800*2,
@@ -425,7 +428,7 @@ int main(void) {
 		float viewMat[] = {
 			0.5, 0, 0, 0,
 			0, 0.5, 0, 0,
-			0, 0, 0.5, -0.7,
+			0, 0, 0.5, -2.0,
 			0, 0, 0, 1,			
 		};
 		
@@ -465,15 +468,15 @@ int main(void) {
 		mult_4x4(rotMatZ, scene.view, tmp);
 		mult_4x4(viewMat, tmp, scene.view);
 
-		if(SW[0] & 0x2) {
-			gradient(frontFB);
-			flush_dcache();
-			while(SW[0] & 0x2);
-		}
-		if(SW[0] & 0x4) {
-			draw_checkerboard_gpu(frontFB);
-			while(SW[0] & 0x4);
-		}
+		//if(SW[0] & 0x2) {
+		//	gradient(frontFB);
+		//	flush_dcache();
+		//	while(SW[0] & 0x2);
+		//}
+		//if(SW[0] & 0x4) {
+		//	draw_checkerboard_gpu(frontFB);
+		//	while(SW[0] & 0x4);
+		//}
 		
 		//time for the magic
 		gpu_render_scene(&target, &scene);
@@ -485,7 +488,9 @@ int main(void) {
 		while(VGA[1] != (uint32_t)backFB);
 		
 		//how many times did the screen draw while we rendered this frame?
-		*LEDR = VGA[0];
+        uint32_t frames = VGA[0];
+		*LEDR = frames;
+        frame += frames;
 		
 		//swap back/front buffers 
 		uint16_t *tmpFB = backFB;

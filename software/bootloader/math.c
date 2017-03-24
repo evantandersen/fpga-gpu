@@ -70,3 +70,27 @@ void mult_4xVec(float *a, point_t *b, clip_point_t *result) {
 	result->z = a[8]*b->x + a[9]*b->y + a[10]*b->z + a[11];
 	result->w = a[12]*b->x + a[13]*b->y + a[14]*b->z + a[15];
 }
+
+float equationOfPlane(screen_point_t *v0, screen_point_t *v1, screen_point_t *v2, float *dzdx, float *dzdy) {
+    //compute two vectors, V01 and V02
+    float V01_x = v1->x - v0->x;
+    float V01_y = v1->y - v0->y;
+    float V01_z = v1->z - v0->z;
+
+    float V02_x = v2->x - v0->x;
+    float V02_y = v2->y - v0->y;
+    float V02_z = v2->z - v0->z;
+
+    //compute the normal
+    float i = (V01_y*V02_z) - (V01_z*V02_y);
+    float j = (V01_z*V02_x) - (V01_x*V02_z);
+    float k = (V01_x*V02_y) - (V01_y*V02_x);
+
+    //compute the plane equation in the form Z = ix + jy + c
+    float c = (v0->x * i) + (v0->y * j) + (v0->z * k);
+    
+    c /= k;
+    *dzdx = i / -k;
+    *dzdy = j / -k;
+    return c; 
+}

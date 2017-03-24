@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
---                     SmallMultTableP2x2r4XuYu_F100_uid9
+--                     SmallMultTableP2x2r4XuYu_F150_uid9
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Florent de Dinechin (2007-2012)
@@ -7,13 +7,13 @@
 library ieee; 
 use ieee.std_logic_1164.all;
 library work;
-entity SmallMultTableP2x2r4XuYu_F100_uid9 is
+entity SmallMultTableP2x2r4XuYu_F150_uid9 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(3 downto 0);
           Y : out  std_logic_vector(3 downto 0)   );
 end entity;
 
-architecture arch of SmallMultTableP2x2r4XuYu_F100_uid9 is
+architecture arch of SmallMultTableP2x2r4XuYu_F150_uid9 is
 signal TableOut :  std_logic_vector(3 downto 0);
 begin
    process(clk)
@@ -43,7 +43,7 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                    SmallMultTableP2x2r4XuYu_F100_uid20
+--                    SmallMultTableP2x2r4XuYu_F150_uid20
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Florent de Dinechin (2007-2012)
@@ -51,13 +51,13 @@ end architecture;
 library ieee; 
 use ieee.std_logic_1164.all;
 library work;
-entity SmallMultTableP2x2r4XuYu_F100_uid20 is
+entity SmallMultTableP2x2r4XuYu_F150_uid20 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(3 downto 0);
           Y : out  std_logic_vector(3 downto 0)   );
 end entity;
 
-architecture arch of SmallMultTableP2x2r4XuYu_F100_uid20 is
+architecture arch of SmallMultTableP2x2r4XuYu_F150_uid20 is
 signal TableOut :  std_logic_vector(3 downto 0);
 begin
    process(clk)
@@ -87,7 +87,7 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                    SmallMultTableP2x2r4XuYu_F100_uid31
+--                    SmallMultTableP2x2r4XuYu_F150_uid31
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Florent de Dinechin (2007-2012)
@@ -95,13 +95,13 @@ end architecture;
 library ieee; 
 use ieee.std_logic_1164.all;
 library work;
-entity SmallMultTableP2x2r4XuYu_F100_uid31 is
+entity SmallMultTableP2x2r4XuYu_F150_uid31 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(3 downto 0);
           Y : out  std_logic_vector(3 downto 0)   );
 end entity;
 
-architecture arch of SmallMultTableP2x2r4XuYu_F100_uid31 is
+architecture arch of SmallMultTableP2x2r4XuYu_F150_uid31 is
 signal TableOut :  std_logic_vector(3 downto 0);
 begin
    process(clk)
@@ -131,7 +131,7 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                    SmallMultTableP2x2r4XuYu_F100_uid36
+--                    SmallMultTableP2x2r4XuYu_F150_uid36
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Florent de Dinechin (2007-2012)
@@ -139,13 +139,13 @@ end architecture;
 library ieee; 
 use ieee.std_logic_1164.all;
 library work;
-entity SmallMultTableP2x2r4XuYu_F100_uid36 is
+entity SmallMultTableP2x2r4XuYu_F150_uid36 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(3 downto 0);
           Y : out  std_logic_vector(3 downto 0)   );
 end entity;
 
-architecture arch of SmallMultTableP2x2r4XuYu_F100_uid36 is
+architecture arch of SmallMultTableP2x2r4XuYu_F150_uid36 is
 signal TableOut :  std_logic_vector(3 downto 0);
 begin
    process(clk)
@@ -175,7 +175,7 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                    SmallMultTableP2x2r4XuYu_F100_uid47
+--                    SmallMultTableP2x2r4XuYu_F150_uid47
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Florent de Dinechin (2007-2012)
@@ -183,13 +183,13 @@ end architecture;
 library ieee; 
 use ieee.std_logic_1164.all;
 library work;
-entity SmallMultTableP2x2r4XuYu_F100_uid47 is
+entity SmallMultTableP2x2r4XuYu_F150_uid47 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(3 downto 0);
           Y : out  std_logic_vector(3 downto 0)   );
 end entity;
 
-architecture arch of SmallMultTableP2x2r4XuYu_F100_uid47 is
+architecture arch of SmallMultTableP2x2r4XuYu_F150_uid47 is
 signal TableOut :  std_logic_vector(3 downto 0);
 begin
    process(clk)
@@ -219,7 +219,7 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                    SmallMultTableP2x2r4XuYu_F100_uid58
+--                    SmallMultTableP2x2r4XuYu_F150_uid58
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Florent de Dinechin (2007-2012)
@@ -227,13 +227,13 @@ end architecture;
 library ieee; 
 use ieee.std_logic_1164.all;
 library work;
-entity SmallMultTableP2x2r4XuYu_F100_uid58 is
+entity SmallMultTableP2x2r4XuYu_F150_uid58 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(3 downto 0);
           Y : out  std_logic_vector(3 downto 0)   );
 end entity;
 
-architecture arch of SmallMultTableP2x2r4XuYu_F100_uid58 is
+architecture arch of SmallMultTableP2x2r4XuYu_F150_uid58 is
 signal TableOut :  std_logic_vector(3 downto 0);
 begin
    process(clk)
@@ -474,8 +474,8 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                          IntAdder_36_f100_uid105
---                     (IntAdderClassical_36_F100_uid107)
+--                          IntAdder_36_f150_uid105
+--                     (IntAdderClassical_36_F150_uid107)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
@@ -490,7 +490,7 @@ library std;
 use std.textio.all;
 library work;
 
-entity IntAdder_36_f100_uid105 is
+entity IntAdder_36_f150_uid105 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(35 downto 0);
           Y : in  std_logic_vector(35 downto 0);
@@ -498,7 +498,7 @@ entity IntAdder_36_f100_uid105 is
           R : out  std_logic_vector(35 downto 0)   );
 end entity;
 
-architecture arch of IntAdder_36_f100_uid105 is
+architecture arch of IntAdder_36_f150_uid105 is
 begin
    process(clk)
       begin
@@ -510,12 +510,12 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---             IntMultiplier_UsingDSP_18_18_36_unsigned_F100_uid4
+--             IntMultiplier_UsingDSP_18_18_36_unsigned_F150_uid4
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Florent de Dinechin, Kinga Illyes, Bogdan Popa, Bogdan Pasca, 2012
 --------------------------------------------------------------------------------
--- Pipeline depth: 0 cycles
+-- Pipeline depth: 1 cycles
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -524,15 +524,15 @@ library std;
 use std.textio.all;
 library work;
 
-entity IntMultiplier_UsingDSP_18_18_36_unsigned_F100_uid4 is
+entity IntMultiplier_UsingDSP_18_18_36_unsigned_F150_uid4 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(17 downto 0);
           Y : in  std_logic_vector(17 downto 0);
           R : out  std_logic_vector(35 downto 0)   );
 end entity;
 
-architecture arch of IntMultiplier_UsingDSP_18_18_36_unsigned_F100_uid4 is
-   component IntAdder_36_f100_uid105 is
+architecture arch of IntMultiplier_UsingDSP_18_18_36_unsigned_F150_uid4 is
+   component IntAdder_36_f150_uid105 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(35 downto 0);
              Y : in  std_logic_vector(35 downto 0);
@@ -540,37 +540,37 @@ architecture arch of IntMultiplier_UsingDSP_18_18_36_unsigned_F100_uid4 is
              R : out  std_logic_vector(35 downto 0)   );
    end component;
 
-   component SmallMultTableP2x2r4XuYu_F100_uid9 is
+   component SmallMultTableP2x2r4XuYu_F150_uid9 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(3 downto 0);
              Y : out  std_logic_vector(3 downto 0)   );
    end component;
 
-   component SmallMultTableP2x2r4XuYu_F100_uid20 is
+   component SmallMultTableP2x2r4XuYu_F150_uid20 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(3 downto 0);
              Y : out  std_logic_vector(3 downto 0)   );
    end component;
 
-   component SmallMultTableP2x2r4XuYu_F100_uid31 is
+   component SmallMultTableP2x2r4XuYu_F150_uid31 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(3 downto 0);
              Y : out  std_logic_vector(3 downto 0)   );
    end component;
 
-   component SmallMultTableP2x2r4XuYu_F100_uid36 is
+   component SmallMultTableP2x2r4XuYu_F150_uid36 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(3 downto 0);
              Y : out  std_logic_vector(3 downto 0)   );
    end component;
 
-   component SmallMultTableP2x2r4XuYu_F100_uid47 is
+   component SmallMultTableP2x2r4XuYu_F150_uid47 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(3 downto 0);
              Y : out  std_logic_vector(3 downto 0)   );
    end component;
 
-   component SmallMultTableP2x2r4XuYu_F100_uid58 is
+   component SmallMultTableP2x2r4XuYu_F150_uid58 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(3 downto 0);
              Y : out  std_logic_vector(3 downto 0)   );
@@ -661,7 +661,7 @@ signal x_m5b29_0 :  std_logic_vector(1 downto 0);
 signal y_m5b29_0 :  std_logic_vector(1 downto 0);
 signal Y0X0_29_m5 :  std_logic_vector(3 downto 0);
 signal PP29X0Y0_m5 :  std_logic_vector(3 downto 0);
-signal heap_bh6_w1_0 :  std_logic;
+signal heap_bh6_w1_0, heap_bh6_w1_0_d1 :  std_logic;
 signal heap_bh6_w2_1 :  std_logic;
 signal Xp_m5b34 :  std_logic_vector(1 downto 0);
 signal Yp_m5b34 :  std_logic_vector(7 downto 0);
@@ -724,48 +724,48 @@ signal y_m5b56_0 :  std_logic_vector(1 downto 0);
 signal Y0X0_56_m5 :  std_logic_vector(3 downto 0);
 signal PP56X0Y0_m5 :  std_logic_vector(3 downto 0);
 signal heap_bh6_w0_0 :  std_logic;
-signal heap_bh6_w1_1 :  std_logic;
+signal heap_bh6_w1_1, heap_bh6_w1_1_d1 :  std_logic;
 signal heap_bh6_w2_3 :  std_logic;
 signal DSP_bh6_ch0_0 :  std_logic_vector(33 downto 0);
-signal heap_bh6_w35_0 :  std_logic;
-signal heap_bh6_w34_0 :  std_logic;
-signal heap_bh6_w33_0 :  std_logic;
-signal heap_bh6_w32_0 :  std_logic;
-signal heap_bh6_w31_0 :  std_logic;
-signal heap_bh6_w30_0 :  std_logic;
-signal heap_bh6_w29_0 :  std_logic;
-signal heap_bh6_w28_0 :  std_logic;
-signal heap_bh6_w27_0 :  std_logic;
-signal heap_bh6_w26_0 :  std_logic;
-signal heap_bh6_w25_0 :  std_logic;
-signal heap_bh6_w24_0 :  std_logic;
-signal heap_bh6_w23_0 :  std_logic;
-signal heap_bh6_w22_0 :  std_logic;
-signal heap_bh6_w21_0 :  std_logic;
+signal heap_bh6_w35_0, heap_bh6_w35_0_d1 :  std_logic;
+signal heap_bh6_w34_0, heap_bh6_w34_0_d1 :  std_logic;
+signal heap_bh6_w33_0, heap_bh6_w33_0_d1 :  std_logic;
+signal heap_bh6_w32_0, heap_bh6_w32_0_d1 :  std_logic;
+signal heap_bh6_w31_0, heap_bh6_w31_0_d1 :  std_logic;
+signal heap_bh6_w30_0, heap_bh6_w30_0_d1 :  std_logic;
+signal heap_bh6_w29_0, heap_bh6_w29_0_d1 :  std_logic;
+signal heap_bh6_w28_0, heap_bh6_w28_0_d1 :  std_logic;
+signal heap_bh6_w27_0, heap_bh6_w27_0_d1 :  std_logic;
+signal heap_bh6_w26_0, heap_bh6_w26_0_d1 :  std_logic;
+signal heap_bh6_w25_0, heap_bh6_w25_0_d1 :  std_logic;
+signal heap_bh6_w24_0, heap_bh6_w24_0_d1 :  std_logic;
+signal heap_bh6_w23_0, heap_bh6_w23_0_d1 :  std_logic;
+signal heap_bh6_w22_0, heap_bh6_w22_0_d1 :  std_logic;
+signal heap_bh6_w21_0, heap_bh6_w21_0_d1 :  std_logic;
 signal heap_bh6_w20_0 :  std_logic;
 signal heap_bh6_w19_0 :  std_logic;
 signal heap_bh6_w18_2 :  std_logic;
 signal heap_bh6_w17_2 :  std_logic;
-signal heap_bh6_w16_4 :  std_logic;
+signal heap_bh6_w16_4, heap_bh6_w16_4_d1 :  std_logic;
 signal heap_bh6_w15_2 :  std_logic;
-signal heap_bh6_w14_4 :  std_logic;
+signal heap_bh6_w14_4, heap_bh6_w14_4_d1 :  std_logic;
 signal heap_bh6_w13_2 :  std_logic;
-signal heap_bh6_w12_4 :  std_logic;
+signal heap_bh6_w12_4, heap_bh6_w12_4_d1 :  std_logic;
 signal heap_bh6_w11_2 :  std_logic;
-signal heap_bh6_w10_4 :  std_logic;
+signal heap_bh6_w10_4, heap_bh6_w10_4_d1 :  std_logic;
 signal heap_bh6_w9_2 :  std_logic;
-signal heap_bh6_w8_4 :  std_logic;
+signal heap_bh6_w8_4, heap_bh6_w8_4_d1 :  std_logic;
 signal heap_bh6_w7_2 :  std_logic;
-signal heap_bh6_w6_4 :  std_logic;
+signal heap_bh6_w6_4, heap_bh6_w6_4_d1 :  std_logic;
 signal heap_bh6_w5_2 :  std_logic;
-signal heap_bh6_w4_4 :  std_logic;
+signal heap_bh6_w4_4, heap_bh6_w4_4_d1 :  std_logic;
 signal heap_bh6_w3_2 :  std_logic;
-signal heap_bh6_w2_4 :  std_logic;
-signal tempR_bh6_0 :  std_logic;
+signal heap_bh6_w2_4, heap_bh6_w2_4_d1 :  std_logic;
+signal tempR_bh6_0, tempR_bh6_0_d1 :  std_logic;
 signal CompressorIn_bh6_0_0 :  std_logic_vector(3 downto 0);
 signal CompressorIn_bh6_0_1 :  std_logic_vector(0 downto 0);
 signal CompressorOut_bh6_0_0 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w2_5 :  std_logic;
+signal heap_bh6_w2_5, heap_bh6_w2_5_d1 :  std_logic;
 signal heap_bh6_w3_3 :  std_logic;
 signal heap_bh6_w4_5 :  std_logic;
 signal CompressorIn_bh6_1_2 :  std_logic_vector(3 downto 0);
@@ -817,73 +817,126 @@ signal heap_bh6_w19_1 :  std_logic;
 signal CompressorIn_bh6_9_17 :  std_logic_vector(2 downto 0);
 signal CompressorIn_bh6_9_18 :  std_logic_vector(1 downto 0);
 signal CompressorOut_bh6_9_9 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w3_4 :  std_logic;
-signal heap_bh6_w4_7 :  std_logic;
-signal heap_bh6_w5_4 :  std_logic;
+signal heap_bh6_w3_4, heap_bh6_w3_4_d1 :  std_logic;
+signal heap_bh6_w4_7, heap_bh6_w4_7_d1 :  std_logic;
+signal heap_bh6_w5_4, heap_bh6_w5_4_d1 :  std_logic;
 signal CompressorIn_bh6_10_19 :  std_logic_vector(2 downto 0);
 signal CompressorIn_bh6_10_20 :  std_logic_vector(1 downto 0);
 signal CompressorOut_bh6_10_10 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w5_5 :  std_logic;
-signal heap_bh6_w6_7 :  std_logic;
-signal heap_bh6_w7_4 :  std_logic;
+signal heap_bh6_w5_5, heap_bh6_w5_5_d1 :  std_logic;
+signal heap_bh6_w6_7, heap_bh6_w6_7_d1 :  std_logic;
+signal heap_bh6_w7_4, heap_bh6_w7_4_d1 :  std_logic;
 signal CompressorIn_bh6_11_21 :  std_logic_vector(2 downto 0);
 signal CompressorIn_bh6_11_22 :  std_logic_vector(1 downto 0);
 signal CompressorOut_bh6_11_11 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w7_5 :  std_logic;
-signal heap_bh6_w8_7 :  std_logic;
-signal heap_bh6_w9_4 :  std_logic;
+signal heap_bh6_w7_5, heap_bh6_w7_5_d1 :  std_logic;
+signal heap_bh6_w8_7, heap_bh6_w8_7_d1 :  std_logic;
+signal heap_bh6_w9_4, heap_bh6_w9_4_d1 :  std_logic;
 signal CompressorIn_bh6_12_23 :  std_logic_vector(2 downto 0);
 signal CompressorIn_bh6_12_24 :  std_logic_vector(1 downto 0);
 signal CompressorOut_bh6_12_12 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w9_5 :  std_logic;
-signal heap_bh6_w10_7 :  std_logic;
-signal heap_bh6_w11_4 :  std_logic;
+signal heap_bh6_w9_5, heap_bh6_w9_5_d1 :  std_logic;
+signal heap_bh6_w10_7, heap_bh6_w10_7_d1 :  std_logic;
+signal heap_bh6_w11_4, heap_bh6_w11_4_d1 :  std_logic;
 signal CompressorIn_bh6_13_25 :  std_logic_vector(2 downto 0);
 signal CompressorIn_bh6_13_26 :  std_logic_vector(1 downto 0);
 signal CompressorOut_bh6_13_13 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w11_5 :  std_logic;
-signal heap_bh6_w12_7 :  std_logic;
-signal heap_bh6_w13_4 :  std_logic;
+signal heap_bh6_w11_5, heap_bh6_w11_5_d1 :  std_logic;
+signal heap_bh6_w12_7, heap_bh6_w12_7_d1 :  std_logic;
+signal heap_bh6_w13_4, heap_bh6_w13_4_d1 :  std_logic;
 signal CompressorIn_bh6_14_27 :  std_logic_vector(2 downto 0);
 signal CompressorIn_bh6_14_28 :  std_logic_vector(1 downto 0);
 signal CompressorOut_bh6_14_14 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w13_5 :  std_logic;
-signal heap_bh6_w14_7 :  std_logic;
-signal heap_bh6_w15_4 :  std_logic;
+signal heap_bh6_w13_5, heap_bh6_w13_5_d1 :  std_logic;
+signal heap_bh6_w14_7, heap_bh6_w14_7_d1 :  std_logic;
+signal heap_bh6_w15_4, heap_bh6_w15_4_d1 :  std_logic;
 signal CompressorIn_bh6_15_29 :  std_logic_vector(2 downto 0);
 signal CompressorIn_bh6_15_30 :  std_logic_vector(1 downto 0);
 signal CompressorOut_bh6_15_15 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w15_5 :  std_logic;
-signal heap_bh6_w16_7 :  std_logic;
-signal heap_bh6_w17_4 :  std_logic;
+signal heap_bh6_w15_5, heap_bh6_w15_5_d1 :  std_logic;
+signal heap_bh6_w16_7, heap_bh6_w16_7_d1 :  std_logic;
+signal heap_bh6_w17_4, heap_bh6_w17_4_d1 :  std_logic;
 signal CompressorIn_bh6_16_31 :  std_logic_vector(2 downto 0);
 signal CompressorIn_bh6_16_32 :  std_logic_vector(1 downto 0);
 signal CompressorOut_bh6_16_16 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w17_5 :  std_logic;
-signal heap_bh6_w18_5 :  std_logic;
+signal heap_bh6_w17_5, heap_bh6_w17_5_d1 :  std_logic;
+signal heap_bh6_w18_5, heap_bh6_w18_5_d1 :  std_logic;
 signal heap_bh6_w19_2 :  std_logic;
 signal CompressorIn_bh6_17_33 :  std_logic_vector(2 downto 0);
 signal CompressorIn_bh6_17_34 :  std_logic_vector(0 downto 0);
 signal CompressorOut_bh6_17_17 :  std_logic_vector(2 downto 0);
-signal heap_bh6_w19_3 :  std_logic;
-signal heap_bh6_w20_1 :  std_logic;
-signal heap_bh6_w21_1 :  std_logic;
+signal heap_bh6_w19_3, heap_bh6_w19_3_d1 :  std_logic;
+signal heap_bh6_w20_1, heap_bh6_w20_1_d1 :  std_logic;
+signal heap_bh6_w21_1, heap_bh6_w21_1_d1 :  std_logic;
 signal finalAdderIn0_bh6 :  std_logic_vector(35 downto 0);
 signal finalAdderIn1_bh6 :  std_logic_vector(35 downto 0);
 signal finalAdderCin_bh6 :  std_logic;
 signal finalAdderOut_bh6 :  std_logic_vector(35 downto 0);
 signal CompressionResult6 :  std_logic_vector(36 downto 0);
 attribute altera_attribute: string;
-attribute altera_attribute of SmallMultTableP2x2r4XuYu_F100_uid20: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
-attribute altera_attribute of SmallMultTableP2x2r4XuYu_F100_uid31: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
-attribute altera_attribute of SmallMultTableP2x2r4XuYu_F100_uid36: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
-attribute altera_attribute of SmallMultTableP2x2r4XuYu_F100_uid47: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
-attribute altera_attribute of SmallMultTableP2x2r4XuYu_F100_uid58: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
-attribute altera_attribute of SmallMultTableP2x2r4XuYu_F100_uid9: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
+attribute altera_attribute of SmallMultTableP2x2r4XuYu_F150_uid20: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
+attribute altera_attribute of SmallMultTableP2x2r4XuYu_F150_uid31: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
+attribute altera_attribute of SmallMultTableP2x2r4XuYu_F150_uid36: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
+attribute altera_attribute of SmallMultTableP2x2r4XuYu_F150_uid47: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
+attribute altera_attribute of SmallMultTableP2x2r4XuYu_F150_uid58: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
+attribute altera_attribute of SmallMultTableP2x2r4XuYu_F150_uid9: component is "-name ALLOW_ANY_ROM_SIZE_FOR_RECOGNITION OFF";
 begin
    process(clk)
       begin
          if clk'event and clk = '1' then
+            heap_bh6_w1_0_d1 <=  heap_bh6_w1_0;
+            heap_bh6_w1_1_d1 <=  heap_bh6_w1_1;
+            heap_bh6_w35_0_d1 <=  heap_bh6_w35_0;
+            heap_bh6_w34_0_d1 <=  heap_bh6_w34_0;
+            heap_bh6_w33_0_d1 <=  heap_bh6_w33_0;
+            heap_bh6_w32_0_d1 <=  heap_bh6_w32_0;
+            heap_bh6_w31_0_d1 <=  heap_bh6_w31_0;
+            heap_bh6_w30_0_d1 <=  heap_bh6_w30_0;
+            heap_bh6_w29_0_d1 <=  heap_bh6_w29_0;
+            heap_bh6_w28_0_d1 <=  heap_bh6_w28_0;
+            heap_bh6_w27_0_d1 <=  heap_bh6_w27_0;
+            heap_bh6_w26_0_d1 <=  heap_bh6_w26_0;
+            heap_bh6_w25_0_d1 <=  heap_bh6_w25_0;
+            heap_bh6_w24_0_d1 <=  heap_bh6_w24_0;
+            heap_bh6_w23_0_d1 <=  heap_bh6_w23_0;
+            heap_bh6_w22_0_d1 <=  heap_bh6_w22_0;
+            heap_bh6_w21_0_d1 <=  heap_bh6_w21_0;
+            heap_bh6_w16_4_d1 <=  heap_bh6_w16_4;
+            heap_bh6_w14_4_d1 <=  heap_bh6_w14_4;
+            heap_bh6_w12_4_d1 <=  heap_bh6_w12_4;
+            heap_bh6_w10_4_d1 <=  heap_bh6_w10_4;
+            heap_bh6_w8_4_d1 <=  heap_bh6_w8_4;
+            heap_bh6_w6_4_d1 <=  heap_bh6_w6_4;
+            heap_bh6_w4_4_d1 <=  heap_bh6_w4_4;
+            heap_bh6_w2_4_d1 <=  heap_bh6_w2_4;
+            tempR_bh6_0_d1 <=  tempR_bh6_0;
+            heap_bh6_w2_5_d1 <=  heap_bh6_w2_5;
+            heap_bh6_w3_4_d1 <=  heap_bh6_w3_4;
+            heap_bh6_w4_7_d1 <=  heap_bh6_w4_7;
+            heap_bh6_w5_4_d1 <=  heap_bh6_w5_4;
+            heap_bh6_w5_5_d1 <=  heap_bh6_w5_5;
+            heap_bh6_w6_7_d1 <=  heap_bh6_w6_7;
+            heap_bh6_w7_4_d1 <=  heap_bh6_w7_4;
+            heap_bh6_w7_5_d1 <=  heap_bh6_w7_5;
+            heap_bh6_w8_7_d1 <=  heap_bh6_w8_7;
+            heap_bh6_w9_4_d1 <=  heap_bh6_w9_4;
+            heap_bh6_w9_5_d1 <=  heap_bh6_w9_5;
+            heap_bh6_w10_7_d1 <=  heap_bh6_w10_7;
+            heap_bh6_w11_4_d1 <=  heap_bh6_w11_4;
+            heap_bh6_w11_5_d1 <=  heap_bh6_w11_5;
+            heap_bh6_w12_7_d1 <=  heap_bh6_w12_7;
+            heap_bh6_w13_4_d1 <=  heap_bh6_w13_4;
+            heap_bh6_w13_5_d1 <=  heap_bh6_w13_5;
+            heap_bh6_w14_7_d1 <=  heap_bh6_w14_7;
+            heap_bh6_w15_4_d1 <=  heap_bh6_w15_4;
+            heap_bh6_w15_5_d1 <=  heap_bh6_w15_5;
+            heap_bh6_w16_7_d1 <=  heap_bh6_w16_7;
+            heap_bh6_w17_4_d1 <=  heap_bh6_w17_4;
+            heap_bh6_w17_5_d1 <=  heap_bh6_w17_5;
+            heap_bh6_w18_5_d1 <=  heap_bh6_w18_5;
+            heap_bh6_w19_3_d1 <=  heap_bh6_w19_3;
+            heap_bh6_w20_1_d1 <=  heap_bh6_w20_1;
+            heap_bh6_w21_1_d1 <=  heap_bh6_w21_1;
          end if;
       end process;
    XX_m5 <= X ;
@@ -900,7 +953,7 @@ begin
    ----------------Synchro barrier, entering cycle 0----------------
    -- Partial product row number 0
    Y0X0_7_m5 <= y_m5b7_0 & x_m5b7_0;
-   PP_m5_7X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid9  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_7X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid9  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X0_7_m5,
@@ -911,7 +964,7 @@ begin
    heap_bh6_w12_0 <= PP7X0Y0_m5(3); -- cycle= 0 cp= 7.61e-10
 
    Y0X1_7_m5 <= y_m5b7_0 & x_m5b7_1;
-   PP_m5_7X1Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid9  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_7X1Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid9  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X1_7_m5,
@@ -922,7 +975,7 @@ begin
    heap_bh6_w14_0 <= PP7X1Y0_m5(3); -- cycle= 0 cp= 7.61e-10
 
    Y0X2_7_m5 <= y_m5b7_0 & x_m5b7_2;
-   PP_m5_7X2Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid9  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_7X2Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid9  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X2_7_m5,
@@ -933,7 +986,7 @@ begin
    heap_bh6_w16_0 <= PP7X2Y0_m5(3); -- cycle= 0 cp= 7.61e-10
 
    Y0X3_7_m5 <= y_m5b7_0 & x_m5b7_3;
-   PP_m5_7X3Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid9  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_7X3Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid9  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X3_7_m5,
@@ -955,7 +1008,7 @@ begin
    ----------------Synchro barrier, entering cycle 0----------------
    -- Partial product row number 0
    Y0X0_18_m5 <= y_m5b18_0 & x_m5b18_0;
-   PP_m5_18X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid20  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_18X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid20  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X0_18_m5,
@@ -966,7 +1019,7 @@ begin
    heap_bh6_w4_0 <= PP18X0Y0_m5(3); -- cycle= 0 cp= 7.61e-10
 
    Y0X1_18_m5 <= y_m5b18_0 & x_m5b18_1;
-   PP_m5_18X1Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid20  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_18X1Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid20  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X1_18_m5,
@@ -977,7 +1030,7 @@ begin
    heap_bh6_w6_0 <= PP18X1Y0_m5(3); -- cycle= 0 cp= 7.61e-10
 
    Y0X2_18_m5 <= y_m5b18_0 & x_m5b18_2;
-   PP_m5_18X2Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid20  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_18X2Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid20  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X2_18_m5,
@@ -988,7 +1041,7 @@ begin
    heap_bh6_w8_0 <= PP18X2Y0_m5(3); -- cycle= 0 cp= 7.61e-10
 
    Y0X3_18_m5 <= y_m5b18_0 & x_m5b18_3;
-   PP_m5_18X3Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid20  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_18X3Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid20  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X3_18_m5,
@@ -1007,7 +1060,7 @@ begin
    ----------------Synchro barrier, entering cycle 0----------------
    -- Partial product row number 0
    Y0X0_29_m5 <= y_m5b29_0 & x_m5b29_0;
-   PP_m5_29X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid31  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_29X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid31  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X0_29_m5,
@@ -1028,7 +1081,7 @@ begin
    ----------------Synchro barrier, entering cycle 0----------------
    -- Partial product row number 0
    Y0X0_34_m5 <= y_m5b34_0 & x_m5b34_0;
-   PP_m5_34X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid36  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_34X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid36  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X0_34_m5,
@@ -1040,7 +1093,7 @@ begin
 
    -- Partial product row number 1
    Y1X0_34_m5 <= y_m5b34_1 & x_m5b34_0;
-   PP_m5_34X0Y1_Tbl: SmallMultTableP2x2r4XuYu_F100_uid36  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_34X0Y1_Tbl: SmallMultTableP2x2r4XuYu_F150_uid36  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y1X0_34_m5,
@@ -1052,7 +1105,7 @@ begin
 
    -- Partial product row number 2
    Y2X0_34_m5 <= y_m5b34_2 & x_m5b34_0;
-   PP_m5_34X0Y2_Tbl: SmallMultTableP2x2r4XuYu_F100_uid36  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_34X0Y2_Tbl: SmallMultTableP2x2r4XuYu_F150_uid36  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y2X0_34_m5,
@@ -1064,7 +1117,7 @@ begin
 
    -- Partial product row number 3
    Y3X0_34_m5 <= y_m5b34_3 & x_m5b34_0;
-   PP_m5_34X0Y3_Tbl: SmallMultTableP2x2r4XuYu_F100_uid36  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_34X0Y3_Tbl: SmallMultTableP2x2r4XuYu_F150_uid36  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y3X0_34_m5,
@@ -1086,7 +1139,7 @@ begin
    ----------------Synchro barrier, entering cycle 0----------------
    -- Partial product row number 0
    Y0X0_45_m5 <= y_m5b45_0 & x_m5b45_0;
-   PP_m5_45X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid47  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_45X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid47  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X0_45_m5,
@@ -1098,7 +1151,7 @@ begin
 
    -- Partial product row number 1
    Y1X0_45_m5 <= y_m5b45_1 & x_m5b45_0;
-   PP_m5_45X0Y1_Tbl: SmallMultTableP2x2r4XuYu_F100_uid47  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_45X0Y1_Tbl: SmallMultTableP2x2r4XuYu_F150_uid47  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y1X0_45_m5,
@@ -1110,7 +1163,7 @@ begin
 
    -- Partial product row number 2
    Y2X0_45_m5 <= y_m5b45_2 & x_m5b45_0;
-   PP_m5_45X0Y2_Tbl: SmallMultTableP2x2r4XuYu_F100_uid47  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_45X0Y2_Tbl: SmallMultTableP2x2r4XuYu_F150_uid47  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y2X0_45_m5,
@@ -1122,7 +1175,7 @@ begin
 
    -- Partial product row number 3
    Y3X0_45_m5 <= y_m5b45_3 & x_m5b45_0;
-   PP_m5_45X0Y3_Tbl: SmallMultTableP2x2r4XuYu_F100_uid47  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_45X0Y3_Tbl: SmallMultTableP2x2r4XuYu_F150_uid47  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y3X0_45_m5,
@@ -1141,7 +1194,7 @@ begin
    ----------------Synchro barrier, entering cycle 0----------------
    -- Partial product row number 0
    Y0X0_56_m5 <= y_m5b56_0 & x_m5b56_0;
-   PP_m5_56X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F100_uid58  -- pipelineDepth=0 maxInDelay=0
+   PP_m5_56X0Y0_Tbl: SmallMultTableP2x2r4XuYu_F150_uid58  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  X => Y0X0_56_m5,
@@ -1394,10 +1447,11 @@ begin
    heap_bh6_w20_1 <= CompressorOut_bh6_17_17(1); -- cycle= 0 cp= 4.382e-09
    heap_bh6_w21_1 <= CompressorOut_bh6_17_17(2); -- cycle= 0 cp= 4.382e-09
    ----------------Synchro barrier, entering cycle 0----------------
-   finalAdderIn0_bh6 <= "0" & heap_bh6_w35_0 & heap_bh6_w34_0 & heap_bh6_w33_0 & heap_bh6_w32_0 & heap_bh6_w31_0 & heap_bh6_w30_0 & heap_bh6_w29_0 & heap_bh6_w28_0 & heap_bh6_w27_0 & heap_bh6_w26_0 & heap_bh6_w25_0 & heap_bh6_w24_0 & heap_bh6_w23_0 & heap_bh6_w22_0 & heap_bh6_w21_0 & heap_bh6_w20_1 & heap_bh6_w19_3 & heap_bh6_w18_5 & heap_bh6_w17_5 & heap_bh6_w16_4 & heap_bh6_w15_5 & heap_bh6_w14_4 & heap_bh6_w13_5 & heap_bh6_w12_4 & heap_bh6_w11_5 & heap_bh6_w10_4 & heap_bh6_w9_5 & heap_bh6_w8_4 & heap_bh6_w7_5 & heap_bh6_w6_4 & heap_bh6_w5_5 & heap_bh6_w4_4 & heap_bh6_w3_4 & heap_bh6_w2_5 & heap_bh6_w1_1;
-   finalAdderIn1_bh6 <= "0" & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & heap_bh6_w21_1 & '0' & '0' & '0' & heap_bh6_w17_4 & heap_bh6_w16_7 & heap_bh6_w15_4 & heap_bh6_w14_7 & heap_bh6_w13_4 & heap_bh6_w12_7 & heap_bh6_w11_4 & heap_bh6_w10_7 & heap_bh6_w9_4 & heap_bh6_w8_7 & heap_bh6_w7_4 & heap_bh6_w6_7 & heap_bh6_w5_4 & heap_bh6_w4_7 & '0' & heap_bh6_w2_4 & heap_bh6_w1_0;
+   ----------------Synchro barrier, entering cycle 1----------------
+   finalAdderIn0_bh6 <= "0" & heap_bh6_w35_0_d1 & heap_bh6_w34_0_d1 & heap_bh6_w33_0_d1 & heap_bh6_w32_0_d1 & heap_bh6_w31_0_d1 & heap_bh6_w30_0_d1 & heap_bh6_w29_0_d1 & heap_bh6_w28_0_d1 & heap_bh6_w27_0_d1 & heap_bh6_w26_0_d1 & heap_bh6_w25_0_d1 & heap_bh6_w24_0_d1 & heap_bh6_w23_0_d1 & heap_bh6_w22_0_d1 & heap_bh6_w21_0_d1 & heap_bh6_w20_1_d1 & heap_bh6_w19_3_d1 & heap_bh6_w18_5_d1 & heap_bh6_w17_5_d1 & heap_bh6_w16_4_d1 & heap_bh6_w15_5_d1 & heap_bh6_w14_4_d1 & heap_bh6_w13_5_d1 & heap_bh6_w12_4_d1 & heap_bh6_w11_5_d1 & heap_bh6_w10_4_d1 & heap_bh6_w9_5_d1 & heap_bh6_w8_4_d1 & heap_bh6_w7_5_d1 & heap_bh6_w6_4_d1 & heap_bh6_w5_5_d1 & heap_bh6_w4_4_d1 & heap_bh6_w3_4_d1 & heap_bh6_w2_5_d1 & heap_bh6_w1_1_d1;
+   finalAdderIn1_bh6 <= "0" & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & heap_bh6_w21_1_d1 & '0' & '0' & '0' & heap_bh6_w17_4_d1 & heap_bh6_w16_7_d1 & heap_bh6_w15_4_d1 & heap_bh6_w14_7_d1 & heap_bh6_w13_4_d1 & heap_bh6_w12_7_d1 & heap_bh6_w11_4_d1 & heap_bh6_w10_7_d1 & heap_bh6_w9_4_d1 & heap_bh6_w8_7_d1 & heap_bh6_w7_4_d1 & heap_bh6_w6_7_d1 & heap_bh6_w5_4_d1 & heap_bh6_w4_7_d1 & '0' & heap_bh6_w2_4_d1 & heap_bh6_w1_0_d1;
    finalAdderCin_bh6 <= '0';
-   Adder_final6_0: IntAdder_36_f100_uid105  -- pipelineDepth=0 maxInDelay=0
+   Adder_final6_0: IntAdder_36_f150_uid105  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  Cin => finalAdderCin_bh6,
@@ -1405,14 +1459,14 @@ begin
                  X => finalAdderIn0_bh6,
                  Y => finalAdderIn1_bh6);
    -- concatenate all the compressed chunks
-   CompressionResult6 <= finalAdderOut_bh6 & tempR_bh6_0;
+   CompressionResult6 <= finalAdderOut_bh6 & tempR_bh6_0_d1;
    -- End of code generated by BitHeap::generateCompressorVHDL
    R <= CompressionResult6(35 downto 0);
 end architecture;
 
 --------------------------------------------------------------------------------
---                          IntAdder_26_f100_uid115
---                    (IntAdderAlternative_26_F100_uid119)
+--                          IntAdder_26_f150_uid115
+--                    (IntAdderAlternative_26_F150_uid119)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
@@ -1427,7 +1481,7 @@ library std;
 use std.textio.all;
 library work;
 
-entity IntAdder_26_f100_uid115 is
+entity IntAdder_26_f150_uid115 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(25 downto 0);
           Y : in  std_logic_vector(25 downto 0);
@@ -1435,7 +1489,7 @@ entity IntAdder_26_f100_uid115 is
           R : out  std_logic_vector(25 downto 0)   );
 end entity;
 
-architecture arch of IntAdder_26_f100_uid115 is
+architecture arch of IntAdder_26_f150_uid115 is
 signal s_sum_l0_idx0 :  std_logic_vector(17 downto 0);
 signal s_sum_l0_idx1, s_sum_l0_idx1_d1 :  std_logic_vector(9 downto 0);
 signal sum_l0_idx0, sum_l0_idx0_d1 :  std_logic_vector(16 downto 0);
@@ -1470,12 +1524,12 @@ end architecture;
 
 --------------------------------------------------------------------------------
 --                                  GPUFMult
---                     (FPMult_7_17_7_17_7_17_F100_uid2)
+--                     (FPMult_7_17_7_17_7_17_F150_uid2)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin 2008-2011
 --------------------------------------------------------------------------------
--- Pipeline depth: 1 cycles
+-- Pipeline depth: 2 cycles
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -1493,14 +1547,14 @@ entity GPUFMult is
 end entity;
 
 architecture arch of GPUFMult is
-   component IntMultiplier_UsingDSP_18_18_36_unsigned_F100_uid4 is
+   component IntMultiplier_UsingDSP_18_18_36_unsigned_F150_uid4 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(17 downto 0);
              Y : in  std_logic_vector(17 downto 0);
              R : out  std_logic_vector(35 downto 0)   );
    end component;
 
-   component IntAdder_26_f100_uid115 is
+   component IntAdder_26_f150_uid115 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(25 downto 0);
              Y : in  std_logic_vector(25 downto 0);
@@ -1508,17 +1562,17 @@ architecture arch of GPUFMult is
              R : out  std_logic_vector(25 downto 0)   );
    end component;
 
-signal sign, sign_d1 :  std_logic;
+signal sign, sign_d1, sign_d2 :  std_logic;
 signal expX :  std_logic_vector(6 downto 0);
 signal expY :  std_logic_vector(6 downto 0);
 signal expSumPreSub :  std_logic_vector(8 downto 0);
 signal bias :  std_logic_vector(8 downto 0);
-signal expSum :  std_logic_vector(8 downto 0);
+signal expSum, expSum_d1 :  std_logic_vector(8 downto 0);
 signal sigX :  std_logic_vector(17 downto 0);
 signal sigY :  std_logic_vector(17 downto 0);
 signal sigProd :  std_logic_vector(35 downto 0);
 signal excSel :  std_logic_vector(3 downto 0);
-signal exc, exc_d1 :  std_logic_vector(1 downto 0);
+signal exc, exc_d1, exc_d2 :  std_logic_vector(1 downto 0);
 signal norm :  std_logic;
 signal expPostNorm :  std_logic_vector(8 downto 0);
 signal sigProdExt :  std_logic_vector(35 downto 0);
@@ -1534,7 +1588,10 @@ begin
       begin
          if clk'event and clk = '1' then
             sign_d1 <=  sign;
+            sign_d2 <=  sign_d1;
+            expSum_d1 <=  expSum;
             exc_d1 <=  exc;
+            exc_d2 <=  exc_d1;
          end if;
       end process;
    sign <= X(24) xor Y(24);
@@ -1546,12 +1603,13 @@ begin
    ----------------Synchro barrier, entering cycle 0----------------
    sigX <= "1" & X(16 downto 0);
    sigY <= "1" & Y(16 downto 0);
-   SignificandMultiplication: IntMultiplier_UsingDSP_18_18_36_unsigned_F100_uid4  -- pipelineDepth=0 maxInDelay=0
+   SignificandMultiplication: IntMultiplier_UsingDSP_18_18_36_unsigned_F150_uid4  -- pipelineDepth=1 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  R => sigProd,
                  X => sigX,
                  Y => sigY);
+   ----------------Synchro barrier, entering cycle 1----------------
    ----------------Synchro barrier, entering cycle 0----------------
    excSel <= X(26 downto 25) & Y(26 downto 25);
    with excSel select 
@@ -1559,9 +1617,11 @@ begin
           "01" when "0101",
           "10" when "0110" | "1001" | "1010" ,
           "11" when others;
+   ----------------Synchro barrier, entering cycle 1----------------
    norm <= sigProd(35);
    -- exponent update
-   expPostNorm <= expSum + ("00000000" & norm);
+   expPostNorm <= expSum_d1 + ("00000000" & norm);
+   ----------------Synchro barrier, entering cycle 1----------------
    -- significand normalization shift
    sigProdExt <= sigProd(34 downto 0) & "0" when norm='1' else
                          sigProd(33 downto 0) & "00";
@@ -1569,27 +1629,27 @@ begin
    sticky <= sigProdExt(18);
    guard <= '0' when sigProdExt(17 downto 0)="000000000000000000" else '1';
    round <= sticky and ( (guard and not(sigProdExt(19))) or (sigProdExt(19) ))  ;
-   RoundingAdder: IntAdder_26_f100_uid115  -- pipelineDepth=1 maxInDelay=8.114e-09
+   RoundingAdder: IntAdder_26_f150_uid115  -- pipelineDepth=1 maxInDelay=4.754e-09
       port map ( clk  => clk,
                  rst  => rst,
                  Cin => round,
                  R => expSigPostRound   ,
                  X => expSig,
                  Y => "00000000000000000000000000");
-   ----------------Synchro barrier, entering cycle 1----------------
+   ----------------Synchro barrier, entering cycle 2----------------
    with expSigPostRound(25 downto 24) select
    excPostNorm <=  "01"  when  "00",
                                "10"             when "01", 
                                "00"             when "11"|"10",
                                "11"             when others;
-   with exc_d1 select 
-   finalExc <= exc_d1 when  "11"|"10"|"00",
+   with exc_d2 select 
+   finalExc <= exc_d2 when  "11"|"10"|"00",
                        excPostNorm when others; 
-   R <= finalExc & sign_d1 & expSigPostRound(23 downto 0);
+   R <= finalExc & sign_d2 & expSigPostRound(23 downto 0);
 end architecture;
 
 --------------------------------------------------------------------------------
---                   RightShifter_18_by_max_34_F100_uid125
+--                   RightShifter_18_by_max_34_F150_uid125
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2011)
@@ -1604,14 +1664,14 @@ library std;
 use std.textio.all;
 library work;
 
-entity RightShifter_18_by_max_34_F100_uid125 is
+entity RightShifter_18_by_max_34_F150_uid125 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(17 downto 0);
           S : in  std_logic_vector(5 downto 0);
           R : out  std_logic_vector(51 downto 0)   );
 end entity;
 
-architecture arch of RightShifter_18_by_max_34_F100_uid125 is
+architecture arch of RightShifter_18_by_max_34_F150_uid125 is
 signal level0 :  std_logic_vector(17 downto 0);
 signal ps :  std_logic_vector(5 downto 0);
 signal level1 :  std_logic_vector(18 downto 0);
@@ -1638,7 +1698,7 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                   RightShifter_18_by_max_34_F100_uid129
+--                   RightShifter_18_by_max_34_F150_uid129
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2011)
@@ -1653,14 +1713,14 @@ library std;
 use std.textio.all;
 library work;
 
-entity RightShifter_18_by_max_34_F100_uid129 is
+entity RightShifter_18_by_max_34_F150_uid129 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(17 downto 0);
           S : in  std_logic_vector(5 downto 0);
           R : out  std_logic_vector(51 downto 0)   );
 end entity;
 
-architecture arch of RightShifter_18_by_max_34_F100_uid129 is
+architecture arch of RightShifter_18_by_max_34_F150_uid129 is
 signal level0 :  std_logic_vector(17 downto 0);
 signal ps :  std_logic_vector(5 downto 0);
 signal level1 :  std_logic_vector(18 downto 0);
@@ -1687,7 +1747,7 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                   RightShifter_18_by_max_34_F100_uid133
+--                   RightShifter_18_by_max_34_F150_uid133
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2011)
@@ -1702,14 +1762,14 @@ library std;
 use std.textio.all;
 library work;
 
-entity RightShifter_18_by_max_34_F100_uid133 is
+entity RightShifter_18_by_max_34_F150_uid133 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(17 downto 0);
           S : in  std_logic_vector(5 downto 0);
           R : out  std_logic_vector(51 downto 0)   );
 end entity;
 
-architecture arch of RightShifter_18_by_max_34_F100_uid133 is
+architecture arch of RightShifter_18_by_max_34_F150_uid133 is
 signal level0 :  std_logic_vector(17 downto 0);
 signal ps :  std_logic_vector(5 downto 0);
 signal level1 :  std_logic_vector(18 downto 0);
@@ -1736,8 +1796,8 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                          IntAdder_55_f100_uid137
---                    (IntAdderAlternative_55_F100_uid141)
+--                          IntAdder_55_f150_uid137
+--                     (IntAdderClassical_55_F150_uid139)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
@@ -1752,7 +1812,7 @@ library std;
 use std.textio.all;
 library work;
 
-entity IntAdder_55_f100_uid137 is
+entity IntAdder_55_f150_uid137 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(54 downto 0);
           Y : in  std_logic_vector(54 downto 0);
@@ -1760,42 +1820,27 @@ entity IntAdder_55_f100_uid137 is
           R : out  std_logic_vector(54 downto 0)   );
 end entity;
 
-architecture arch of IntAdder_55_f100_uid137 is
-signal s_sum_l0_idx0 :  std_logic_vector(46 downto 0);
-signal s_sum_l0_idx1, s_sum_l0_idx1_d1 :  std_logic_vector(9 downto 0);
-signal sum_l0_idx0, sum_l0_idx0_d1 :  std_logic_vector(45 downto 0);
-signal c_l0_idx0, c_l0_idx0_d1 :  std_logic_vector(0 downto 0);
-signal sum_l0_idx1 :  std_logic_vector(8 downto 0);
-signal c_l0_idx1 :  std_logic_vector(0 downto 0);
-signal s_sum_l1_idx1 :  std_logic_vector(9 downto 0);
-signal sum_l1_idx1 :  std_logic_vector(8 downto 0);
-signal c_l1_idx1 :  std_logic_vector(0 downto 0);
+architecture arch of IntAdder_55_f150_uid137 is
+signal X_d1 :  std_logic_vector(54 downto 0);
+signal Y_d1 :  std_logic_vector(54 downto 0);
+signal Cin_d1 :  std_logic;
 begin
    process(clk)
       begin
          if clk'event and clk = '1' then
-            s_sum_l0_idx1_d1 <=  s_sum_l0_idx1;
-            sum_l0_idx0_d1 <=  sum_l0_idx0;
-            c_l0_idx0_d1 <=  c_l0_idx0;
+            X_d1 <=  X;
+            Y_d1 <=  Y;
+            Cin_d1 <=  Cin;
          end if;
       end process;
-   --Alternative
-   s_sum_l0_idx0 <= ( "0" & X(45 downto 0)) + ( "0" & Y(45 downto 0)) + Cin;
-   s_sum_l0_idx1 <= ( "0" & X(54 downto 46)) + ( "0" & Y(54 downto 46));
-   sum_l0_idx0 <= s_sum_l0_idx0(45 downto 0);
-   c_l0_idx0 <= s_sum_l0_idx0(46 downto 46);
-   sum_l0_idx1 <= s_sum_l0_idx1(8 downto 0);
-   c_l0_idx1 <= s_sum_l0_idx1(9 downto 9);
+   --Classical
    ----------------Synchro barrier, entering cycle 1----------------
-   s_sum_l1_idx1 <=  s_sum_l0_idx1_d1 + c_l0_idx0_d1(0 downto 0);
-   sum_l1_idx1 <= s_sum_l1_idx1(8 downto 0);
-   c_l1_idx1 <= s_sum_l1_idx1(9 downto 9);
-   R <= sum_l1_idx1(8 downto 0) & sum_l0_idx0_d1(45 downto 0);
+    R <= X_d1 + Y_d1 + Cin_d1;
 end architecture;
 
 --------------------------------------------------------------------------------
---                          IntAdder_55_f100_uid143
---                    (IntAdderAlternative_55_F100_uid147)
+--                          IntAdder_55_f150_uid143
+--                     (IntAdderClassical_55_F150_uid145)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
@@ -1810,7 +1855,7 @@ library std;
 use std.textio.all;
 library work;
 
-entity IntAdder_55_f100_uid143 is
+entity IntAdder_55_f150_uid143 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(54 downto 0);
           Y : in  std_logic_vector(54 downto 0);
@@ -1818,42 +1863,27 @@ entity IntAdder_55_f100_uid143 is
           R : out  std_logic_vector(54 downto 0)   );
 end entity;
 
-architecture arch of IntAdder_55_f100_uid143 is
-signal s_sum_l0_idx0 :  std_logic_vector(46 downto 0);
-signal s_sum_l0_idx1, s_sum_l0_idx1_d1 :  std_logic_vector(9 downto 0);
-signal sum_l0_idx0, sum_l0_idx0_d1 :  std_logic_vector(45 downto 0);
-signal c_l0_idx0, c_l0_idx0_d1 :  std_logic_vector(0 downto 0);
-signal sum_l0_idx1 :  std_logic_vector(8 downto 0);
-signal c_l0_idx1 :  std_logic_vector(0 downto 0);
-signal s_sum_l1_idx1 :  std_logic_vector(9 downto 0);
-signal sum_l1_idx1 :  std_logic_vector(8 downto 0);
-signal c_l1_idx1 :  std_logic_vector(0 downto 0);
+architecture arch of IntAdder_55_f150_uid143 is
+signal X_d1 :  std_logic_vector(54 downto 0);
+signal Y_d1 :  std_logic_vector(54 downto 0);
+signal Cin_d1 :  std_logic;
 begin
    process(clk)
       begin
          if clk'event and clk = '1' then
-            s_sum_l0_idx1_d1 <=  s_sum_l0_idx1;
-            sum_l0_idx0_d1 <=  sum_l0_idx0;
-            c_l0_idx0_d1 <=  c_l0_idx0;
+            X_d1 <=  X;
+            Y_d1 <=  Y;
+            Cin_d1 <=  Cin;
          end if;
       end process;
-   --Alternative
-   s_sum_l0_idx0 <= ( "0" & X(45 downto 0)) + ( "0" & Y(45 downto 0)) + Cin;
-   s_sum_l0_idx1 <= ( "0" & X(54 downto 46)) + ( "0" & Y(54 downto 46));
-   sum_l0_idx0 <= s_sum_l0_idx0(45 downto 0);
-   c_l0_idx0 <= s_sum_l0_idx0(46 downto 46);
-   sum_l0_idx1 <= s_sum_l0_idx1(8 downto 0);
-   c_l0_idx1 <= s_sum_l0_idx1(9 downto 9);
+   --Classical
    ----------------Synchro barrier, entering cycle 1----------------
-   s_sum_l1_idx1 <=  s_sum_l0_idx1_d1 + c_l0_idx0_d1(0 downto 0);
-   sum_l1_idx1 <= s_sum_l1_idx1(8 downto 0);
-   c_l1_idx1 <= s_sum_l1_idx1(9 downto 9);
-   R <= sum_l1_idx1(8 downto 0) & sum_l0_idx0_d1(45 downto 0);
+    R <= X_d1 + Y_d1 + Cin_d1;
 end architecture;
 
 --------------------------------------------------------------------------------
---                          IntAdder_55_f100_uid149
---                    (IntAdderAlternative_55_F100_uid153)
+--                          IntAdder_55_f150_uid149
+--                     (IntAdderClassical_55_F150_uid151)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
@@ -1868,7 +1898,7 @@ library std;
 use std.textio.all;
 library work;
 
-entity IntAdder_55_f100_uid149 is
+entity IntAdder_55_f150_uid149 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(54 downto 0);
           Y : in  std_logic_vector(54 downto 0);
@@ -1876,42 +1906,27 @@ entity IntAdder_55_f100_uid149 is
           R : out  std_logic_vector(54 downto 0)   );
 end entity;
 
-architecture arch of IntAdder_55_f100_uid149 is
-signal s_sum_l0_idx0 :  std_logic_vector(46 downto 0);
-signal s_sum_l0_idx1, s_sum_l0_idx1_d1 :  std_logic_vector(9 downto 0);
-signal sum_l0_idx0, sum_l0_idx0_d1 :  std_logic_vector(45 downto 0);
-signal c_l0_idx0, c_l0_idx0_d1 :  std_logic_vector(0 downto 0);
-signal sum_l0_idx1 :  std_logic_vector(8 downto 0);
-signal c_l0_idx1 :  std_logic_vector(0 downto 0);
-signal s_sum_l1_idx1 :  std_logic_vector(9 downto 0);
-signal sum_l1_idx1 :  std_logic_vector(8 downto 0);
-signal c_l1_idx1 :  std_logic_vector(0 downto 0);
+architecture arch of IntAdder_55_f150_uid149 is
+signal X_d1 :  std_logic_vector(54 downto 0);
+signal Y_d1 :  std_logic_vector(54 downto 0);
+signal Cin_d1 :  std_logic;
 begin
    process(clk)
       begin
          if clk'event and clk = '1' then
-            s_sum_l0_idx1_d1 <=  s_sum_l0_idx1;
-            sum_l0_idx0_d1 <=  sum_l0_idx0;
-            c_l0_idx0_d1 <=  c_l0_idx0;
+            X_d1 <=  X;
+            Y_d1 <=  Y;
+            Cin_d1 <=  Cin;
          end if;
       end process;
-   --Alternative
-   s_sum_l0_idx0 <= ( "0" & X(45 downto 0)) + ( "0" & Y(45 downto 0)) + Cin;
-   s_sum_l0_idx1 <= ( "0" & X(54 downto 46)) + ( "0" & Y(54 downto 46));
-   sum_l0_idx0 <= s_sum_l0_idx0(45 downto 0);
-   c_l0_idx0 <= s_sum_l0_idx0(46 downto 46);
-   sum_l0_idx1 <= s_sum_l0_idx1(8 downto 0);
-   c_l0_idx1 <= s_sum_l0_idx1(9 downto 9);
+   --Classical
    ----------------Synchro barrier, entering cycle 1----------------
-   s_sum_l1_idx1 <=  s_sum_l0_idx1_d1 + c_l0_idx0_d1(0 downto 0);
-   sum_l1_idx1 <= s_sum_l1_idx1(8 downto 0);
-   c_l1_idx1 <= s_sum_l1_idx1(9 downto 9);
-   R <= sum_l1_idx1(8 downto 0) & sum_l0_idx0_d1(45 downto 0);
+    R <= X_d1 + Y_d1 + Cin_d1;
 end architecture;
 
 --------------------------------------------------------------------------------
---                          IntAdder_55_f100_uid225
---                     (IntAdderClassical_55_F100_uid227)
+--                          IntAdder_55_f150_uid225
+--                     (IntAdderClassical_55_F150_uid227)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
@@ -1926,7 +1941,7 @@ library std;
 use std.textio.all;
 library work;
 
-entity IntAdder_55_f100_uid225 is
+entity IntAdder_55_f150_uid225 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(54 downto 0);
           Y : in  std_logic_vector(54 downto 0);
@@ -1934,7 +1949,7 @@ entity IntAdder_55_f100_uid225 is
           R : out  std_logic_vector(54 downto 0)   );
 end entity;
 
-architecture arch of IntAdder_55_f100_uid225 is
+architecture arch of IntAdder_55_f150_uid225 is
 begin
    process(clk)
       begin
@@ -1946,8 +1961,8 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                          IntAdder_54_f100_uid233
---                     (IntAdderClassical_54_F100_uid235)
+--                          IntAdder_54_f150_uid233
+--                     (IntAdderClassical_54_F150_uid235)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
@@ -1962,7 +1977,7 @@ library std;
 use std.textio.all;
 library work;
 
-entity IntAdder_54_f100_uid233 is
+entity IntAdder_54_f150_uid233 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(53 downto 0);
           Y : in  std_logic_vector(53 downto 0);
@@ -1970,7 +1985,7 @@ entity IntAdder_54_f100_uid233 is
           R : out  std_logic_vector(53 downto 0)   );
 end entity;
 
-architecture arch of IntAdder_54_f100_uid233 is
+architecture arch of IntAdder_54_f150_uid233 is
 begin
    process(clk)
       begin
@@ -1982,7 +1997,7 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---                LZCShifter_38_to_38_counting_64_F100_uid241
+--                LZCShifter_38_to_38_counting_64_F150_uid241
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Florent de Dinechin, Bogdan Pasca (2007)
@@ -1997,18 +2012,18 @@ library std;
 use std.textio.all;
 library work;
 
-entity LZCShifter_38_to_38_counting_64_F100_uid241 is
+entity LZCShifter_38_to_38_counting_64_F150_uid241 is
    port ( clk, rst : in std_logic;
           I : in  std_logic_vector(37 downto 0);
           Count : out  std_logic_vector(5 downto 0);
           O : out  std_logic_vector(37 downto 0)   );
 end entity;
 
-architecture arch of LZCShifter_38_to_38_counting_64_F100_uid241 is
-signal level6, level6_d1 :  std_logic_vector(37 downto 0);
-signal count5, count5_d1 :  std_logic;
-signal level5 :  std_logic_vector(37 downto 0);
-signal count4, count4_d1 :  std_logic;
+architecture arch of LZCShifter_38_to_38_counting_64_F150_uid241 is
+signal level6 :  std_logic_vector(37 downto 0);
+signal count5, count5_d1, count5_d2 :  std_logic;
+signal level5, level5_d1 :  std_logic_vector(37 downto 0);
+signal count4, count4_d1, count4_d2 :  std_logic;
 signal level4 :  std_logic_vector(37 downto 0);
 signal count3, count3_d1 :  std_logic;
 signal level3 :  std_logic_vector(37 downto 0);
@@ -2023,21 +2038,23 @@ begin
    process(clk)
       begin
          if clk'event and clk = '1' then
-            level6_d1 <=  level6;
             count5_d1 <=  count5;
+            count5_d2 <=  count5_d1;
+            level5_d1 <=  level5;
             count4_d1 <=  count4;
+            count4_d2 <=  count4_d1;
             count3_d1 <=  count3;
             count2_d1 <=  count2;
             level2_d1 <=  level2;
          end if;
       end process;
    level6 <= I ;
-   ----------------Synchro barrier, entering cycle 1----------------
-   count5<= '1' when level6_d1(37 downto 6) = (37 downto 6=>'0') else '0';
-   level5<= level6_d1(37 downto 0) when count5='0' else level6_d1(5 downto 0) & (31 downto 0 => '0');
+   count5<= '1' when level6(37 downto 6) = (37 downto 6=>'0') else '0';
+   level5<= level6(37 downto 0) when count5='0' else level6(5 downto 0) & (31 downto 0 => '0');
 
    count4<= '1' when level5(37 downto 22) = (37 downto 22=>'0') else '0';
-   level4<= level5(37 downto 0) when count4='0' else level5(21 downto 0) & (15 downto 0 => '0');
+   ----------------Synchro barrier, entering cycle 1----------------
+   level4<= level5_d1(37 downto 0) when count4_d1='0' else level5_d1(21 downto 0) & (15 downto 0 => '0');
 
    count3<= '1' when level4(37 downto 30) = (37 downto 30=>'0') else '0';
    level3<= level4(37 downto 0) when count3='0' else level4(29 downto 0) & (7 downto 0 => '0');
@@ -2053,13 +2070,13 @@ begin
    level0<= level1(37 downto 0) when count0='0' else level1(36 downto 0) & (0 downto 0 => '0');
 
    O <= level0;
-   sCount <= count5_d1 & count4_d1 & count3_d1 & count2_d1 & count1 & count0;
+   sCount <= count5_d2 & count4_d2 & count3_d1 & count2_d1 & count1 & count0;
    Count <= sCount;
 end architecture;
 
 --------------------------------------------------------------------------------
---                          IntAdder_26_f100_uid245
---                     (IntAdderClassical_26_F100_uid247)
+--                          IntAdder_26_f150_uid245
+--                     (IntAdderClassical_26_F150_uid247)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
@@ -2074,7 +2091,7 @@ library std;
 use std.textio.all;
 library work;
 
-entity IntAdder_26_f100_uid245 is
+entity IntAdder_26_f150_uid245 is
    port ( clk, rst : in std_logic;
           X : in  std_logic_vector(25 downto 0);
           Y : in  std_logic_vector(25 downto 0);
@@ -2082,7 +2099,7 @@ entity IntAdder_26_f100_uid245 is
           R : out  std_logic_vector(25 downto 0)   );
 end entity;
 
-architecture arch of IntAdder_26_f100_uid245 is
+architecture arch of IntAdder_26_f150_uid245 is
 begin
    process(clk)
       begin
@@ -2095,12 +2112,12 @@ end architecture;
 
 --------------------------------------------------------------------------------
 --                                  GPUF3Add
---                       (FPAdd3Input_7_17_F100_uid123)
+--                       (FPAdd3Input_7_17_F150_uid123)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca (2010)
 --------------------------------------------------------------------------------
--- Pipeline depth: 3 cycles
+-- Pipeline depth: 5 cycles
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -2119,28 +2136,28 @@ entity GPUF3Add is
 end entity;
 
 architecture arch of GPUF3Add is
-   component RightShifter_18_by_max_34_F100_uid125 is
+   component RightShifter_18_by_max_34_F150_uid125 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(17 downto 0);
              S : in  std_logic_vector(5 downto 0);
              R : out  std_logic_vector(51 downto 0)   );
    end component;
 
-   component RightShifter_18_by_max_34_F100_uid129 is
+   component RightShifter_18_by_max_34_F150_uid129 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(17 downto 0);
              S : in  std_logic_vector(5 downto 0);
              R : out  std_logic_vector(51 downto 0)   );
    end component;
 
-   component RightShifter_18_by_max_34_F100_uid133 is
+   component RightShifter_18_by_max_34_F150_uid133 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(17 downto 0);
              S : in  std_logic_vector(5 downto 0);
              R : out  std_logic_vector(51 downto 0)   );
    end component;
 
-   component IntAdder_55_f100_uid137 is
+   component IntAdder_55_f150_uid137 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(54 downto 0);
              Y : in  std_logic_vector(54 downto 0);
@@ -2148,7 +2165,7 @@ architecture arch of GPUF3Add is
              R : out  std_logic_vector(54 downto 0)   );
    end component;
 
-   component IntAdder_55_f100_uid143 is
+   component IntAdder_55_f150_uid143 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(54 downto 0);
              Y : in  std_logic_vector(54 downto 0);
@@ -2156,7 +2173,7 @@ architecture arch of GPUF3Add is
              R : out  std_logic_vector(54 downto 0)   );
    end component;
 
-   component IntAdder_55_f100_uid149 is
+   component IntAdder_55_f150_uid149 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(54 downto 0);
              Y : in  std_logic_vector(54 downto 0);
@@ -2164,7 +2181,7 @@ architecture arch of GPUF3Add is
              R : out  std_logic_vector(54 downto 0)   );
    end component;
 
-   component IntAdder_55_f100_uid225 is
+   component IntAdder_55_f150_uid225 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(54 downto 0);
              Y : in  std_logic_vector(54 downto 0);
@@ -2172,7 +2189,7 @@ architecture arch of GPUF3Add is
              R : out  std_logic_vector(54 downto 0)   );
    end component;
 
-   component IntAdder_54_f100_uid233 is
+   component IntAdder_54_f150_uid233 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(53 downto 0);
              Y : in  std_logic_vector(53 downto 0);
@@ -2180,14 +2197,14 @@ architecture arch of GPUF3Add is
              R : out  std_logic_vector(53 downto 0)   );
    end component;
 
-   component LZCShifter_38_to_38_counting_64_F100_uid241 is
+   component LZCShifter_38_to_38_counting_64_F150_uid241 is
       port ( clk, rst : in std_logic;
              I : in  std_logic_vector(37 downto 0);
              Count : out  std_logic_vector(5 downto 0);
              O : out  std_logic_vector(37 downto 0)   );
    end component;
 
-   component IntAdder_26_f100_uid245 is
+   component IntAdder_26_f150_uid245 is
       port ( clk, rst : in std_logic;
              X : in  std_logic_vector(25 downto 0);
              Y : in  std_logic_vector(25 downto 0);
@@ -2221,9 +2238,9 @@ signal excZ :  std_logic_vector(1 downto 0);
 signal eX :  std_logic_vector(6 downto 0);
 signal eY :  std_logic_vector(6 downto 0);
 signal eZ :  std_logic_vector(6 downto 0);
-signal expRes1, expRes1_d1, expRes1_d2, expRes1_d3 :  std_logic;
-signal expRes0, expRes0_d1, expRes0_d2, expRes0_d3 :  std_logic;
-signal sgn, sgn_d1, sgn_d2, sgn_d3 :  std_logic;
+signal expRes1, expRes1_d1, expRes1_d2, expRes1_d3, expRes1_d4, expRes1_d5 :  std_logic;
+signal expRes0, expRes0_d1, expRes0_d2, expRes0_d3, expRes0_d4, expRes0_d5 :  std_logic;
+signal sgn, sgn_d1, sgn_d2, sgn_d3, sgn_d4, sgn_d5 :  std_logic;
 signal dexy :  std_logic_vector(7 downto 0);
 signal deyz :  std_logic_vector(7 downto 0);
 signal dezx :  std_logic_vector(7 downto 0);
@@ -2231,7 +2248,7 @@ signal cdexy :  std_logic;
 signal cdeyz :  std_logic;
 signal cdezx :  std_logic;
 signal eMaxSel :  std_logic_vector(2 downto 0);
-signal eMax, eMax_d1, eMax_d2, eMax_d3 :  std_logic_vector(6 downto 0);
+signal eMax, eMax_d1, eMax_d2, eMax_d3, eMax_d4 :  std_logic_vector(6 downto 0);
 signal m1 :  std_logic;
 signal m2 :  std_logic;
 signal m3 :  std_logic;
@@ -2608,9 +2625,9 @@ signal finalAdderOut_bh160 :  std_logic_vector(54 downto 0);
 signal tempR_bh160_0 :  std_logic;
 signal CompressionResult160 :  std_logic_vector(55 downto 0);
 signal addRes :  std_logic_vector(54 downto 0);
-signal trSign, trSign_d1, trSign_d2 :  std_logic;
+signal trSign, trSign_d1, trSign_d2, trSign_d3, trSign_d4 :  std_logic;
 signal xposExtF :  std_logic_vector(53 downto 0);
-signal posExtF :  std_logic_vector(53 downto 0);
+signal posExtF, posExtF_d1 :  std_logic_vector(53 downto 0);
 signal sticky :  std_logic;
 signal posExtFsticky :  std_logic_vector(37 downto 0);
 signal nZerosNew :  std_logic_vector(5 downto 0);
@@ -2620,11 +2637,11 @@ signal rnd :  std_logic;
 signal grd :  std_logic;
 signal lsb :  std_logic;
 signal tfracR :  std_logic_vector(17 downto 0);
-signal biasedZeros :  std_logic_vector(7 downto 0);
+signal biasedZeros, biasedZeros_d1 :  std_logic_vector(7 downto 0);
 signal addToRoundBit :  std_logic;
 signal xroundedExpFrac :  std_logic_vector(25 downto 0);
-signal roundedExpFrac :  std_logic_vector(25 downto 0);
-signal tnexp :  std_logic_vector(7 downto 0);
+signal roundedExpFrac, roundedExpFrac_d1 :  std_logic_vector(25 downto 0);
+signal tnexp, tnexp_d1 :  std_logic_vector(7 downto 0);
 signal upexp :  std_logic_vector(7 downto 0);
 signal path1_exp :  std_logic_vector(6 downto 0);
 signal path1_frac :  std_logic_vector(16 downto 0);
@@ -2637,17 +2654,30 @@ begin
             expRes1_d1 <=  expRes1;
             expRes1_d2 <=  expRes1_d1;
             expRes1_d3 <=  expRes1_d2;
+            expRes1_d4 <=  expRes1_d3;
+            expRes1_d5 <=  expRes1_d4;
             expRes0_d1 <=  expRes0;
             expRes0_d2 <=  expRes0_d1;
             expRes0_d3 <=  expRes0_d2;
+            expRes0_d4 <=  expRes0_d3;
+            expRes0_d5 <=  expRes0_d4;
             sgn_d1 <=  sgn;
             sgn_d2 <=  sgn_d1;
             sgn_d3 <=  sgn_d2;
+            sgn_d4 <=  sgn_d3;
+            sgn_d5 <=  sgn_d4;
             eMax_d1 <=  eMax;
             eMax_d2 <=  eMax_d1;
             eMax_d3 <=  eMax_d2;
+            eMax_d4 <=  eMax_d3;
             trSign_d1 <=  trSign;
             trSign_d2 <=  trSign_d1;
+            trSign_d3 <=  trSign_d2;
+            trSign_d4 <=  trSign_d3;
+            posExtF_d1 <=  posExtF;
+            biasedZeros_d1 <=  biasedZeros;
+            roundedExpFrac_d1 <=  roundedExpFrac;
+            tnexp_d1 <=  tnexp;
          end if;
       end process;
    neX<= X(23 downto 17);
@@ -2743,19 +2773,19 @@ begin
    fX <= "000000000000000000" when excX="00" else nfX;
    fY <= "000000000000000000" when excY="00" else nfY;
    fZ <= "000000000000000000" when excZ="00" else nfZ;
-   fxShifter: RightShifter_18_by_max_34_F100_uid125  -- pipelineDepth=0 maxInDelay=5.852e-09
+   fxShifter: RightShifter_18_by_max_34_F150_uid125  -- pipelineDepth=0 maxInDelay=5.852e-09
       port map ( clk  => clk,
                  rst  => rst,
                  R => sfX,
                  S => sval0,
                  X => fX);
-   fyShifter: RightShifter_18_by_max_34_F100_uid129  -- pipelineDepth=0 maxInDelay=5.852e-09
+   fyShifter: RightShifter_18_by_max_34_F150_uid129  -- pipelineDepth=0 maxInDelay=5.852e-09
       port map ( clk  => clk,
                  rst  => rst,
                  R => sfY,
                  S => sval1,
                  X => fY);
-   fzShifter: RightShifter_18_by_max_34_F100_uid133  -- pipelineDepth=0 maxInDelay=5.852e-09
+   fzShifter: RightShifter_18_by_max_34_F150_uid133  -- pipelineDepth=0 maxInDelay=5.852e-09
       port map ( clk  => clk,
                  rst  => rst,
                  R => sfZ,
@@ -2767,7 +2797,7 @@ begin
    xsefX <= (efX xor (54 downto 0 => sX));
    xsefY <= (efY xor (54 downto 0 => sY));
    xsefZ <= (efZ xor (54 downto 0 => sZ));
-   Twoscompl0: IntAdder_55_f100_uid137  -- pipelineDepth=1 maxInDelay=6.413e-09
+   Twoscompl0: IntAdder_55_f150_uid137  -- pipelineDepth=1 maxInDelay=6.413e-09
       port map ( clk  => clk,
                  rst  => rst,
                  Cin => sX,
@@ -2775,7 +2805,7 @@ begin
                  X => xsefX,
                  Y => "0000000000000000000000000000000000000000000000000000000");
 
-   Twoscompl1: IntAdder_55_f100_uid143  -- pipelineDepth=1 maxInDelay=6.413e-09
+   Twoscompl1: IntAdder_55_f150_uid143  -- pipelineDepth=1 maxInDelay=6.413e-09
       port map ( clk  => clk,
                  rst  => rst,
                  Cin => sY,
@@ -2783,7 +2813,7 @@ begin
                  X => xsefY,
                  Y => "0000000000000000000000000000000000000000000000000000000");
 
-   Twoscompl2: IntAdder_55_f100_uid149  -- pipelineDepth=1 maxInDelay=6.413e-09
+   Twoscompl2: IntAdder_55_f150_uid149  -- pipelineDepth=1 maxInDelay=6.413e-09
       port map ( clk  => clk,
                  rst  => rst,
                  Cin => sZ,
@@ -3277,7 +3307,7 @@ begin
    finalAdderIn0_bh160 <= "0" & heap_bh160_w54_4 & heap_bh160_w53_0 & heap_bh160_w52_4 & heap_bh160_w51_0 & heap_bh160_w50_4 & heap_bh160_w49_0 & heap_bh160_w48_4 & heap_bh160_w47_0 & heap_bh160_w46_4 & heap_bh160_w45_0 & heap_bh160_w44_4 & heap_bh160_w43_0 & heap_bh160_w42_4 & heap_bh160_w41_0 & heap_bh160_w40_4 & heap_bh160_w39_0 & heap_bh160_w38_4 & heap_bh160_w37_0 & heap_bh160_w36_4 & heap_bh160_w35_0 & heap_bh160_w34_4 & heap_bh160_w33_0 & heap_bh160_w32_4 & heap_bh160_w31_0 & heap_bh160_w30_4 & heap_bh160_w29_0 & heap_bh160_w28_4 & heap_bh160_w27_0 & heap_bh160_w26_4 & heap_bh160_w25_0 & heap_bh160_w24_4 & heap_bh160_w23_0 & heap_bh160_w22_4 & heap_bh160_w21_0 & heap_bh160_w20_4 & heap_bh160_w19_0 & heap_bh160_w18_4 & heap_bh160_w17_0 & heap_bh160_w16_4 & heap_bh160_w15_0 & heap_bh160_w14_4 & heap_bh160_w13_0 & heap_bh160_w12_4 & heap_bh160_w11_0 & heap_bh160_w10_4 & heap_bh160_w9_0 & heap_bh160_w8_4 & heap_bh160_w7_0 & heap_bh160_w6_4 & heap_bh160_w5_0 & heap_bh160_w4_4 & heap_bh160_w3_0 & heap_bh160_w2_4 & heap_bh160_w1_0;
    finalAdderIn1_bh160 <= "0" & heap_bh160_w54_3 & heap_bh160_w53_3 & heap_bh160_w52_3 & heap_bh160_w51_3 & heap_bh160_w50_3 & heap_bh160_w49_3 & heap_bh160_w48_3 & heap_bh160_w47_3 & heap_bh160_w46_3 & heap_bh160_w45_3 & heap_bh160_w44_3 & heap_bh160_w43_3 & heap_bh160_w42_3 & heap_bh160_w41_3 & heap_bh160_w40_3 & heap_bh160_w39_3 & heap_bh160_w38_3 & heap_bh160_w37_3 & heap_bh160_w36_3 & heap_bh160_w35_3 & heap_bh160_w34_3 & heap_bh160_w33_3 & heap_bh160_w32_3 & heap_bh160_w31_3 & heap_bh160_w30_3 & heap_bh160_w29_3 & heap_bh160_w28_3 & heap_bh160_w27_3 & heap_bh160_w26_3 & heap_bh160_w25_3 & heap_bh160_w24_3 & heap_bh160_w23_3 & heap_bh160_w22_3 & heap_bh160_w21_3 & heap_bh160_w20_3 & heap_bh160_w19_3 & heap_bh160_w18_3 & heap_bh160_w17_3 & heap_bh160_w16_3 & heap_bh160_w15_3 & heap_bh160_w14_3 & heap_bh160_w13_3 & heap_bh160_w12_3 & heap_bh160_w11_3 & heap_bh160_w10_3 & heap_bh160_w9_3 & heap_bh160_w8_3 & heap_bh160_w7_3 & heap_bh160_w6_3 & heap_bh160_w5_3 & heap_bh160_w4_3 & heap_bh160_w3_3 & heap_bh160_w2_3 & heap_bh160_w1_3;
    finalAdderCin_bh160 <= '0';
-   Adder_final160_0: IntAdder_55_f100_uid225  -- pipelineDepth=0 maxInDelay=0
+   Adder_final160_0: IntAdder_55_f150_uid225  -- pipelineDepth=0 maxInDelay=0
       port map ( clk  => clk,
                  rst  => rst,
                  Cin => finalAdderCin_bh160,
@@ -3292,7 +3322,7 @@ begin
    addRes <= CompressionResult160(54 downto 0);
    trSign <= addRes(54);
    xposExtF <= (addRes(53 downto 0) xor (53 downto 0 => trSign));
-   AdderSignMag: IntAdder_54_f100_uid233  -- pipelineDepth=0 maxInDelay=1.847e-09
+   AdderSignMag: IntAdder_54_f150_uid233  -- pipelineDepth=0 maxInDelay=1.847e-09
       port map ( clk  => clk,
                  rst  => rst,
                  Cin => trSign,
@@ -3300,15 +3330,16 @@ begin
                  X => xposExtF,
                  Y => "000000000000000000000000000000000000000000000000000000");
 
-   sticky <=  '1' when posExtF(15 downto 0)>"0000000000000000" else '0';
-   posExtFsticky <= posExtF(53 downto 17) & sticky;
-   LZC_component: LZCShifter_38_to_38_counting_64_F100_uid241  -- pipelineDepth=2 maxInDelay=8.392e-09
+   ----------------Synchro barrier, entering cycle 2----------------
+   sticky <=  '1' when posExtF_d1(15 downto 0)>"0000000000000000" else '0';
+   posExtFsticky <= posExtF_d1(53 downto 17) & sticky;
+   LZC_component: LZCShifter_38_to_38_counting_64_F150_uid241  -- pipelineDepth=2 maxInDelay=3.25e-10
       port map ( clk  => clk,
                  rst  => rst,
                  Count => nZerosNew,
                  I => posExtFsticky,
                  O => shiftedFrac);
-   ----------------Synchro barrier, entering cycle 3----------------
+   ----------------Synchro barrier, entering cycle 4----------------
    stk<= '1' when shiftedFrac(17 downto 0)>"000000000000000000"else '0';
    rnd<= shiftedFrac(18);
    grd<= shiftedFrac(19);
@@ -3316,8 +3347,8 @@ begin
    tfracR<= shiftedFrac(36 downto 19);
    biasedZeros <= CONV_STD_LOGIC_VECTOR(2,8) - ("00" & nZerosNew);
    addToRoundBit<= '0' when (lsb='0' and grd='1' and rnd='0' and stk='0')  else '1';
-   xroundedExpFrac<= ("0" & eMax_d3 & tfracR);
-   Rounding_Adder: IntAdder_26_f100_uid245  -- pipelineDepth=0 maxInDelay=3.399e-09
+   xroundedExpFrac<= ("0" & eMax_d4 & tfracR);
+   Rounding_Adder: IntAdder_26_f150_uid245  -- pipelineDepth=0 maxInDelay=3.399e-09
       port map ( clk  => clk,
                  rst  => rst,
                  Cin => addToRoundBit,
@@ -3326,22 +3357,23 @@ begin
                  Y => "00000000000000000000000000");
 
    tnexp<= roundedExpFrac(25 downto 18);
-   upexp  <=  tnexp + biasedZeros;
+   ----------------Synchro barrier, entering cycle 5----------------
+   upexp  <=  tnexp_d1 + biasedZeros_d1;
    path1_exp <= upexp(6 downto 0);
-   path1_frac <= roundedExpFrac(17 downto 1);
-   path1_exc<= expRes1_d3 & expRes0_d3;
-   path1_sign<= sgn_d3 when path1_exc>"01" else trSign_d2;
+   path1_frac <= roundedExpFrac_d1(17 downto 1);
+   path1_exc<= expRes1_d5 & expRes0_d5;
+   path1_sign<= sgn_d5 when path1_exc>"01" else trSign_d4;
    R <= path1_exc & path1_sign & path1_exp & path1_frac;
 end architecture;
 
 --------------------------------------------------------------------------------
---                    Fix2FP_0_4_US_7_17_F100_uid253zeroD
---                          (IntAdder_6_f100_uid255)
+--                    Fix2FP_0_4_US_7_17_comb_uid253zeroD
+--                          (IntAdder_6_f150_uid255)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
 --------------------------------------------------------------------------------
--- Pipeline depth: 0 cycles
+-- combinatorial
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -3351,33 +3383,27 @@ library std;
 use std.textio.all;
 library work;
 
-entity Fix2FP_0_4_US_7_17_F100_uid253zeroD is
-   port ( clk, rst : in std_logic;
-          X : in  std_logic_vector(5 downto 0);
+entity Fix2FP_0_4_US_7_17_comb_uid253zeroD is
+   port ( X : in  std_logic_vector(5 downto 0);
           Y : in  std_logic_vector(5 downto 0);
           Cin : in  std_logic;
           R : out  std_logic_vector(5 downto 0)   );
 end entity;
 
-architecture arch of Fix2FP_0_4_US_7_17_F100_uid253zeroD is
+architecture arch of Fix2FP_0_4_US_7_17_comb_uid253zeroD is
 begin
-   process(clk)
-      begin
-         if clk'event and clk = '1' then
-         end if;
-      end process;
    --Classical
     R <= X + Y + Cin;
 end architecture;
 
 --------------------------------------------------------------------------------
---                    Fix2FP_0_4_US_7_17_F100_uid253_LZCS
---                (LZCShifter_5_to_18_counting_8_F100_uid263)
+--                    Fix2FP_0_4_US_7_17_comb_uid253_LZCS
+--                (LZCShifter_5_to_18_counting_8_comb_uid263)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Florent de Dinechin, Bogdan Pasca (2007)
 --------------------------------------------------------------------------------
--- Pipeline depth: 0 cycles
+-- combinatorial
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -3387,14 +3413,13 @@ library std;
 use std.textio.all;
 library work;
 
-entity Fix2FP_0_4_US_7_17_F100_uid253_LZCS is
-   port ( clk, rst : in std_logic;
-          I : in  std_logic_vector(4 downto 0);
+entity Fix2FP_0_4_US_7_17_comb_uid253_LZCS is
+   port ( I : in  std_logic_vector(4 downto 0);
           Count : out  std_logic_vector(2 downto 0);
           O : out  std_logic_vector(17 downto 0)   );
 end entity;
 
-architecture arch of Fix2FP_0_4_US_7_17_F100_uid253_LZCS is
+architecture arch of Fix2FP_0_4_US_7_17_comb_uid253_LZCS is
 signal level3 :  std_logic_vector(4 downto 0);
 signal count2 :  std_logic;
 signal level2 :  std_logic_vector(4 downto 0);
@@ -3404,11 +3429,6 @@ signal count0 :  std_logic;
 signal level0 :  std_logic_vector(4 downto 0);
 signal sCount :  std_logic_vector(2 downto 0);
 begin
-   process(clk)
-      begin
-         if clk'event and clk = '1' then
-         end if;
-      end process;
    level3 <= I ;
    count2<= '1' when level3(4 downto 1) = (4 downto 1=>'0') else '0';
    level2<= level3(4 downto 0) when count2='0' else level3(0 downto 0) & (3 downto 0 => '0');
@@ -3425,13 +3445,13 @@ begin
 end architecture;
 
 --------------------------------------------------------------------------------
---              Fix2FP_0_4_US_7_17_F100_uid253exponentConversion
---                          (IntAdder_7_f100_uid267)
+--              Fix2FP_0_4_US_7_17_comb_uid253exponentConversion
+--                          (IntAdder_7_f150_uid267)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
 --------------------------------------------------------------------------------
--- Pipeline depth: 0 cycles
+-- combinatorial
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -3441,33 +3461,27 @@ library std;
 use std.textio.all;
 library work;
 
-entity Fix2FP_0_4_US_7_17_F100_uid253exponentConversion is
-   port ( clk, rst : in std_logic;
-          X : in  std_logic_vector(6 downto 0);
+entity Fix2FP_0_4_US_7_17_comb_uid253exponentConversion is
+   port ( X : in  std_logic_vector(6 downto 0);
           Y : in  std_logic_vector(6 downto 0);
           Cin : in  std_logic;
           R : out  std_logic_vector(6 downto 0)   );
 end entity;
 
-architecture arch of Fix2FP_0_4_US_7_17_F100_uid253exponentConversion is
+architecture arch of Fix2FP_0_4_US_7_17_comb_uid253exponentConversion is
 begin
-   process(clk)
-      begin
-         if clk'event and clk = '1' then
-         end if;
-      end process;
    --Classical
     R <= X + Y + Cin;
 end architecture;
 
 --------------------------------------------------------------------------------
---                Fix2FP_0_4_US_7_17_F100_uid253exponentFinal
---                          (IntAdder_8_f100_uid275)
+--                Fix2FP_0_4_US_7_17_comb_uid253exponentFinal
+--                          (IntAdder_8_f150_uid275)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
 --------------------------------------------------------------------------------
--- Pipeline depth: 0 cycles
+-- combinatorial
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -3477,33 +3491,27 @@ library std;
 use std.textio.all;
 library work;
 
-entity Fix2FP_0_4_US_7_17_F100_uid253exponentFinal is
-   port ( clk, rst : in std_logic;
-          X : in  std_logic_vector(7 downto 0);
+entity Fix2FP_0_4_US_7_17_comb_uid253exponentFinal is
+   port ( X : in  std_logic_vector(7 downto 0);
           Y : in  std_logic_vector(7 downto 0);
           Cin : in  std_logic;
           R : out  std_logic_vector(7 downto 0)   );
 end entity;
 
-architecture arch of Fix2FP_0_4_US_7_17_F100_uid253exponentFinal is
+architecture arch of Fix2FP_0_4_US_7_17_comb_uid253exponentFinal is
 begin
-   process(clk)
-      begin
-         if clk'event and clk = '1' then
-         end if;
-      end process;
    --Classical
     R <= X + Y + Cin;
 end architecture;
 
 --------------------------------------------------------------------------------
---                  Fix2FP_0_4_US_7_17_F100_uid253expCorrect
---                          (IntAdder_8_f100_uid283)
+--                  Fix2FP_0_4_US_7_17_comb_uid253expCorrect
+--                          (IntAdder_8_f150_uid283)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Bogdan Pasca, Florent de Dinechin (2008-2010)
 --------------------------------------------------------------------------------
--- Pipeline depth: 0 cycles
+-- combinatorial
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -3513,33 +3521,27 @@ library std;
 use std.textio.all;
 library work;
 
-entity Fix2FP_0_4_US_7_17_F100_uid253expCorrect is
-   port ( clk, rst : in std_logic;
-          X : in  std_logic_vector(7 downto 0);
+entity Fix2FP_0_4_US_7_17_comb_uid253expCorrect is
+   port ( X : in  std_logic_vector(7 downto 0);
           Y : in  std_logic_vector(7 downto 0);
           Cin : in  std_logic;
           R : out  std_logic_vector(7 downto 0)   );
 end entity;
 
-architecture arch of Fix2FP_0_4_US_7_17_F100_uid253expCorrect is
+architecture arch of Fix2FP_0_4_US_7_17_comb_uid253expCorrect is
 begin
-   process(clk)
-      begin
-         if clk'event and clk = '1' then
-         end if;
-      end process;
    --Classical
     R <= X + Y + Cin;
 end architecture;
 
 --------------------------------------------------------------------------------
 --                                 FixtoGPUF
---                      (Fix2FP_0_4_US_7_17_F100_uid253)
+--                      (Fix2FP_0_4_US_7_17_comb_uid253)
 -- This operator is part of the Infinite Virtual Library FloPoCoLib
 -- All rights reserved 
 -- Authors: Radu Tudoran, Bogdan Pasca (2009)
 --------------------------------------------------------------------------------
--- Pipeline depth: 0 cycles
+-- combinatorial
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -3550,46 +3552,40 @@ use std.textio.all;
 library work;
 
 entity FixtoGPUF is
-   port ( clk, rst : in std_logic;
-          I : in  std_logic_vector(4 downto 0);
+   port ( I : in  std_logic_vector(4 downto 0);
           O : out  std_logic_vector(7+17+2 downto 0)   );
 end entity;
 
 architecture arch of FixtoGPUF is
-   component Fix2FP_0_4_US_7_17_F100_uid253zeroD is
-      port ( clk, rst : in std_logic;
-             X : in  std_logic_vector(5 downto 0);
+   component Fix2FP_0_4_US_7_17_comb_uid253zeroD is
+      port ( X : in  std_logic_vector(5 downto 0);
              Y : in  std_logic_vector(5 downto 0);
              Cin : in  std_logic;
              R : out  std_logic_vector(5 downto 0)   );
    end component;
 
-   component Fix2FP_0_4_US_7_17_F100_uid253_LZCS is
-      port ( clk, rst : in std_logic;
-             I : in  std_logic_vector(4 downto 0);
+   component Fix2FP_0_4_US_7_17_comb_uid253_LZCS is
+      port ( I : in  std_logic_vector(4 downto 0);
              Count : out  std_logic_vector(2 downto 0);
              O : out  std_logic_vector(17 downto 0)   );
    end component;
 
-   component Fix2FP_0_4_US_7_17_F100_uid253exponentConversion is
-      port ( clk, rst : in std_logic;
-             X : in  std_logic_vector(6 downto 0);
+   component Fix2FP_0_4_US_7_17_comb_uid253exponentConversion is
+      port ( X : in  std_logic_vector(6 downto 0);
              Y : in  std_logic_vector(6 downto 0);
              Cin : in  std_logic;
              R : out  std_logic_vector(6 downto 0)   );
    end component;
 
-   component Fix2FP_0_4_US_7_17_F100_uid253exponentFinal is
-      port ( clk, rst : in std_logic;
-             X : in  std_logic_vector(7 downto 0);
+   component Fix2FP_0_4_US_7_17_comb_uid253exponentFinal is
+      port ( X : in  std_logic_vector(7 downto 0);
              Y : in  std_logic_vector(7 downto 0);
              Cin : in  std_logic;
              R : out  std_logic_vector(7 downto 0)   );
    end component;
 
-   component Fix2FP_0_4_US_7_17_F100_uid253expCorrect is
-      port ( clk, rst : in std_logic;
-             X : in  std_logic_vector(7 downto 0);
+   component Fix2FP_0_4_US_7_17_comb_uid253expCorrect is
+      port ( X : in  std_logic_vector(7 downto 0);
              Y : in  std_logic_vector(7 downto 0);
              Cin : in  std_logic;
              R : out  std_logic_vector(7 downto 0)   );
@@ -3635,45 +3631,30 @@ signal LSBSelection :  std_logic;
 signal Selection :  std_logic_vector(1 downto 0);
 signal specialBits :  std_logic_vector(1 downto 0);
 begin
-   process(clk)
-      begin
-         if clk'event and clk = '1' then
-         end if;
-      end process;
    input <= I;
    signSignal<= '0';
    passedInput<=input(4 downto 0);
    input2LZOC<=passedInput(3 downto 0);
    minusOne4ZD<=CONV_STD_LOGIC_VECTOR(-1,6);
    passedInputBit<= '0' & passedInput;
-   zeroD: Fix2FP_0_4_US_7_17_F100_uid253zeroD  -- pipelineDepth=0 maxInDelay=0
-      port map ( clk  => clk,
-                 rst  => rst,
-                 Cin => '0',
+   zeroD: Fix2FP_0_4_US_7_17_comb_uid253zeroD
+      port map ( Cin => '0',
                  R => zeroDS,
                  X => passedInputBit,
                  Y => minusOne4ZD);
-   ---------------- cycle 0----------------
    zeroInput<= zeroDS(5) and not (signSignal);
-   ---------------- cycle 0----------------
-   LZC_component: Fix2FP_0_4_US_7_17_F100_uid253_LZCS  -- pipelineDepth=0 maxInDelay=0
-      port map ( clk  => clk,
-                 rst  => rst,
-                 Count => temporalExponent,
+   LZC_component: Fix2FP_0_4_US_7_17_comb_uid253_LZCS
+      port map ( Count => temporalExponent,
                  I => passedInput,
                  O => temporalFraction);
-   ---------------- cycle 0----------------
    tempFractionResult<= '0' & temporalFraction;
    correctingExponent<=tempFractionResult(18);
    convertedFraction<=tempFractionResult(16 downto 0);
-   ---------------- cycle 0----------------
    MSB2Signal<= CONV_STD_LOGIC_VECTOR(4,7);
    zeroPadding4Exponent<= CONV_STD_LOGIC_VECTOR(0,4);
    valueExponent<= not(zeroPadding4Exponent & temporalExponent);
-   exponentConversion: Fix2FP_0_4_US_7_17_F100_uid253exponentConversion  -- pipelineDepth=0 maxInDelay=0
-      port map ( clk  => clk,
-                 rst  => rst,
-                 Cin => '1',
+   exponentConversion: Fix2FP_0_4_US_7_17_comb_uid253exponentConversion
+      port map ( Cin => '1',
                  R => partialConvertedExponent,
                  X => MSB2Signal,
                  Y => valueExponent);
@@ -3683,10 +3664,8 @@ begin
    zeroBitExponent<='0';
    partialConvertedExponentBit<= '0' & partialConvertedExponent;
    sign4OU<= partialConvertedExponent(6);
-   exponentFinal: Fix2FP_0_4_US_7_17_F100_uid253exponentFinal  -- pipelineDepth=0 maxInDelay=0
-      port map ( clk  => clk,
-                 rst  => rst,
-                 Cin => '0',
+   exponentFinal: Fix2FP_0_4_US_7_17_comb_uid253exponentFinal
+      port map ( Cin => '0',
                  R => convertedExponentBit,
                  X => partialConvertedExponentBit,
                  Y => biassSignalBit);
@@ -3697,10 +3676,8 @@ begin
    possibleConvertedExponent2<= convertedExponentBit(6 downto 0);
    possibleConvertedExponent20<= '0' & possibleConvertedExponent2;
    sign4OU2<= possibleConvertedExponent2(6);
-   expCorrect: Fix2FP_0_4_US_7_17_F100_uid253expCorrect  -- pipelineDepth=0 maxInDelay=0
-      port map ( clk  => clk,
-                 rst  => rst,
-                 Cin => correctingExponent,
+   expCorrect: Fix2FP_0_4_US_7_17_comb_uid253expCorrect
+      port map ( Cin => correctingExponent,
                  R => finalConvertedExponent,
                  X => possibleConvertedExponent20,
                  Y => zeroInput4Exponent);
@@ -3721,7 +3698,7 @@ end architecture;
 -- All rights reserved 
 -- Authors: Florent de Dinechin (2008)
 --------------------------------------------------------------------------------
--- Pipeline depth: 0 cycles
+-- combinatorial
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -3732,8 +3709,7 @@ use std.textio.all;
 library work;
 
 entity IEEEtoGPUF is
-   port ( clk, rst : in std_logic;
-          X : in  std_logic_vector(31 downto 0);
+   port ( X : in  std_logic_vector(31 downto 0);
           R : out  std_logic_vector(7+17+2 downto 0)   );
 end entity;
 
@@ -3762,11 +3738,6 @@ signal infinity :  std_logic;
 signal zero :  std_logic;
 signal exnR :  std_logic_vector(1 downto 0);
 begin
-   process(clk)
-      begin
-         if clk'event and clk = '1' then
-         end if;
-      end process;
    expX  <= X(30 downto 23);
    fracX  <= X(22 downto 0);
    sX  <= X(31);

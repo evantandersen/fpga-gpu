@@ -18,3 +18,5 @@ float cosine(float x);
 
 void mult_4x4(float *a, float *b, float *result);
 void mult_4xVec(float *a, point_t *b, clip_point_t *result);
+
+float equationOfPlane(screen_point_t *v0, screen_point_t *v1, screen_point_t *v2, float *dzdx, float *dzdy);
