@@ -38,6 +38,7 @@ nios2
 *.mif
 *.pin
 *.pof
+*.cdf
 *.ptf.*
 *.qar
 *.qarlog
