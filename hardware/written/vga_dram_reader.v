@@ -3,7 +3,7 @@
 module vga_dram_master(
 	//clk domain
 		input clk,
-		input resetn,
+		input rst,
 		input start,
 		input [31:0]read_from_addr,
 		
@@ -16,7 +16,7 @@ module vga_dram_master(
 	
 	//VGA_CLK domain
 		input VGA_CLK,
-		input vga_resetn,
+		input vga_rst,
 		input read_pixel,
 		output [15:0]pixel_out
 );	
@@ -25,8 +25,8 @@ module vga_dram_master(
 	assign pixel_out = out_valid ? data_out : {1'd0, 5'd31, 5'd0, 5'd0};
 	
 	reg out_valid;
-	always @ (posedge VGA_CLK or negedge vga_resetn) begin
-		if(!vga_resetn) begin
+	always @ (posedge VGA_CLK or posedge vga_rst) begin
+		if(vga_rst) begin
 			out_valid <= 1'd0;
 		end else begin
 			out_valid <= read_pixel && !rdempty;
@@ -37,7 +37,7 @@ module vga_dram_master(
 	//fifo to buffer data and bridge clock domains
 	wire rdempty, wrfull;
 	wire [6:0]wrusedw;
-	pixel_fifo F1(!resetn, master_read_data, VGA_CLK, read_pixel, clk, master_read_data_valid, data_out, rdempty, wrfull, wrusedw);
+	pixel_fifo F1(rst, master_read_data, VGA_CLK, read_pixel, clk, master_read_data_valid, data_out, rdempty, wrfull, wrusedw);
 		
 	
 	//pipelined access 
@@ -49,8 +49,8 @@ module vga_dram_master(
 	
 	reg [31:0]currAddress;
 	reg [17:0]wordsRead;
-	always @ (posedge clk or negedge resetn) begin
-		if(!resetn) begin
+	always @ (posedge clk or posedge rst) begin
+		if(rst) begin
 			currAddress <= 32'd0;
 			wordsRead <= 18'd0;
 		end else begin

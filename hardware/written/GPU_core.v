@@ -2,11 +2,11 @@
 module gpu_core (
 	//GPU clk domain
 	input gpu_clk,
-	input gpu_resetn,
+	input gpu_rst,
 
 	//clk domain
 	input clk,
-	input resetn,
+	input rst,
 	
 	//avalon slave for control
 	input [3:0]slave_address,
@@ -42,7 +42,7 @@ module gpu_core (
 	end
 	
 	command_buffer cb0(
-		.aclr		(!resetn),
+		.aclr		(rst),
 		.data		({slave_address, slave_write_data}),
 		.rdclk	(gpu_clk),
 		.rdreq	(cb_rdreq),
@@ -109,8 +109,8 @@ module gpu_core (
 	//process command buffer
 	reg [31:0]seq_no;
 	reg buffers_swapped;
-	always @ (posedge gpu_clk or negedge gpu_resetn) begin
-		if (!gpu_resetn) begin
+	always @ (posedge gpu_clk or posedge gpu_rst) begin
+		if (gpu_rst) begin
 			color <= 0;
 			clear <= 0;
 			A01 <= 0;
@@ -202,7 +202,7 @@ module gpu_core (
 	wire [9:0]tile_ram_addr;
 	tile_renderer t0(
 		.clk 			(gpu_clk),
-		.rst			(!gpu_resetn),
+		.rst			(gpu_rst),
 		.start		(tile_start),
 	
 		.A01_in		(A01),
@@ -256,7 +256,7 @@ module gpu_core (
 	wire [15:0]ram_data_out = buffers_swapped ? r0_out : r1_out;
 	tile_writer d0(
 		.clk				(gpu_clk),
-		.resetn			(gpu_resetn),
+		.rst				(gpu_rst),
 		.stride_in		(stride),
 		.addr_in			(addr),
 		.start			(start_write),

@@ -1,6 +1,6 @@
 module dram_to_fifo(
 	input clk,
-	input resetn,
+	input rst,
 	
 	input [31:0]base_addr,
 	input [31:0]numWords,
@@ -49,8 +49,8 @@ module dram_to_fifo(
 	assign done = (wordsLeft == 32'd0);
 	
 	reg [burst_power - 1:0]wordsLeftInBurst;
-	always @ (posedge clk or negedge resetn) begin
-		if(!resetn) begin
+	always @ (posedge clk or posedge rst) begin
+		if(rst) begin
 			currAddress <= 32'd0;
 			wordsLeft <= 32'd0;
 			master_read_reg <= 1'b0;

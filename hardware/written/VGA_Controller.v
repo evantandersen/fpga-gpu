@@ -1,7 +1,7 @@
 
 module VGA_Controller(
 	input clk,
-	input resetn,
+	input rst,
 	
 	//avalon slave
 	input [1:0]slave_address,
@@ -19,7 +19,7 @@ module VGA_Controller(
 	
 	//VGA_clk domain
 	input VGA_CLK,
-	input vga_resetn,
+	input vga_rst,
 	output VGA_SYNC_N,
 	output VGA_BLANK_N,
 	output [7:0]VGA_R,
@@ -46,8 +46,8 @@ module VGA_Controller(
 	end
 	
 	//writing
-	always @ (posedge clk or negedge resetn) begin
-		if (!resetn) begin
+	always @ (posedge clk or posedge rst) begin
+		if (rst) begin
 			fbAddr <= 0;
 		end else begin
 			if(slave_write_en) begin
@@ -59,8 +59,8 @@ module VGA_Controller(
 	end
 
 	
-	always @ (posedge clk or negedge resetn) begin
-		if (!resetn) begin
+	always @ (posedge clk or posedge rst) begin
+		if (rst) begin
 			framesDone <= 0;
 			currUsing <= 0;
 		end else begin
@@ -82,7 +82,7 @@ module VGA_Controller(
 	VGA_driver VGA0(
 		//sys_clk
 		clk, 
-		resetn, 
+		rst, 
 		fbAddr,
 		starting_new,
 		
@@ -94,7 +94,7 @@ module VGA_Controller(
 		
 		//vga_clk
 		VGA_CLK,
-		vga_resetn,
+		vga_rst,
 		VGA_SYNC_N, 
 		VGA_BLANK_N, 
 		VGA_R, 

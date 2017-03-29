@@ -1,6 +1,6 @@
 module tile_writer (
 	input clk,
-	input resetn,
+	input rst,
 	input [15:0]stride_in,
 	input [31:0]addr_in,
 	input start,
@@ -40,8 +40,8 @@ module tile_writer (
 	reg [31:0]currAddr;
 	reg [15:0]stride;
 	
-	always_ff @ (posedge clk or negedge resetn) begin
-		if (!resetn) begin
+	always_ff @ (posedge clk or posedge rst) begin
+		if (rst) begin
 			state <= S_IDLE;
 			currAddr <= 0;
 			stride <= 0;
@@ -104,7 +104,7 @@ module tile_writer (
 	wire fifo_ack;
 	wire [7:0]usedw;
 	tile_fifo f0(
-		.aclr (!resetn),
+		.aclr (rst),
 		.data (fifo_data_in),
 		.rdclk(clk),
 		.rdreq(fifo_ack),

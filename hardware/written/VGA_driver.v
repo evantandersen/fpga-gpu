@@ -1,7 +1,7 @@
 module VGA_driver(
 	//sys_clk
 	input clk,
-	input resetn,
+	input rst,
 	input [31:0]fbAddr,
 	output startNew,
 
@@ -13,7 +13,7 @@ module VGA_driver(
 	
 	//vga_clk
 	input VGA_CLK,
-	input vga_resetn,
+	input vga_rst,
 	output VGA_SYNC_N,
 	output VGA_BLANK_N,
 	output [7:0]VGA_R,
@@ -61,8 +61,8 @@ module VGA_driver(
 	wire xCounter_clear, yCounter_clear;
 
 	//scan horizontal lines
-	always @(posedge VGA_CLK or negedge vga_resetn) begin
-		if (!vga_resetn) begin
+	always @(posedge VGA_CLK or posedge vga_rst) begin
+		if (vga_rst) begin
 			xCounter <= 16'd0;
 		end
 		else if (xCounter_clear) begin
@@ -74,9 +74,9 @@ module VGA_driver(
 	assign xCounter_clear = (xCounter == (C_HORZ_TOTAL_COUNT-1));
 
 	//scan vertical lines
-	always @(posedge VGA_CLK or negedge vga_resetn)
+	always @(posedge VGA_CLK or posedge vga_rst)
 	begin
-		if (!vga_resetn) begin
+		if (vga_rst) begin
 			yCounter <= 16'd0;
 		end
 		else if (xCounter_clear && yCounter_clear) begin
@@ -97,13 +97,13 @@ module VGA_driver(
 	//load values from memory
 	vga_dram_master DM0(
 		//interface to GPU control
-		clk, resetn, startNew, fbAddr, 
+		clk, rst, startNew, fbAddr, 
 		
 		//avalon master interface
 		master_address, master_read, master_read_data, master_wait_request, master_read_data_valid, 
 		
 		//VGA module interface
-		VGA_CLK, vga_resetn, read_pixel, pixel
+		VGA_CLK, vga_rst, read_pixel, pixel
 	);
 	
 endmodule

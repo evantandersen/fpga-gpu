@@ -668,7 +668,6 @@ set_global_assignment -name SDC_FILE GPU.sdc
 set_global_assignment -name QIP_FILE hardware/generated/plls/system_clock_pll.qip
 set_global_assignment -name QIP_FILE hardware/generated/fifo/pixel_fifo.qip
 set_global_assignment -name VERILOG_FILE hardware/written/dram_to_fifo.v
-set_global_assignment -name VERILOG_FILE hardware/written/fifo_writer.v
 set_global_assignment -name VERILOG_FILE hardware/written/GPU.v
 set_global_assignment -name VERILOG_FILE hardware/written/GPU_core.v
 set_global_assignment -name VERILOG_FILE hardware/written/tile_renderer.v
