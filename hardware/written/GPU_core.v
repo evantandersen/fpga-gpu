@@ -35,8 +35,7 @@ module gpu_core (
 	assign slave_read_data = read_reg;
 	always @ (*) begin
 		case(slave_address)
-			4'd0 : read_reg = seq_no;
-			4'd1 : read_reg = cb_usedw;
+			4'd0 : read_reg = cb_usedw;
 			default: read_reg = 32'd0;
 		endcase
 	end
@@ -60,14 +59,12 @@ module gpu_core (
 	wire [31:0]cmd_data = cb_readdata[31:0];
 	
 	//asert cb_rdreq if the command can be completed this cycle
-	reg seq_reset;
 	reg start_write;
 	reg set_clear;
 	always @ (*) begin
 		cb_rdreq = 1;
 		tile_start = 0;
 		start_write = 0;
-		seq_reset = 0;
 		set_clear = 0;
 		if(cb_empty) begin
 			cb_rdreq = 0;
@@ -97,7 +94,6 @@ module gpu_core (
 					end
 					//reset the GPU state
 					5: begin
-						seq_reset = 1;
 						set_clear = 1;
 					end
 					default: ;//do nothing
@@ -107,7 +103,6 @@ module gpu_core (
 	end
 	
 	//process command buffer
-	reg [31:0]seq_no;
 	reg buffers_swapped;
 	always @ (posedge gpu_clk or posedge gpu_rst) begin
 		if (gpu_rst) begin
@@ -124,18 +119,12 @@ module gpu_core (
 			B01 <= 0;
 			B12 <= 0;
 			B20 <= 0;
-			seq_no <= 0;
 			buffers_swapped <= 0;
 			zX <= 0;
 			zY <= 0;
 			zC <= 0;
 		end else begin
 			if(!cb_empty) begin
-				if(seq_reset) begin
-					seq_no <= 0;
-				end else if(cb_rdreq) begin
-					seq_no <= seq_no + 1;
-				end
 				if(start_write) begin
 					buffers_swapped <= !buffers_swapped;
 				end
@@ -255,8 +244,8 @@ module gpu_core (
 	wire [9:0]writer_ram_addr;
 	wire [15:0]ram_data_out = buffers_swapped ? r0_out : r1_out;
 	tile_writer d0(
-		.clk				(gpu_clk),
-		.rst				(gpu_rst),
+		.gpu_clk			(gpu_clk),
+		.gpu_rst			(gpu_rst),
 		.stride_in		(stride),
 		.addr_in			(addr),
 		.start			(start_write),
@@ -267,6 +256,8 @@ module gpu_core (
 		.ram_data		(ram_data_out),
 	
 		//avalon master for writing
+		.clk				(clk),
+		.rst				(rst),
 		.master_address		(master_address),
 		.master_write			(master_write),
 		.master_write_data	(master_write_data),

@@ -1,24 +1,10 @@
 // Written by:
 //     Evan Andersen
 //
-// Created March 22, 2013
+// Created January 18, 2017
 
 #include "gpu_driver.h"
 
-
-#define MEM_START (DRAM+(243200*3))
-
-static uint8_t *memory_ptr = (uint8_t*)MEM_START;
-
-void *alloc(size_t n) {
-	void *ret = memory_ptr;
-	memory_ptr += n;
-	return ret;
-}
-
-void reset_mem() {
-	memory_ptr = (uint8_t*)MEM_START;
-}
 
 int32_t orient2d(screen_point_t *a, screen_point_t *b, screen_point_t *c)
 {
@@ -52,8 +38,8 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 	mult_4x4(scene->proj, scene->view, transform_mat);
 	
 	//transform vertices and compute clip codes
-	clip_point_t *clip_vertices = alloc(sizeof(clip_point_t) * scene->poly_list.nvertices);
-	uint8_t *clip_codes = alloc(scene->poly_list.nvertices);
+	clip_point_t *clip_vertices = alloc_tmp(sizeof(clip_point_t) * scene->poly_list.nvertices);
+	uint8_t *clip_codes = alloc_tmp(scene->poly_list.nvertices);
 	for(size_t i = 0; i < scene->poly_list.nvertices; i++) {
 		clip_point_t *p = &clip_vertices[i];
 		mult_4xVec(transform_mat, &scene->poly_list.vertices[i], p);
@@ -80,7 +66,7 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 	}
 	
 	//cull triangles with backface and bounds clipping
-	triangle_t *kept_tris = alloc(sizeof(triangle_t) * scene->poly_list.ntris);
+	triangle_t *kept_tris = alloc_tmp(sizeof(triangle_t) * scene->poly_list.ntris);
 	size_t num_kept = 0;
 	for(size_t i = 0; i < scene->poly_list.ntris; i++) {
 		if(keep_tri(&scene->poly_list.triangles[i], clip_vertices, clip_codes)) {
@@ -90,7 +76,7 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 	}
 	
 	//do perspective division/scaling
-	screen_point_t *screen_vertices = alloc(sizeof(screen_point_t) * scene->poly_list.nvertices);
+	screen_point_t *screen_vertices = alloc_tmp(sizeof(screen_point_t) * scene->poly_list.nvertices);
 	for(size_t i = 0; i < scene->poly_list.nvertices; i++) {
 		float xNDC = (clip_vertices[i].x/clip_vertices[i].w);
 		float yNDC = (clip_vertices[i].y/clip_vertices[i].w);
@@ -118,12 +104,12 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 	out->vertices = (point_t*)screen_vertices;
 }
 
-void draw_triangles_barycentric_gpu(render_target_t *target, color_t background, polygon_list_t *data) {
+void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *data) {
 	
 	//reset the sequence number
 	GPU[0] = 5;
     
-    uint8_t *clip_codes = alloc(data->nvertices);
+    uint8_t *clip_codes = alloc_tmp(data->nvertices);
 	screen_point_t *verts = (screen_point_t*)data->vertices;
     
     //compute Z values for all tris
@@ -131,20 +117,36 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
         float dzdx;
         float dzdy;
         float c;
-    } *z_info = alloc(sizeof(float)*3*data->ntris);
-    for(size_t i = 0; i < data->ntris; i++) {
-        triangle_t* curr = &data->triangles[i];
+    } *z_info = alloc_tmp(sizeof(float)*3*data->ntris);
+    for(size_t x = 0; x < data->ntris; x++) {
+        triangle_t* curr = &data->triangles[x];
         screen_point_t *v0 = &verts[curr->v0];
         screen_point_t *v1 = &verts[curr->v1];
         screen_point_t *v2 = &verts[curr->v2];
+        float i, j, k;
+		k = normal(v0, v1, v2, &i, &j);
+	    //compute the plane equation in the form Z = ix + jy + c
+	    float c = (v0->x * i) + (v0->y * j) + (v0->z * k);
+	    z_info[x].c = c/k;
+	    z_info[x].dzdx = i / -k;
+	    z_info[x].dzdy = j / -k;
 
-        z_info[i].c = equationOfPlane(v0, v1, v2, &z_info[i].dzdx, &z_info[i].dzdy);
+	    //normalized the normal (get it?)
+	    float mag = sqrtf(i*i + j*j + k*k);
+	    i /= mag;
+	    j /= mag;
+	    k /= mag;
+
+	    //hacky flat shading
+	    int32_t light = 20*(k);
+		if(light > 31) {light = 31;}
+		if(light < 0) { light = 0;}
+		light += 5;
+		//curr->color = COLOR(light, light, light);
     }
             
-    uint32_t gpu_seq = 0;
 	//set the stride
 	GPU[9] = target->stride;
-	gpu_seq++;
 	
 	
 	uint16_t tile_height = ((target->height + 31)/32);
@@ -232,7 +234,6 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 				
 				//start rendering tile
 				GPU[0] = 0;			
-				gpu_seq += 14;
 			}
 			if(tri_rendered == 0) {
 				//clear tile
@@ -250,20 +251,17 @@ void draw_triangles_barycentric_gpu(render_target_t *target, color_t background,
 				//render the "triangle"
 				GPU[0] = 0;
 
-				gpu_seq += 10;
 			}
 			//set the address to write to RAM
 			GPU[8] = ((uint32_t)(target->framebuffer)) + (i*32*800*2) + (j*32*2);
 
 			//write it to fifo
 			GPU[0] = 2;
-			gpu_seq += 2;
 		}
 	}	
 	//wait for all data to finish writing
 	GPU[0] = 4;
-	gpu_seq++;
-	while(GPU[0] < gpu_seq);
+	//while(GPU[0]);
 }
 
 
@@ -274,10 +272,10 @@ void gpu_render_scene(render_target_t *target, scene_t *scene) {
 	transform_poly_list(scene, target, &tris_to_render);
 
 	//render them
-	draw_triangles_barycentric_gpu(target, scene->background, &tris_to_render);
+	draw_triangles_barycentric_gpu(target, &tris_to_render);
 	
 	//reset our memory scratch space when we're done rendering
-	reset_mem();
+	reset_tmp();
 }
 
 

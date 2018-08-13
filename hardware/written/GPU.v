@@ -1,5 +1,6 @@
 module GPU(
 	input CLOCK_50, 
+	input CLOCK2_50,
 	input [17:0]SW,
 	input [3:0]KEY,
 	output [17:0]LEDR,
@@ -31,7 +32,11 @@ module GPU(
 	output DRAM_CKE,
 	output DRAM_CLK,
 	output DRAM_WE_N,
-	output DRAM_CS_N
+	output DRAM_CS_N,
+	
+	output SD_CLK, 
+	inout SD_CMD,
+	inout [3:0]SD_DAT
 );	
 
 	wire reset = !KEY[0];
@@ -47,7 +52,7 @@ module GPU(
 	
 	//GPU core clock
 	wire gpu_clk;
-	gpu_clock P1(reset, CLOCK_50, gpu_clk);
+	gpu_clock P1(reset, CLOCK2_50, gpu_clk);
 
 	
 	assign LEDG[8:0] = 0;
@@ -63,6 +68,11 @@ module GPU(
 //        .sram_CE_N (SRAM_CE_N), //                        .CE_N
 //        .sram_OE_N (SRAM_OE_N), //                        .OE_N
 //        .sram_WE_N (SRAM_WE_N),  //                        .WE_N
+
+			.sd_card_b_SD_cmd   (SD_CMD),   //   sd_card.b_SD_cmd
+        .sd_card_b_SD_dat   (SD_DAT[0]),   //          .b_SD_dat
+        .sd_card_b_SD_dat3  (SD_DAT[3]),  //          .b_SD_dat3
+        .sd_card_o_SD_clock (SD_CLK), //          .o_SD_clock
 
 		  .dram_addr 						(DRAM_ADDR),                   //                   sdram.addr
         .dram_ba   						(DRAM_BA),                     //                        .ba
@@ -83,7 +93,7 @@ module GPU(
         .vga_vs       					(VGA_VS),                        //                        .VS
         .vga_clk_clk						(vga_clock),                        //                        .CLK
 		  
-		  .gpu_clock_clk 					(system_clock),
+		  .gpu_clock_clk 					(gpu_clk),
 		  
 		  .led_r_export					(LEDR),                 //                   led_r.export
         .sw_export						(SW),                     //                      sw.export

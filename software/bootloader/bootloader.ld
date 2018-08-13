@@ -3,7 +3,7 @@ ENTRY (_begin)
 
 SECTIONS
 {
-  . = 0x8000;
+  . = 0x08000000;
   .reset : { *(.reset) }
   .text : { *(.text) }
   . = ALIGN(16);

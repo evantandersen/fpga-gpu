@@ -1,16 +1,21 @@
 // Written by:
 //     Evan Andersen
 //
-// Created March 22, 2013
+// Created January 17, 2017
 
 #pragma once
 
-#define DRAM ((uint32_t*)0x08000000)
+#include <stdint.h>
+#include <stddef.h>
+
+#define DRAM ((uint8_t*)0x08000000)
 #define VGA ((volatile uint32_t*)0x80001000)
 #define GPU ((volatile uint32_t*)0x80001040)
 #define LEDR ((volatile uint32_t*)0x80001010)
 #define SW ((volatile uint32_t*)0x80001020)
 #define KEY ((volatile uint32_t*)0x80001080)
+#define SDCARD ((volatile char*)0x80002000)
+
 
 typedef struct {
 	float x;
@@ -37,3 +42,10 @@ typedef struct {
 	uint16_t v2;
 	uint16_t color;
 } triangle_t;
+
+
+void *alloc_tmp(size_t n);
+void *alloc_perm(size_t n);
+void reset_tmp();
+
+

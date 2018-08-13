@@ -1,6 +1,7 @@
 module tile_writer (
-	input clk,
-	input rst,
+	//gpu clk domain for reading buffer
+	input gpu_clk,
+	input gpu_rst,
 	input [15:0]stride_in,
 	input [31:0]addr_in,
 	input start,
@@ -10,8 +11,11 @@ module tile_writer (
 	//access tile RAM
 	output [9:0]ram_addr_out,
 	input [15:0]ram_data,
-	
-	//avalon master for writing
+
+	//system clk domain for avalon master
+	input clk,
+	input rst,
+
 	output [31:0]master_address,
 	output master_write,
 	output [31:0]master_write_data,
@@ -40,8 +44,8 @@ module tile_writer (
 	reg [31:0]currAddr;
 	reg [15:0]stride;
 	
-	always_ff @ (posedge clk or posedge rst) begin
-		if (rst) begin
+	always_ff @ (posedge gpu_clk or posedge gpu_rst) begin
+		if (gpu_rst) begin
 			state <= S_IDLE;
 			currAddr <= 0;
 			stride <= 0;
@@ -104,11 +108,11 @@ module tile_writer (
 	wire fifo_ack;
 	wire [7:0]usedw;
 	tile_fifo f0(
-		.aclr (rst),
+		.aclr (gpu_rst),
 		.data (fifo_data_in),
 		.rdclk(clk),
 		.rdreq(fifo_ack),
-		.wrclk(clk),
+		.wrclk(gpu_clk),
 		.wrempty(wrempty),
 		.wrreq(fifo_wren),
 		.q(fifo_data_out),

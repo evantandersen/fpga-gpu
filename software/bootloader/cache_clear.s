@@ -1,7 +1,7 @@
 #this code clears the instruction and data caches after a CPU reset
 #values in the cache are undefined after reset
 
-.section .reset
+.section .reset, "xa"
 
 .equ NIOS2_ICACHE_SIZE, 16384
 .equ NIOS2_ICACHE_LINE_SIZE, 4
@@ -14,7 +14,7 @@
 _begin:
 #init instruction cache
 mov r4, r0
-movi r5, %hi(NIOS2_ICACHE_SIZE)
+movhi r5, %hi(NIOS2_ICACHE_SIZE)
 ori r5, r5, %lo(NIOS2_ICACHE_SIZE)
 icache_init_loop:
 initi r4

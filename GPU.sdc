@@ -39,8 +39,15 @@ set_time_format -unit ns -decimal_places 3
 #**************************************************************
 
 create_clock -name {CLOCK_50} -period 20.000 -waveform { 0.000 10.000 } [get_ports {CLOCK_50}]
+create_clock -name {CLOCK2_50} -period 20.000 -waveform { 0.000 10.000 } [get_ports {CLOCK2_50}]
 #create_clock -period 10MHz {altera_reserved_tck}
 set_clock_groups -asynchronous -group {altera_reserved_tck}
+
+create_generated_clock -source {P0|altpll_component|auto_generated|pll1|inclk[0]} -divide_by 5 -multiply_by 9 -duty_cycle 50.00 -name {nios_clk} {P0|altpll_component|auto_generated|pll1|clk[0]}
+create_generated_clock -source {P0|altpll_component|auto_generated|pll1|inclk[0]} -divide_by 5 -multiply_by 9 -phase -90.00 -duty_cycle 50.00 -name {dram_clk} {P0|altpll_component|auto_generated|pll1|clk[1]}
+create_generated_clock -source {P0|altpll_component|auto_generated|pll1|inclk[0]} -divide_by 5 -multiply_by 4 -duty_cycle 50.00 -name {vga_clk} {P0|altpll_component|auto_generated|pll1|clk[2]}
+create_generated_clock -source {P1|altpll_component|auto_generated|pll1|inclk[0]} -multiply_by 2 -duty_cycle 50.00 -name {gpu_clk} {P1|altpll_component|auto_generated|pll1|clk[0]}
+
 
 #**************************************************************
 # Create Generated Clock

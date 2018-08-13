@@ -1,12 +1,13 @@
 // Written by:
 //     Evan Andersen
 //
-// Created March 22, 2013
+// Created January 18, 2017
 
 #pragma once
 
 #include <stdint.h>
 #include <stddef.h>
+#include <math.h>
 #include "system.h"
 #include "math.h"
 
@@ -25,7 +26,6 @@ typedef struct {
 } polygon_list_t;
 
 typedef struct {
-	color_t background;
 	polygon_list_t poly_list;
 	float view[16];
 	float proj[16];
