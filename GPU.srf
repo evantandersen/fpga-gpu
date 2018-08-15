@@ -51,3 +51,8 @@
 { "" "" "" "Nios2: \"No matching role found for nios2_custom_instruction_master_multi_xconnect:ci_slave:ci_slave_estatus (estatus)\"" {  } {  } 0 12251 "" 0 0 "Design Software" 0 -1 0 ""}
 { "" "" "" "Verilog HDL or VHDL warning at fpminmaxfused.vhd(63): object \"VCC_q\" assigned a value but never read" {  } {  } 0 10036 "" 0 0 "Design Software" 0 -1 0 ""}
 { "" "" "" "VHDL warning at fpminmaxfused.vhd(364): sensitivity list already contains join_uid68_fpMinMaxFusedTest_q" {  } {  } 0 10812 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "PLL \"system_clock_pll:P0\|altpll:altpll_component\|system_clock_pll_altpll:auto_generated\|pll1\" output port clk\[3\] feeds output pin \"VGA_CLK~output\" via non-dedicated routing -- jitter performance depends on switching rate of other design elements. Use PLL dedicated clock outputs to ensure jitter performance" {  } {  } 0 15064 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "Pin \"VGA_SYNC_N\" is stuck at VCC" {  } {  } 0 13410 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "Pin \"DRAM_CKE\" is stuck at VCC" {  } {  } 0 13410 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "bidirectional pin \"SD_DAT\[1\]\" has no driver" {  } {  } 0 13040 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "bidirectional pin \"SD_DAT\[2\]\" has no driver" {  } {  } 0 13040 "" 0 0 "Design Software" 0 -1 0 ""}

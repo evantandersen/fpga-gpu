@@ -9,8 +9,8 @@ module tile_writer (
 	output flushed,
 
 	//access tile RAM
-	output [9:0]ram_addr_out,
-	input [15:0]ram_data,
+	output [8:0]ram_addr_out,
+	input [31:0]ram_data,
 
 	//system clk domain for avalon master
 	input clk,
@@ -26,80 +26,70 @@ module tile_writer (
 	assign flushed = !reading && wrempty;
 	assign ram_addr_out = ram_addr;
 	
-	//whenever the fifo is at least half-empty, write 16 pixels into it
+	//whenever the fifo is at least half-empty, write 32 pixels into it
 	wire shouldWriteBurst = !usedw[7] && !full;
 	wire shouldWrite = shouldWriteBurst || (ram_addr[3:0] != 0);
 	
 	
-	enum int unsigned
-	{
-		S_IDLE,
-		S_WAIT,
-		S_SAVE,
-		S_WRITE
-	} state;
-
-	reg [15:0]savedPixel;
-	reg [9:0]ram_addr;
+	reg [8:0]ram_addr;
 	reg [31:0]currAddr;
 	reg [15:0]stride;
 	
+	wire [31:0]addr_out = shift_out[31:0];
+	wire fifo_wren = shift_out[32];
+
+	wire [32:0]shift_out;
+	wire isWriting = (shouldWrite && (state == S_WRITE));
+	shift_reg #(
+		.WIDTH(33),
+		.DEPTH(2)
+	) addrDelay (
+		.clk	(gpu_clk),
+		.in	({isWriting, currAddr}),
+		.out	(shift_out)
+	);
+	
+	enum {
+		S_IDLE,
+		S_WRITE
+	} state;
+	
 	always_ff @ (posedge gpu_clk or posedge gpu_rst) begin
 		if (gpu_rst) begin
-			state <= S_IDLE;
 			currAddr <= 0;
 			stride <= 0;
-			savedPixel <= 0;
 			ram_addr <= 0;
+			state <= S_IDLE;
 		end else begin
-			case (state)
-			
+			case(state)
 				S_IDLE: begin
 					if (start) begin
 						currAddr <= addr_in;
 						stride <= stride_in;
 						ram_addr <= 0;
-						state <= S_WAIT;
+						state <= S_WRITE;
 					end
 				end
-				
-				S_WAIT: begin
-					if(shouldWrite) begin
-						ram_addr <= ram_addr + 1'd1;
-						state <= S_SAVE;
-					end
-				end
-				
-				S_SAVE: begin
-					savedPixel <= ram_data;
-					ram_addr <= ram_addr + 1'd1;
-					state <= S_WRITE;
-				end
-				
+																
 				S_WRITE: begin
-					if(ram_addr[4:0] == 0) begin
-						currAddr <= currAddr + stride - 60;
-					end else begin
-						currAddr <= currAddr + 4;
-					end	
-					
-					if(ram_addr == 0) begin
-						state <= S_IDLE;
-					end else if(shouldWrite) begin
+					if(shouldWrite) begin
+						if(ram_addr[3:0] == 15) begin
+							currAddr <= currAddr + stride - 60;
+						end else begin
+							currAddr <= currAddr + 4;
+						end
 						ram_addr <= ram_addr + 1'd1;
-						state <= S_SAVE;
-					end else begin
-						state <= S_WAIT;
+						if(ram_addr == 511) begin
+							state <= S_IDLE;
+						end
 					end
-
 				end
 				
 			endcase
 		end
 	end
 
-	wire [63:0]fifo_data_in = {currAddr, ram_data, savedPixel};
-	wire fifo_wren = (state == S_WRITE);
+	wire [63:0]fifo_data_in = {addr_out, ram_data};
 	
 	wire [63:0]fifo_data_out;
 	wire empty;

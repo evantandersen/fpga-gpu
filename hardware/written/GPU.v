@@ -4,7 +4,7 @@ module GPU(
 	input [17:0]SW,
 	input [3:0]KEY,
 	output [17:0]LEDR,
-	output [8:0]LEDG,
+//	output [8:0]LEDG,
 	
 	output VGA_CLK,
 	output VGA_SYNC_N,
@@ -45,18 +45,17 @@ module GPU(
 	wire vga_clock;
 	
 	//flip polarity of VGA_CLK output to solve timing issue with VGA DAC
-	assign VGA_CLK = !vga_clock;
 	
-	//main clock
-	system_clock_pll P0(reset, CLOCK_50, system_clock, DRAM_CLK, vga_clock);
+	//nios and DRAM clk have same freq, DRAM shifted -3ns
+	//VGA clk to internal logic and VGA clk to external driver have 180 phase diff
+	//so that signals will travel from fpga to VGA chip
+	system_clock_pll P0(reset, CLOCK_50, system_clock, DRAM_CLK, vga_clock, VGA_CLK);
 	
 	//GPU core clock
 	wire gpu_clk;
 	gpu_clock P1(reset, CLOCK2_50, gpu_clk);
 
-	
-	assign LEDG[8:0] = 0;
-	
+		
 	
 	nios2 u0 (
         .clk_clk                      (system_clock),                      //                     clk.clk

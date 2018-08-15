@@ -75,7 +75,6 @@ int main(void) {
 	//alloc some scratch for the file contents
 	char *buf = alloc_tmp(testInode.sizel);
 	ext2_readall(&testInode, buf);
-	*LEDR = buf[testInode.sizel-2];
 
 	//instead of counting just guess that it's <2000
 	point_t *vertices = alloc_perm(sizeof(point_t) * 2000);
@@ -117,8 +116,8 @@ int main(void) {
     	
 	VGA[1] = (uint32_t)frontFB;
 	
-	int32_t xpos = 0;
-	int32_t ypos = 0;
+	int32_t xpos = 180;
+	int32_t ypos = 180;
 	int32_t zpos = 0;
     
     uint32_t frame = 0;
@@ -153,7 +152,7 @@ int main(void) {
 			0, sinX, cosX, 0,
 			0, 0, 0, 1,
 		};
-		float yAngle = (ypos/360.0f)*PI*2;
+		float yAngle = (zpos/360.0f)*PI*2;
 		float sinY = sin(yAngle);
 		float cosY = cos(yAngle);
 		float rotMatY[] = {
@@ -162,7 +161,7 @@ int main(void) {
 			-sinY, 0, cosY, 0,
 			0, 0, 0, 1,
 		};
-		float zAngle = (zpos/360.0f)*PI*2;
+		float zAngle = (0/360.0f)*PI*2;
 		float sinZ = sin(zAngle);
 		float cosZ = cos(zAngle);
 		float rotMatZ[] = {
@@ -174,8 +173,8 @@ int main(void) {
 
 		float viewMat[] = {
 			0.02, 0, 0, 0,
-			0, 0.02, 0, 0,
-			0, 0, 0.02, -4.0,
+			0, 0.02, 0, 1.0,
+			0, 0, 0.02, -2.0,
 			0, 0, 0, 1,			
 		};
 		
@@ -187,7 +186,14 @@ int main(void) {
 		float left = -right;
 		
 		float tmp[16];
+				float yAngle2 = (ypos/360.0f)*PI*2;
+
 		scene_t scene = {
+			.lightVector = {
+				.x = sin(yAngle2),
+				.y = 0,
+				.z = cos(yAngle2),
+			},
 			.poly_list = {
 				.vertices = vertices,
 				.triangles = tris,
@@ -235,7 +241,7 @@ int main(void) {
 		
 		//how many times did the screen draw while we rendered this frame?
         uint32_t frames = VGA[0];
-		//*LEDR = frames;
+		*LEDR = frame;
         frame += frames;
 		
 		//swap back/front buffers 

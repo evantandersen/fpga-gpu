@@ -49,7 +49,7 @@ float equationOfPlane(screen_point_t *v0, screen_point_t *v1, screen_point_t *v2
     return c; 
 }
 
-float normal(screen_point_t *v0, screen_point_t *v1, screen_point_t *v2, float *i, float *j) {
+float normal(point_t *v0, point_t *v1, point_t *v2, float *i, float *j) {
     //compute two vectors, V01 and V02
     float V01_x = v1->x - v0->x;
     float V01_y = v1->y - v0->y;

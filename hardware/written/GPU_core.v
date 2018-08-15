@@ -218,31 +218,46 @@ module gpu_core (
 		.color_out	(tile_out)
 	);
 	
-	wire [15:0]r0_out;
-	big_tile_ram r0(
-		.clock		(gpu_clk),
-		.data			(tile_out),
-		.rdaddress	(writer_ram_addr),
-		.wraddress	(tile_ram_addr),
-		.wren			(tile_wren && !buffers_swapped),
-		.q				(r0_out)
+//	wire [15:0]r0_out;
+//	big_tile_ram r0(
+//		.clock		(gpu_clk),
+//		.data			(tile_out),
+//		.rdaddress	(writer_ram_addr),
+//		.wraddress	(tile_ram_addr),
+//		.wren			(tile_wren && !buffers_swapped),
+//		.q				(r0_out)
+//	);
+//	
+//	wire [15:0]r1_out;
+//	big_tile_ram r1(
+//		.clock		(gpu_clk),
+//		.data			(tile_out),
+//		.rdaddress	(writer_ram_addr),
+//		.wraddress	(tile_ram_addr),
+//		.wren			(tile_wren && buffers_swapped),
+//		.q				(r1_out)
+//	);
+
+	byte_enabled_dual_port_ram #(
+		.RADDR_WIDTH(10),
+		.WADDR_WIDTH(9),
+		.BYTE_WIDTH(16),
+		.BYTES(4)
+	) tile_ram (
+			.clk(gpu_clk),
+			.waddr({buffers_swapped, tile_ram_addr[9:2]}),
+			.raddr({~buffers_swapped, writer_ram_addr}),
+			.be(1 << tile_ram_addr[1:0]),
+			.wdata({4{tile_out}}), 
+			.we(tile_wren),
+			.q(ram_data_out)
 	);
 	
-	wire [15:0]r1_out;
-	big_tile_ram r1(
-		.clock		(gpu_clk),
-		.data			(tile_out),
-		.rdaddress	(writer_ram_addr),
-		.wraddress	(tile_ram_addr),
-		.wren			(tile_wren && buffers_swapped),
-		.q				(r1_out)
-	);
-
 	
 	wire reading_from_tile;
 	wire flushed_to_bus;
-	wire [9:0]writer_ram_addr;
-	wire [15:0]ram_data_out = buffers_swapped ? r0_out : r1_out;
+	wire [8:0]writer_ram_addr;
+	wire [31:0]ram_data_out;
 	tile_writer d0(
 		.gpu_clk			(gpu_clk),
 		.gpu_rst			(gpu_rst),

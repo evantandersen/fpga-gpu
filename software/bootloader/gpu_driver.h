@@ -26,6 +26,7 @@ typedef struct {
 } polygon_list_t;
 
 typedef struct {
+	point_t lightVector;
 	polygon_list_t poly_list;
 	float view[16];
 	float proj[16];

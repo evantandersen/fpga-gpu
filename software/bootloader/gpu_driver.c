@@ -96,8 +96,30 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 			num_kept_2++;
 		}
 	}
-
 	
+	//calculate flat shading using world space coordinates, only on triangles that will actually be rendered
+	for(size_t x = 0; x < num_kept_2; x++) {
+		point_t *v0 = &scene->poly_list.vertices[kept_tris[x].v0];
+		point_t *v1 = &scene->poly_list.vertices[kept_tris[x].v1];
+		point_t *v2 = &scene->poly_list.vertices[kept_tris[x].v2];
+		
+		float i, j, k;
+		k = normal(v0, v1, v2, &i, &j);
+	    //normalize the normal (get it?)
+	    float mag = sqrtf(i*i + j*j + k*k);
+	    i /= mag;
+	    j /= mag;
+	    k /= mag;
+
+	    //hacky flat shading
+	    point_t *lv = &scene->lightVector;
+	    int32_t light = 26*(lv->x*i + lv->y*j + lv->z*k);
+		if(light > 31) {light = 31;}
+		if(light < 0) { light = 0;}
+		light += 5;
+		kept_tris[x].color = COLOR(light, light, light);
+	}
+
 	out->nvertices = scene->poly_list.nvertices;
 	out->ntris = num_kept_2;
 	out->triangles = kept_tris;
@@ -123,26 +145,7 @@ void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *dat
         screen_point_t *v0 = &verts[curr->v0];
         screen_point_t *v1 = &verts[curr->v1];
         screen_point_t *v2 = &verts[curr->v2];
-        float i, j, k;
-		k = normal(v0, v1, v2, &i, &j);
-	    //compute the plane equation in the form Z = ix + jy + c
-	    float c = (v0->x * i) + (v0->y * j) + (v0->z * k);
-	    z_info[x].c = c/k;
-	    z_info[x].dzdx = i / -k;
-	    z_info[x].dzdy = j / -k;
-
-	    //normalized the normal (get it?)
-	    float mag = sqrtf(i*i + j*j + k*k);
-	    i /= mag;
-	    j /= mag;
-	    k /= mag;
-
-	    //hacky flat shading
-	    int32_t light = 20*(k);
-		if(light > 31) {light = 31;}
-		if(light < 0) { light = 0;}
-		light += 5;
-		//curr->color = COLOR(light, light, light);
+        z_info[x].c = equationOfPlane(v0, v1, v2, &z_info[x].dzdx, &z_info[x].dzdy);
     }
             
 	//set the stride

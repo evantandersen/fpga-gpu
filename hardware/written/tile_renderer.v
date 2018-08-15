@@ -132,7 +132,7 @@ module tile_renderer(
 		.wren			(wren),
 		.color		(color_out),
 		.newZ			(newZ)
-);
+	);
 
 	wire [26:0]currZ;
 	depth_buffer b0 (
