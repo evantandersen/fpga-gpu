@@ -96,7 +96,7 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 			num_kept_2++;
 		}
 	}
-	
+
 	//calculate flat shading using world space coordinates, only on triangles that will actually be rendered
 	for(size_t x = 0; x < num_kept_2; x++) {
 		point_t *v0 = &scene->poly_list.vertices[kept_tris[x].v0];
@@ -126,12 +126,84 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 	out->vertices = (point_t*)screen_vertices;
 }
 
+int16_t minMax3(int16_t *min, int16_t a, int16_t b, int16_t c) {
+	int16_t max = a;
+	*min = a;
+	if(b > max) {
+		max = b;
+	} else if(b < *min) {
+		*min = b;
+	}
+	if(c > max) {
+		max = c;
+	} else if(c < *min) {
+		*min = c;
+	}
+	return max;
+}
+
+int16_t clamp16i(int16_t x, int16_t min, int16_t max) {
+	if(x < min) {
+		return min;
+	}
+	if(x > max) {
+		return max;
+	}
+	return x;
+}
+
+struct triBin {
+	uint16_t ntris;
+	uint16_t *tris;
+};
+
+struct triBin *bin_tris(int16_t tile_width, int16_t tile_height, polygon_list_t *data) {
+
+	uint16_t nTiles = tile_height*tile_width;
+	screen_point_t *verts = (screen_point_t*)data->vertices;
+
+	struct triBin *bins = alloc_tmp(sizeof(struct triBin) * nTiles);
+	for(int i = 0; i < nTiles; i++) {
+		bins[i].ntris = 0;
+		bins[i].tris = alloc_tmp(sizeof(uint16_t) * data->ntris);
+	}
+
+	for(int tri = 0; tri < data->ntris; tri++) {
+		triangle_t* curr = &data->triangles[tri];
+		screen_point_t *v0 = &verts[curr->v0];
+		screen_point_t *v1 = &verts[curr->v1];
+		screen_point_t *v2 = &verts[curr->v2];
+
+		int16_t minY, minX;
+		int16_t maxY = minMax3(&minY, v0->y, v1->y, v2->y);
+		int16_t maxX = minMax3(&minX, v0->x, v1->x, v2->x);
+
+		//convert to bin coordinates
+		minY /= 32*GPU_PIXEL_SUBSTEP;
+		maxY /= 32*GPU_PIXEL_SUBSTEP;
+		minX /= 32*GPU_PIXEL_SUBSTEP;
+		maxX /= 32*GPU_PIXEL_SUBSTEP;
+
+		//clamp
+		minY = clamp16i(minY, 0, tile_height - 1);
+		maxY = clamp16i(maxY, 0, tile_height - 1);
+		minX = clamp16i(minX, 0, tile_width - 1);
+		maxX = clamp16i(maxX, 0, tile_width - 1);
+
+		for(int i = minY; i <= maxY; i++) {
+			for(int j = minX; j <= maxX; j++) {
+				struct triBin *bin = &bins[i*tile_width + j];
+				bin->tris[bin->ntris] = tri;
+				bin->ntris++;
+			}
+		}
+	} 	
+	return bins;
+}
+
 void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *data) {
-	
-	//reset the sequence number
-	GPU[0] = 5;
-    
-    uint8_t *clip_codes = alloc_tmp(data->nvertices);
+
+
 	screen_point_t *verts = (screen_point_t*)data->vertices;
     
     //compute Z values for all tris
@@ -146,49 +218,33 @@ void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *dat
         screen_point_t *v1 = &verts[curr->v1];
         screen_point_t *v2 = &verts[curr->v2];
         z_info[x].c = equationOfPlane(v0, v1, v2, &z_info[x].dzdx, &z_info[x].dzdy);
-    }
-            
+        z_info[x].dzdy *= GPU_PIXEL_SUBSTEP;
+        z_info[x].dzdx *= GPU_PIXEL_SUBSTEP;
+    }    
+    
 	//set the stride
-	GPU[9] = target->stride;
+	GPU->core[2] = target->stride;
 	
-	
+	//bin the triangles into tiles based on their bounding box
 	uint16_t tile_height = ((target->height + 31)/32);
 	uint16_t tile_width = ((target->width + 31)/32);
+	struct triBin *bins = bin_tris(tile_width, tile_height, data);
+
+
+
+	size_t tri_tiles_rastered = 0;
+
+	//render each tile
 	for(int i = 0; i < tile_height; i++) {
 		for(int j = 0; j < tile_width; j++) {
-			//generate clip data for vertices
-			int32_t maxX = (j+1)*32*GPU_PIXEL_SUBSTEP - 1;
-			int32_t minX = j*32*GPU_PIXEL_SUBSTEP;
-			int32_t maxY = (i+1)*32*GPU_PIXEL_SUBSTEP - 1;
-			int32_t minY = i*32*GPU_PIXEL_SUBSTEP;
-			for(size_t i = 0; i < data->nvertices; i++) {
-				uint8_t val = 0;
-				if(verts[i].x < minX) {
-					val |= 0x1;
-				}
-				if(verts[i].x > maxX) {
-					val |= 0x2;
-				}
-				if(verts[i].y < minY) {
-					val |= 0x4;
-				}
-				if(verts[i].y > maxY) {
-					val |= 0x8;
-				}
-				clip_codes[i] = val;
-			}
-			
+
 			//render triangles
-			uint16_t tri_rendered = 0;
-			for(int tri = 0; tri < data->ntris; tri++) {
+			struct triBin *bin = &bins[i*tile_width + j];
+			for(int n = 0; n < bin->ntris; n++) {
+				int tri = bin->tris[n];
+//				triangle_t* curr = &data->triangles[];		
 				triangle_t* curr = &data->triangles[tri];
 								
-				//if triangle doesn't overlap tile, no need to render
-				if(clip_codes[curr->v0] & clip_codes[curr->v1] & clip_codes[curr->v2]) {
-					continue;
-				}
-				tri_rendered++;				
-
 				screen_point_t v0 = verts[curr->v0];
 				screen_point_t v1 = verts[curr->v1];
 				screen_point_t v2 = verts[curr->v2];
@@ -205,15 +261,15 @@ void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *dat
 
 							
 				//color
-				GPU[1] = curr->color;
+				GPU->rasterizer[0] = curr->color;
 
-				GPU[2] = A01;
-				GPU[3] = A12;
-				GPU[4] = A20;
+				GPU->rasterizer[1] = A01;
+				GPU->rasterizer[2] = A12;
+				GPU->rasterizer[3] = A20;
 				
-				GPU[10] = B01;
-				GPU[11] = B12;
-				GPU[12] = B20;
+				GPU->rasterizer[4] = B01;
+				GPU->rasterizer[5] = B12;
+				GPU->rasterizer[6] = B20;
 			
 				//set the w's
 				screen_point_t p = { j*GPU_PIXEL_SUBSTEP*32, i*GPU_PIXEL_SUBSTEP*32 };
@@ -226,45 +282,49 @@ void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *dat
 				w1_row -= isTopLeft(&v2, &v0) ? 0 : 1;
 				w2_row -= isTopLeft(&v0, &v1) ? 0 : 1;
 
-				GPU[5] = w0_row >> 4;
-				GPU[6] = w1_row >> 4;
-				GPU[7] = w2_row >> 4;
+				GPU->rasterizer[7] = w0_row >> 4;
+				GPU->rasterizer[8] = w1_row >> 4;
+				GPU->rasterizer[9] = w2_row >> 4;
                 
                 //set the Z data
-                *((float*)&GPU[13]) = z_info[tri].dzdx*GPU_PIXEL_SUBSTEP;
-                *((float*)&GPU[14]) = z_info[tri].dzdy*GPU_PIXEL_SUBSTEP;
-                *((float*)&GPU[15]) = z_info[tri].c + p.x*z_info[tri].dzdx + p.y*z_info[tri].dzdy;
+                *((float*)&GPU->rasterizer[10]) = z_info[tri].dzdx;
+                *((float*)&GPU->rasterizer[11]) = z_info[tri].dzdy;
+                *((float*)&GPU->rasterizer[12]) = z_info[tri].c + j*32*z_info[tri].dzdx + i*32*z_info[tri].dzdy;
 				
 				//start rendering tile
-				GPU[0] = 0;			
+				GPU->core[0] = 0;	
 			}
-			if(tri_rendered == 0) {
+			if(bin->ntris == 0) {
 				//clear tile
-				GPU[2] = 0;
-				GPU[3] = 0;
-				GPU[4] = 0;
-				GPU[10] = 0;
-				GPU[11] = 0;
-				GPU[12] = 0;
+				GPU->rasterizer[1] = 0;
+				GPU->rasterizer[2] = 0;
+				GPU->rasterizer[3] = 0;
+				GPU->rasterizer[4] = 0;
+				GPU->rasterizer[5] = 0;
+				GPU->rasterizer[6] = 0;
 			
-				GPU[5] = -1;
-				GPU[6] = -1;
-				GPU[7] = -1;
+				GPU->rasterizer[7] = -1;
+				GPU->rasterizer[8] = -1;
+				GPU->rasterizer[9] = -1;
 
 				//render the "triangle"
-				GPU[0] = 0;
-
+				GPU->core[0] = 0;
+				tri_tiles_rastered += 1;
 			}
+			tri_tiles_rastered += bin->ntris;
+
 			//set the address to write to RAM
-			GPU[8] = ((uint32_t)(target->framebuffer)) + (i*32*800*2) + (j*32*2);
+			GPU->core[1] = ((uint32_t)(target->framebuffer)) + (i*32*800*2) + (j*32*2);
 
 			//write it to fifo
-			GPU[0] = 2;
+			GPU->core[0] = 2;
+			//*LEDR = GPU[0];
 		}
 	}	
 	//wait for all data to finish writing
-	GPU[0] = 4;
-	//while(GPU[0]);
+	GPU->core[0] = 4;
+	//*LEDR = tri_tiles_rastered;
+	while(GPU->core[0]);
 }
 
 

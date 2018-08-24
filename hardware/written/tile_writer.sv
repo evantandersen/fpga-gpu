@@ -45,6 +45,8 @@ module tile_writer (
 		.DEPTH(2)
 	) addrDelay (
 		.clk	(gpu_clk),
+		.rst	(gpu_rst),
+		.clk_en(1),
 		.in	({isWriting, currAddr}),
 		.out	(shift_out)
 	);

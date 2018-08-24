@@ -35,11 +35,3 @@ void no_cache_cpy(volatile void *dest, volatile void *source, size_t len)
     }
 }
 
-
-void flush_dcache() {
-  char* i;
-  for (i = (char*) 0; i < (char*) 32768; i+= 32)
-  { 
-    __asm__ volatile ("flushd (%0)" :: "r" (i));
-  }
-}

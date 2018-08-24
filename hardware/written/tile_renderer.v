@@ -151,6 +151,8 @@ module tile_renderer(
 		.DEPTH(8)
 	) s0 (
 		.clk	(clk),
+		.rst	(rst),
+		.clk_en(1),
 		.in	({clearPixel_start, rasterPixel_start}),
 		.out	({clearPixel, rasterPixel})
 	);
@@ -161,6 +163,8 @@ module tile_renderer(
 		.DEPTH(6)
 	) s1 (
 		.clk	(clk),
+		.rst	(rst),
+		.clk_en(1),
 		.in	({Y_start, X_start}),
 		.out	(addr_inter)
 	);
@@ -171,6 +175,8 @@ module tile_renderer(
 		.DEPTH(2)
 	) s2 (
 		.clk	(clk),
+		.rst	(rst),
+		.clk_en(1),
 		.in	(addr_inter),
 		.out	(addr_final)
 	);

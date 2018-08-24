@@ -33,5 +33,25 @@ void *alloc_perm(size_t n) {
 	return ret;
 }
 
+void flush_dcache(void *addr, size_t len) {
+  char* i = addr;
+  size_t cleared = 0;
+  while(cleared < len) {
+      __asm__ volatile ("flushda (%0)" :: "r" (i));
+      i += 32;
+      cleared += 32;
+  }
+}
+
+void init_dcache(void *addr, size_t len) {
+  char* i = addr;
+  size_t cleared = 0;
+  while(cleared < len) {
+      __asm__ volatile ("initda (%0)" :: "r" (i));
+      i += 32;
+      cleared += 32;
+  }
+}
+
 
 

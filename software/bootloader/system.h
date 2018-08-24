@@ -10,11 +10,16 @@
 
 #define DRAM ((uint8_t*)0x08000000)
 #define VGA ((volatile uint32_t*)0x80001000)
-#define GPU ((volatile uint32_t*)0x80001040)
+#define GPU ((volatile gpu_t*)0x80003000)
 #define LEDR ((volatile uint32_t*)0x80001010)
 #define SW ((volatile uint32_t*)0x80001020)
 #define KEY ((volatile uint32_t*)0x80001080)
 #define SDCARD ((volatile char*)0x80002000)
+
+typedef struct {
+	uint32_t core[16];
+	uint32_t rasterizer[16];
+} gpu_t;
 
 
 typedef struct {
@@ -47,5 +52,6 @@ typedef struct {
 void *alloc_tmp(size_t n);
 void *alloc_perm(size_t n);
 void reset_tmp();
-
+void flush_dcache(void *addr, size_t len);
+void init_dcache(void *addr, size_t len);
 

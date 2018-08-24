@@ -37,8 +37,13 @@
    {
       datum _lockedAddress
       {
-         value = "1";
+         value = "0";
          type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "12288";
+         type = "String";
       }
    }
    element LED_r
@@ -291,7 +296,7 @@
   <parameter name="AUTO_CLK_CLOCK_RATE" value="90000000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
  </module>
- <module name="GPU_core_0" kind="GPU_core" version="0.4.0" enabled="1" />
+ <module name="GPU_core_0" kind="GPU_core" version="0.5.0" enabled="1" />
  <module name="LED_r" kind="altera_avalon_pio" version="18.0" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
@@ -355,7 +360,7 @@
   <parameter name="dataAddrWidth" value="28" />
   <parameter name="dataMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="dataMasterHighPerformanceMapParam" value="" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='VGA_Controller.slave' start='0x1000' end='0x1010' type='VGA_Controller.slave' /><slave name='LED_r.s1' start='0x1010' end='0x1020' type='altera_avalon_pio.s1' /><slave name='switches.s1' start='0x1020' end='0x1030' type='altera_avalon_pio.s1' /><slave name='GPU_core_0.slave' start='0x1040' end='0x1080' type='GPU_core.slave' /><slave name='keys.s1' start='0x1080' end='0x1090' type='altera_avalon_pio.s1' /><slave name='Altera_UP_SD_Card_Avalon_Interface_0.avalon_sdcard_slave' start='0x2000' end='0x2400' type='Altera_UP_SD_Card_Avalon_Interface.avalon_sdcard_slave' /><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2.debug_mem_slave' start='0x10800' end='0x11000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='sdram.s1' start='0x8000000' end='0x10000000' type='altera_avalon_new_sdram_controller.s1' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='VGA_Controller.slave' start='0x1000' end='0x1010' type='VGA_Controller.slave' /><slave name='LED_r.s1' start='0x1010' end='0x1020' type='altera_avalon_pio.s1' /><slave name='switches.s1' start='0x1020' end='0x1030' type='altera_avalon_pio.s1' /><slave name='keys.s1' start='0x1080' end='0x1090' type='altera_avalon_pio.s1' /><slave name='Altera_UP_SD_Card_Avalon_Interface_0.avalon_sdcard_slave' start='0x2000' end='0x2400' type='Altera_UP_SD_Card_Avalon_Interface.avalon_sdcard_slave' /><slave name='GPU_core_0.slave' start='0x3000' end='0x3400' type='GPU_core.slave' /><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2.debug_mem_slave' start='0x10800' end='0x11000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='sdram.s1' start='0x8000000' end='0x10000000' type='altera_avalon_new_sdram_controller.s1' /></address-map>]]></parameter>
   <parameter name="data_master_high_performance_paddr_base" value="0" />
   <parameter name="data_master_high_performance_paddr_size" value="0" />
   <parameter name="data_master_paddr_base" value="0" />
@@ -702,7 +707,7 @@
    start="nios2.data_master"
    end="GPU_core_0.slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x1040" />
+  <parameter name="baseAddress" value="0x3000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -808,7 +813,62 @@
    kind="reset"
    version="18.0"
    start="nios2.debug_reset_request"
+   end="GPU_core_0.gpu_reset_sink" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="Altera_UP_SD_Card_Avalon_Interface_0.reset" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="LED_r.reset" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="keys.reset" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="nios2.reset" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="sdram.reset" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="switches.reset" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="onchip_memory2_0.reset1" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
    end="reset_controller.reset_in1" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="GPU_core_0.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="VGA_Controller.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="nios2.debug_reset_request"
+   end="VGA_Controller.vga_reset" />
  <connection
    kind="reset"
    version="18.0"

@@ -9,7 +9,7 @@ module gpu_core (
 	input rst,
 	
 	//avalon slave for control
-	input [3:0]slave_address,
+	input [7:0]slave_address,
 	input slave_read_en,
 	input slave_write_en,
 	output [31:0]slave_read_data,
@@ -23,23 +23,35 @@ module gpu_core (
 	input master_wait_request
 );
 
-	//buffer commands from the CPU
-	reg cb_rdreq;
-	wire cb_empty;
-	wire cb_full;
-	wire [7:0]cb_usedw;
-	wire [35:0]cb_readdata;
-	
 	//read requests
 	reg [31:0]read_reg;
 	assign slave_read_data = read_reg;
 	always @ (*) begin
 		case(slave_address)
 			4'd0 : read_reg = cb_usedw;
+			4'd1 : read_reg = ticks;
+			4'd2 : read_reg = raster_ticks;
+			4'd3 : read_reg = writer_ticks;
+			4'd4 : read_reg = cb_empty_ticks;
 			default: read_reg = 32'd0;
 		endcase
 	end
 	
+	//performance metrics
+	reg [31:0]ticks;
+	reg [31:0]raster_ticks;
+	reg [31:0]writer_ticks;
+	reg [31:0]cb_empty_ticks;
+
+	//buffer commands from the CPU
+	reg stall_cmd;
+	wire cb_rdreq = !(cb_empty || stall_cmd);
+	wire cb_empty;
+	wire cb_full;
+	wire [7:0]cb_usedw;
+	wire [39:0]cb_readdata;
+	
+	assign slave_wait_request = slave_write_en & cb_full;
 	command_buffer cb0(
 		.aclr		(rst),
 		.data		({slave_address, slave_write_data}),
@@ -52,53 +64,90 @@ module gpu_core (
 		.wrfull	(cb_full),
 		.wrusedw (cb_usedw)
 	);
-		
-	assign slave_wait_request = slave_write_en & cb_full;
+	
+	//remember if the data is valid or not
+	reg read_valid;
+	always @ (posedge gpu_clk or posedge gpu_rst) begin
+		if(gpu_rst) begin
+			read_valid <= 0;
+		end else begin
+			read_valid <= stall_cmd ? read_valid : cb_rdreq;
+		end
+	end
+	
+	//delay cmds to lineup with float conversion
+	wire [40:0]cmd_out;
+	shift_reg #(
+		.WIDTH(41),
+		.DEPTH(2)
+	) cmd_delay (
+		.clk(gpu_clk),
+		.rst(gpu_rst),
+		.clk_en(!stall_cmd),
+		.in({read_valid, cb_readdata}),
+		.out(cmd_out)
+	);
 
-	wire [3:0]cmd_addr = cb_readdata[35:32];
-	wire [31:0]cmd_data = cb_readdata[31:0];
+	//convert incoming single precision floats to GPU sized 18 bits
+//	wire [17:0]cmd_float;
+//	f32_f18 fpConv (
+//		.clk(gpu_clk),
+//		.en(!stall_cmd),
+//		.areset(gpu_rst),
+//		.a(cb_readdata[31:0]),
+//		.q(cmd_float)
+//	);
+	wire [26:0]GPUFout;
+	IEEEtoGPUF c0(
+		.X			(cmd_data),
+		.R			(GPUFout)
+	);
+	
+	wire [7:0]cmd_addr = cmd_out[39:32];
+	wire [31:0]cmd_data = cmd_out[31:0];
+	wire cmd_valid = cmd_out[40];
 	
 	//asert cb_rdreq if the command can be completed this cycle
 	reg start_write;
 	reg set_clear;
+	reg reset_ticks;
 	always @ (*) begin
-		cb_rdreq = 1;
 		tile_start = 0;
 		start_write = 0;
 		set_clear = 0;
-		if(cb_empty) begin
-			cb_rdreq = 0;
-		end else begin
-			if(cmd_addr == 4'b0) begin
-				case(cmd_data[3:0])
-					//start tile raster
-					0: begin
-						if(tile_done) begin
-							tile_start = 1;
-						end else begin
-							cb_rdreq = 0;
-						end
+		reset_ticks = 0;
+		stall_cmd = 0;
+		
+		if(cmd_addr[7:0] == 8'b0 && cmd_valid) begin
+			case(cmd_data[3:0])
+				//start tile raster
+				0: begin
+					if(!raster_busy) begin
+						tile_start = 1;
+					end else begin
+						stall_cmd = 1;
 					end
-					//start tile write to fifo
-					2: begin
-						if(!reading_from_tile && tile_done) begin
-							start_write = 1;
-							set_clear = 1;
-						end else begin
-							cb_rdreq = 0;
-						end
-					end
-					//wait for fifo to finish writing to RAM
-					4: begin
-						cb_rdreq = flushed_to_bus;
-					end
-					//reset the GPU state
-					5: begin
+				end
+				//start tile write to fifo
+				2: begin
+					if(!reading_from_tile && !raster_busy) begin
+						start_write = 1;
 						set_clear = 1;
+					end else begin
+						stall_cmd = 1;
 					end
-					default: ;//do nothing
-				endcase
-			end
+				end
+				//wait for fifo to finish writing to RAM
+				4: begin
+					stall_cmd = !flushed_to_bus;
+				end
+				//reset the GPU state
+				5: begin
+					set_clear = 1;
+					reset_ticks = 1;
+				end
+				default: ;//do nothing
+			endcase
 		end
 	end
 	
@@ -106,138 +155,72 @@ module gpu_core (
 	reg buffers_swapped;
 	always @ (posedge gpu_clk or posedge gpu_rst) begin
 		if (gpu_rst) begin
-			color <= 0;
 			clear <= 0;
-			A01 <= 0;
-			A12 <= 0;
-			A20 <= 0;
-			w0 <= 0;
-			w1 <= 0;
-			w2 <= 0;
 			addr <= 0;
 			stride <= 0;
-			B01 <= 0;
-			B12 <= 0;
-			B20 <= 0;
 			buffers_swapped <= 0;
-			zX <= 0;
-			zY <= 0;
-			zC <= 0;
 		end else begin
-			if(!cb_empty) begin
-				if(start_write) begin
-					buffers_swapped <= !buffers_swapped;
-				end
-				if(set_clear) begin
-					clear <= 1;
-				end else if(tile_start) begin
-					clear <= 0;
-				end
-				case(cmd_addr)
-					4'd1 : color <= cmd_data[15:0];
-					4'd2 : A01 <= cmd_data[18:0];
-					4'd3 : A12 <= cmd_data[18:0];
-					4'd4 : A20 <= cmd_data[18:0];
-					4'd5 : w0 <= cmd_data[31:0];
-					4'd6 : w1 <= cmd_data[31:0];
-					4'd7 : w2 <= cmd_data[31:0];
-					4'd8 : addr <= cmd_data[31:0];
-					4'd9 : stride <= cmd_data[15:0];
-					4'd10: B01 <= cmd_data[23:0];
-					4'd11: B12 <= cmd_data[23:0];
-					4'd12: B20 <= cmd_data[23:0];
-					4'd13: zX <= GPUFout;
-					4'd14: zY <= GPUFout;
-					4'd15: zC <= GPUFout;
-				endcase	
+			if(reset_ticks) begin
+				ticks <= 0;
+				raster_ticks <= 0;
+				writer_ticks <= 0;
+				cb_empty_ticks <= 0;
+			end else begin
+				ticks <= ticks + 1;
+				raster_ticks <= raster_ticks + raster_busy;
+				writer_ticks <= writer_ticks + reading_from_tile;
+				cb_empty_ticks <= cb_empty_ticks + !cmd_valid;
+			end
+
+			if(start_write) begin
+				buffers_swapped <= !buffers_swapped;
+			end
+			if(set_clear) begin
+				clear <= 1;
+			end else if(tile_start) begin
+				clear <= 0;
+			end
+			if(cmd_addr[7:4] == 4'd0 && cmd_valid) begin
+				case(cmd_addr[3:0])
+					4'd1: addr <= cmd_data;
+					4'd2: stride <= cmd_data[15:0];
+				endcase
 			end
 		end
 	end
-	
-	wire [26:0]GPUFout;
-	IEEEtoGPUF c0(
-		.X			(cmd_data),
-		.R			(GPUFout)
-	);
-	
-	
-	reg [15:0]color;
+			
 	reg clear;
-	
-	reg signed [18:0]A01;
-	reg signed [18:0]A12;
-	reg signed [18:0]A20;
-	
-	reg signed [31:0]w0;
-	reg signed [31:0]w1;
-	reg signed [31:0]w2;
-	
 	reg [31:0]addr;
-	
 	reg [15:0]stride;
-	
-	reg signed [23:0]B01;
-	reg signed [23:0]B12;
-	reg signed [23:0]B20;
-
-	reg [26:0]zX;
-	reg [26:0]zY;
-	reg [26:0]zC;
-	
-	wire tile_done;
+		
+	wire raster_busy;
 	reg tile_start;
-	wire tile_wren;
+	wire [3:0]tile_wren;
 	wire [15:0]tile_out;
-	wire [9:0]tile_ram_addr;
-	tile_renderer t0(
-		.clk 			(gpu_clk),
-		.rst			(gpu_rst),
-		.start		(tile_start),
+	wire [7:0]tile_ram_addr;
 	
-		.A01_in		(A01),
-		.B01_in		(B01),
-		.A12_in		(A12),
-		.B12_in		(B12),
-		.A20_in		(A20),
-		.B20_in		(B20),
+	raster_controller r0(
+		.clk	(gpu_clk),
+		.rst	(gpu_rst),
 
-		.w0_in		(w0),
-		.w1_in		(w1),
-		.w2_in		(w2),
-		
-		.dzdx_in		(zX),
-		.dzdy_in		(zY),
-		.zC_in		(zC),
-		
-		.color_in	(color),
-		.clear_in	(clear),
-		.wren			(tile_wren),
-		.done			(tile_done),
-		.X				(tile_ram_addr[4:0]),
-		.Y				(tile_ram_addr[9:5]),
-		.color_out	(tile_out)
+		//CPU writeable registers	
+		.reg_addr	(cmd_addr[3:0]),
+		.reg_data	(cmd_data),
+		.reg_float	(GPUFout),
+		.reg_wren	(cmd_addr[7:4] == 4'd1 && cmd_valid),
+	
+		//control signals
+		.start	(tile_start),
+		.busy		(raster_busy),
+		.clear	(clear),
+	
+		//output
+		.addr	(tile_ram_addr),
+		.wren	(tile_wren),
+		.data	(tile_out)
 	);
-	
-//	wire [15:0]r0_out;
-//	big_tile_ram r0(
-//		.clock		(gpu_clk),
-//		.data			(tile_out),
-//		.rdaddress	(writer_ram_addr),
-//		.wraddress	(tile_ram_addr),
-//		.wren			(tile_wren && !buffers_swapped),
-//		.q				(r0_out)
-//	);
-//	
-//	wire [15:0]r1_out;
-//	big_tile_ram r1(
-//		.clock		(gpu_clk),
-//		.data			(tile_out),
-//		.rdaddress	(writer_ram_addr),
-//		.wraddress	(tile_ram_addr),
-//		.wren			(tile_wren && buffers_swapped),
-//		.q				(r1_out)
-//	);
 
+	
 	byte_enabled_dual_port_ram #(
 		.RADDR_WIDTH(10),
 		.WADDR_WIDTH(9),
@@ -245,11 +228,11 @@ module gpu_core (
 		.BYTES(4)
 	) tile_ram (
 			.clk(gpu_clk),
-			.waddr({buffers_swapped, tile_ram_addr[9:2]}),
+			.waddr({buffers_swapped, tile_ram_addr}),
 			.raddr({~buffers_swapped, writer_ram_addr}),
-			.be(1 << tile_ram_addr[1:0]),
+			.be(tile_wren),
 			.wdata({4{tile_out}}), 
-			.we(tile_wren),
+			.we(tile_wren[0] | tile_wren[1] | tile_wren[2] | tile_wren[3]),
 			.q(ram_data_out)
 	);
 	

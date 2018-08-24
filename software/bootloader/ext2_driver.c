@@ -167,6 +167,8 @@ uint32_t blocksAtInodeIndex(const struct inode* inode, uint32_t index, uint32_t*
         uint32_t newBlock;
         readAddr(addr, &newBlock, sizeof(uint32_t));
         addr = (uint32_t*)blockAddr(newBlock) + (index % blocksPerBlock)*sizeof(uint32_t);
+        left = blocksPerBlock - (index % blocksPerBlock);
+        toCopy = left > buflen ? buflen : left;
         readAddr(addr, buf, sizeof(uint32_t*)*toCopy);
         return toCopy;
     }

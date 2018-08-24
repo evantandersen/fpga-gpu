@@ -20,14 +20,14 @@ module plane_eq #(
 		for(i = 0; i < SIZE; i++) begin : x_loop
 			//convert x values to floats
 			wire [17:0]x_float;
-			u16_18f u0(
+			u16_f18 u0(
 				.clk(clk),
 				.areset(rst),
 
 				.a(16'(x + i)),
 				.q(x_float)
 			);
-			fma_18f fma0(
+			fma_f18 fma0(
 				.clk(clk),
 				.areset(rst),
 
@@ -56,14 +56,14 @@ module plane_eq #(
 	generate
 		for(j = 0; j < SIZE; j++) begin :y_loop
 			wire [17:0]y_float;
-			u16_18f u0(
+			u16_f18 u0(
 				.clk(clk),
 				.areset(rst),
 
 				.a(16'(y_delay + j)),
 				.q(y_float)
 			);
-			mult_18f fma0(
+			mult_f18 fma0(
 				.clk(clk),
 				.areset(rst),
 
@@ -78,7 +78,7 @@ module plane_eq #(
 	generate
 		for(i = 0; i < SIZE; i++) begin : x_loop_2
 			for(j = 0; j < SIZE; j++) begin : y_loop_2
-				add_18f a0(
+				add_f18 a0(
 					.clk(clk),
 					.areset(rst),
 

@@ -36,15 +36,15 @@ module vga_dram_master(
 	
 	//fifo to buffer data and bridge clock domains
 	wire rdempty, wrfull;
-	wire [6:0]wrusedw;
-	pixel_fifo F1(rst, master_read_data, VGA_CLK, read_pixel, clk, master_read_data_valid, data_out, rdempty, wrfull, wrusedw);
+	wire [8:0]wrusedw;
+	pixel_fifo F1(rst | start, master_read_data, VGA_CLK, read_pixel, clk, master_read_data_valid, data_out, rdempty, wrfull, wrusedw);
 		
 	
 	//pipelined access 
 	assign master_address = currAddress; 
 	
 	//whenever the fifo is at least half-empty, try and read in 8 words
-	wire shouldReadBurst = !wrusedw[6] && !wrfull && (wordsRead < 18'd240000) && (currAddress != 0);
+	wire shouldReadBurst = !wrusedw[8] && !wrfull && (wordsRead < 18'd240000) && (currAddress != 0);
 	assign master_read = shouldReadBurst | (currAddress[4:0] != 0);
 	
 	reg [31:0]currAddress;

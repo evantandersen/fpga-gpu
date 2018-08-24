@@ -22,6 +22,26 @@ const color_t colors[] = {
 	COLOR(31,16,0),
 };
 
+void drawLine(uint16_t *fb, size_t width, size_t barYpos, size_t barHeight, float barValue, color_t color) {
+
+	size_t barWidth = barHeight*8;
+	size_t colorEnd = ((float)barWidth)*barValue;
+
+	size_t end = barYpos + barHeight;
+	for(int i = barYpos; i < end; i++) {
+		init_dcache(&fb[i*width], 2*(barWidth + 1));
+		for(int j = 0; j < colorEnd; j++) {
+			fb[i*width + j] = color;
+		}
+		for(int j = colorEnd; j < barWidth; j++) {
+			fb[i*width + j] = 0;
+		}
+		fb[i*width + barWidth] = COLOR(31, 31, 31);
+		flush_dcache(&fb[i*width], 2*(barWidth + 1));
+	}
+
+} 
+
 size_t tokenizeString(char *src, char **tokens, size_t size) {
 	size_t n = 0;
 	while(n < size && *src != '\0') {
@@ -77,11 +97,11 @@ int main(void) {
 	ext2_readall(&testInode, buf);
 
 	//instead of counting just guess that it's <2000
-	point_t *vertices = alloc_perm(sizeof(point_t) * 2000);
+	point_t *vertices = alloc_perm(sizeof(point_t) * 3000);
     uint16_t nvertices = 0;
 
 	//instead of counting just guess that it's <1000
-	triangle_t *tris = alloc_perm(sizeof(triangle_t) * 1000);
+	triangle_t *tris = alloc_perm(sizeof(triangle_t) * 6000);
     uint16_t ntris = 0;
 
     //parse the file
@@ -110,8 +130,9 @@ int main(void) {
     	}
     }
 
-	uint16_t *frontFB = alloc_perm(800*600*sizeof(uint16_t));
-	uint16_t *backFB = alloc_perm(800*600*sizeof(uint16_t));
+    //extra 10 pixels on the bottom row is extra space for the last tile
+	uint16_t *frontFB = alloc_perm(800*610*sizeof(uint16_t));
+	uint16_t *backFB = alloc_perm(800*610*sizeof(uint16_t));
 
     	
 	VGA[1] = (uint32_t)frontFB;
@@ -124,15 +145,15 @@ int main(void) {
 	while(1) {
 
 		if(*KEY & 0x1) {
-			xpos += 5;
+			xpos += 3;
 			xpos %= 360;
 		}
 		if(*KEY & 0x2) {
-			ypos += 5;
+			ypos += 3;
 			ypos %= 360;
 		}
 		if(*KEY & 0x4) {
-			zpos += 5;
+			zpos += 3;
 			zpos %= 360;
 		}
 				        
@@ -219,20 +240,27 @@ int main(void) {
 		mult_4x4(rotMatY, rotMatX, scene.view);
 		mult_4x4(rotMatZ, scene.view, tmp);
 		mult_4x4(viewMat, tmp, scene.view);
-
-		//if(SW[0] & 0x2) {
-		//	gradient(frontFB);
-		//	flush_dcache();
-		//	while(SW[0] & 0x2);
-		//}
-		//if(SW[0] & 0x4) {
-		//	draw_checkerboard_gpu(frontFB);
-		//	while(SW[0] & 0x4);
-		//}
 		
 		//time for the magic
 		gpu_render_scene(&target, &scene);
-				
+			
+		// //fetch the GPU statistics and draw them to the top of the screen
+		size_t totalTick = GPU->core[1];
+		size_t rasterTick = GPU->core[2];
+		size_t writerTick = GPU->core[3];
+		size_t bufferTick = GPU->core[4];
+
+		float rasterDuty = ((float)rasterTick)/totalTick;
+		float writerDuty = ((float)writerTick)/totalTick;
+		float bufferDuty = ((float)bufferTick)/totalTick;
+
+		drawLine(target.framebuffer, target.width, 0, 15, rasterDuty, COLOR(0, 5, 31));
+		drawLine(target.framebuffer, target.width, 15, 15, writerDuty, COLOR(0, 15, 0));
+		drawLine(target.framebuffer, target.width, 30, 15, bufferDuty, COLOR(31, 31, 0));
+
+		//reset the GPU stats
+		GPU->core[0] = 5;
+
 		//send the fresh frame to the VGA module
 		VGA[1] = (uint32_t)backFB;
 		
@@ -241,8 +269,10 @@ int main(void) {
 		
 		//how many times did the screen draw while we rendered this frame?
         uint32_t frames = VGA[0];
-		*LEDR = frame;
+		*LEDR = frames;
         frame += frames;
+
+
 		
 		//swap back/front buffers 
 		uint16_t *tmpFB = backFB;
