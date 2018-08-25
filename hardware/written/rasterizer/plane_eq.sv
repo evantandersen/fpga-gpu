@@ -23,14 +23,12 @@ module plane_eq #(
 			u16_f18 u0(
 				.clk(clk),
 				.areset(rst),
-
 				.a(16'(x + i)),
 				.q(x_float)
 			);
 			fma_f18 fma0(
 				.clk(clk),
 				.areset(rst),
-
 				.a(x_float),
 				.b(dzdx),
 				.c(c),
@@ -39,14 +37,16 @@ module plane_eq #(
 		end
 	endgenerate
 
-	//mult has latency 3, fma has latency 9
-	//this delays the y path by 6 cycles to compensate
+	//mult has latency 4, fma has latency 13
+	//this delays the y path by 9 cycles to compensate
 	wire [15:0]y_delay;
 	shift_reg #(
 		.WIDTH(16),
-		.DEPTH(6)
+		.DEPTH(9)
 	) r0 (
 		.clk(clk),
+		.rst(rst),
+		.clk_en(1),
 		.in(y),
 		.out(y_delay)
 	);
@@ -59,14 +59,12 @@ module plane_eq #(
 			u16_f18 u0(
 				.clk(clk),
 				.areset(rst),
-
 				.a(16'(y_delay + j)),
 				.q(y_float)
 			);
 			mult_f18 fma0(
 				.clk(clk),
 				.areset(rst),
-
 				.a(y_float),
 				.b(dzdy),
 				.q(y_result[j])
@@ -81,7 +79,6 @@ module plane_eq #(
 				add_f18 a0(
 					.clk(clk),
 					.areset(rst),
-
 					.a(x_result[j]),
 					.b(y_result[i]),
 					.q(z[i][j])

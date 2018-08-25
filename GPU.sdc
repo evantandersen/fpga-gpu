@@ -46,7 +46,7 @@ set_clock_groups -asynchronous -group {altera_reserved_tck}
 create_generated_clock -source {P0|altpll_component|auto_generated|pll1|inclk[0]} -divide_by 5 -multiply_by 9 -duty_cycle 50.00 -name {nios_clk} {P0|altpll_component|auto_generated|pll1|clk[0]}
 create_generated_clock -source {P0|altpll_component|auto_generated|pll1|inclk[0]} -divide_by 5 -multiply_by 9 -phase -90.00 -duty_cycle 50.00 -name {dram_clk} {P0|altpll_component|auto_generated|pll1|clk[1]}
 create_generated_clock -source {P0|altpll_component|auto_generated|pll1|inclk[0]} -divide_by 5 -multiply_by 4 -duty_cycle 50.00 -name {vga_clk} {P0|altpll_component|auto_generated|pll1|clk[2]}
-create_generated_clock -source {P1|altpll_component|auto_generated|pll1|inclk[0]} -multiply_by 2 -duty_cycle 50.00 -name {gpu_clk} {P1|altpll_component|auto_generated|pll1|clk[0]}
+create_generated_clock -source {P1|altpll_component|auto_generated|pll1|inclk[0]} -multiply_by 3 -duty_cycle 50.00 -name {gpu_clk} {P1|altpll_component|auto_generated|pll1|clk[0]}
 
 
 #**************************************************************
@@ -83,6 +83,7 @@ derive_clock_uncertainty
 #**************************************************************
 # Set Clock Groups
 #**************************************************************
+set_clock_groups -asynchronous -group {nios_clk dram_clk} -group {gpu_clk} -group {vga_clk}
 
 
 

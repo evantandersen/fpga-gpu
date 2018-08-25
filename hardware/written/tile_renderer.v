@@ -16,9 +16,9 @@ module tile_renderer(
 	input signed [31:0]w1_in,
 	input signed [31:0]w2_in,
 	
-	input [26:0]dzdx_in,
-	input [26:0]dzdy_in,
-	input [26:0]zC_in,
+	input [17:0]dzdx_in,
+	input [17:0]dzdy_in,
+	input [17:0]zC_in,
 	
 	input [15:0]color_in,
 	input clear_in,
@@ -38,9 +38,9 @@ module tile_renderer(
 	reg signed [23:0]B20;
 	reg signed [23:0]B01;
 	            
-	reg [26:0]dzdx;
-	reg [26:0]dzdy;
-	reg [26:0]zC;
+	reg [17:0]dzdx;
+	reg [17:0]dzdy;
+	reg [17:0]zC;
 
 	reg [15:0]color;
 	reg clear;
@@ -108,20 +108,34 @@ module tile_renderer(
 		.rasterPixel	(rasterPixel_start)
 	);
 
-	wire [26:0]pixelZ;
-	z_interpolation z0(
+	wire [17:0]pixelZ;
+//	z_interpolation z0(
+//		.clk	(clk),
+//		.rst	(rst),
+//		.x		(X_start),
+//		.y		(Y_start),
+//		.dzdx	(dzdx),
+//		.dzdy	(dzdy),
+//		.c		(zC),
+//	
+//		.z		(pixelZ)
+//	);
+
+	plane_eq #(
+		.SIZE(1)
+	) z_calc (
 		.clk	(clk),
 		.rst	(rst),
-		.x		(X_start),
-		.y		(Y_start),
-		.dzdx	(dzdx),
 		.dzdy	(dzdy),
+		.dzdx	(dzdx),
 		.c		(zC),
-	
-		.z		(pixelZ)
-	);
+		.x	(X_start),
+		.y	(Y_start),
+		.z	(pixelZ)
+);
 
-	wire [26:0]newZ;
+	
+	wire [17:0]newZ;
 	raster_end e0(
 		.pixelZ		(pixelZ),
 		.currZ		(currZ),
@@ -134,7 +148,7 @@ module tile_renderer(
 		.newZ			(newZ)
 	);
 
-	wire [26:0]currZ;
+	wire [17:0]currZ;
 	depth_buffer b0 (
 		.clock 		(clk),
 		.data			(newZ),
@@ -148,7 +162,7 @@ module tile_renderer(
 	wire clearPixel, rasterPixel;
 	shift_reg #(
 		.WIDTH(2),
-		.DEPTH(8)
+		.DEPTH(27)
 	) s0 (
 		.clk	(clk),
 		.rst	(rst),
@@ -160,7 +174,7 @@ module tile_renderer(
 	wire [9:0]addr_inter;
 	shift_reg #(
 		.WIDTH(10),
-		.DEPTH(6)
+		.DEPTH(25)
 	) s1 (
 		.clk	(clk),
 		.rst	(rst),
@@ -184,13 +198,13 @@ module tile_renderer(
 	assign X = addr_final[4:0];
 	assign Y = addr_final[9:5];
 	
-	reg [3:0]timeToFlush;
+	reg [4:0]timeToFlush;
 	always @ (posedge clk or posedge rst) begin
 		if(rst) begin
 			timeToFlush <= 0;
 		end else begin
 			if(!raster_done) begin
-				timeToFlush <= 8;
+				timeToFlush <= 27;
 			end else if(timeToFlush > 0) begin
 				timeToFlush <= timeToFlush - 1'd1;
 			end

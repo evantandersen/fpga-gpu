@@ -241,6 +241,9 @@ int main(void) {
 		mult_4x4(rotMatZ, scene.view, tmp);
 		mult_4x4(viewMat, tmp, scene.view);
 		
+		//reset the GPU stats
+		GPU->core[0] = 5;
+
 		//time for the magic
 		gpu_render_scene(&target, &scene);
 			
@@ -257,9 +260,6 @@ int main(void) {
 		drawLine(target.framebuffer, target.width, 0, 15, rasterDuty, COLOR(0, 5, 31));
 		drawLine(target.framebuffer, target.width, 15, 15, writerDuty, COLOR(0, 15, 0));
 		drawLine(target.framebuffer, target.width, 30, 15, bufferDuty, COLOR(31, 31, 0));
-
-		//reset the GPU stats
-		GPU->core[0] = 5;
 
 		//send the fresh frame to the VGA module
 		VGA[1] = (uint32_t)backFB;

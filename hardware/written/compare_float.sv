@@ -1,21 +1,19 @@
 module compare_float #(
-	parameter EXPONENT = 7,
-	parameter MANTISSA = 17
+	parameter EXPONENT = 6,
+	parameter MANTISSA = 11
 )
 (
-	input [EXPONENT+MANTISSA+2:0]X,
-	input [EXPONENT+MANTISSA+2:0]Y,
+	input [EXPONENT+MANTISSA:0]X,
+	input [EXPONENT+MANTISSA:0]Y,
 	output XGreaterThanY
 );
-	localparam END = EXPONENT+MANTISSA+2;
+	localparam END = EXPONENT+MANTISSA;
 
-	wire signX = X[END-2];
-	wire signY = Y[END-2];
+	wire signX = X[END];
+	wire signY = Y[END];
 
-	wire [END-1:0]Xbits = {X[END:END-1], X[END-3:0]}; 
-	wire [END-1:0]Ybits = {Y[END:END-1], Y[END-3:0]}; 
 	
-	wire comp = Xbits > Ybits;
+	wire comp = X[END-1:0] > Y[END-1:0];
 	
 	reg result;
 	always_comb begin
@@ -27,7 +25,7 @@ module compare_float #(
 		endcase
 	end
 
-	wire bothZero = (X[END:END-1] == 0) && (Y[END:END-1] == 0);
+	wire bothZero = (X == 0) && (Y == 0);
 	
 	assign XGreaterThanY = result && !bothZero;
 

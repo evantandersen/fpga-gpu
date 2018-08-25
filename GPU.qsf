@@ -660,6 +660,13 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY compiler_output
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name SYNCHRONIZER_IDENTIFICATION AUTO
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/generated/fp/u16_f18.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/generated/fp/mult_f18.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/generated/fp/fma_f18.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/generated/fp/f32_f18.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/generated/fp/dspba_library_ver.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/generated/fp/add_f18.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/rasterizer/rasterizer_controller.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/memory/ByteEnabledDualPort.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/rasterizer/plane_eq.sv

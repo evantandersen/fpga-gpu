@@ -5,7 +5,7 @@ module raster_controller(
 	//CPU writeable registers	
 	input [3:0]reg_addr,
 	input [31:0]reg_data,
-	input [26:0]reg_float,
+	input [17:0]reg_float,
 	input reg_wren,
 	
 	//control signals
@@ -33,9 +33,9 @@ module raster_controller(
 	reg signed [31:0]w1;
 	reg signed [31:0]w2;
 	
-	reg [26:0]zX;
-	reg [26:0]zY;
-	reg [26:0]zC;
+	reg [17:0]zX;
+	reg [17:0]zY;
+	reg [17:0]zC;
 
 
 	always_ff @ (posedge clk) begin

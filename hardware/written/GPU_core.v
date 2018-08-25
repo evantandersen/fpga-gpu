@@ -29,10 +29,10 @@ module gpu_core (
 	always @ (*) begin
 		case(slave_address)
 			4'd0 : read_reg = cb_usedw;
-			4'd1 : read_reg = ticks;
-			4'd2 : read_reg = raster_ticks;
-			4'd3 : read_reg = writer_ticks;
-			4'd4 : read_reg = cb_empty_ticks;
+			4'd1 : read_reg = read_ticks;
+			4'd2 : read_reg = read_raster_ticks;
+			4'd3 : read_reg = read_writer_ticks;
+			4'd4 : read_reg = read_cb_empty_ticks;
 			default: read_reg = 32'd0;
 		endcase
 	end
@@ -43,6 +43,52 @@ module gpu_core (
 	reg [31:0]writer_ticks;
 	reg [31:0]cb_empty_ticks;
 
+	wire [31:0]read_ticks;
+	wire [31:0]read_raster_ticks;
+	wire [31:0]read_writer_ticks;
+	wire [31:0]read_cb_empty_ticks;
+	shift_reg #(
+		.WIDTH(32),
+		.DEPTH(2)
+	) tick_sync (
+		.clk(clk),
+		.rst(rst),
+		.clk_en(1),
+		.in(ticks),
+		.out(read_ticks)
+	);
+	shift_reg #(
+		.WIDTH(32),
+		.DEPTH(2)
+	) raster_tick_sync (
+		.clk(clk),
+		.rst(rst),
+		.clk_en(1),
+		.in(raster_ticks),
+		.out(read_raster_ticks)
+	);
+	shift_reg #(
+		.WIDTH(32),
+		.DEPTH(2)
+	) writer_tick_sync (
+		.clk(clk),
+		.rst(rst),
+		.clk_en(1),
+		.in(writer_ticks),
+		.out(read_writer_ticks)
+	);
+	shift_reg #(
+		.WIDTH(32),
+		.DEPTH(2)
+	) cb_empty_tick_sync (
+		.clk(clk),
+		.rst(rst),
+		.clk_en(1),
+		.in(cb_empty_ticks),
+		.out(read_cb_empty_ticks)
+	);
+
+	
 	//buffer commands from the CPU
 	reg stall_cmd;
 	wire cb_rdreq = !(cb_empty || stall_cmd);
@@ -89,18 +135,13 @@ module gpu_core (
 	);
 
 	//convert incoming single precision floats to GPU sized 18 bits
-//	wire [17:0]cmd_float;
-//	f32_f18 fpConv (
-//		.clk(gpu_clk),
-//		.en(!stall_cmd),
-//		.areset(gpu_rst),
-//		.a(cb_readdata[31:0]),
-//		.q(cmd_float)
-//	);
-	wire [26:0]GPUFout;
-	IEEEtoGPUF c0(
-		.X			(cmd_data),
-		.R			(GPUFout)
+	wire [17:0]cmd_float;
+	f32_f18 fpConv (
+		.clk(gpu_clk),
+		.en(!stall_cmd),
+		.areset(gpu_rst),
+		.a(cb_readdata[31:0]),
+		.q(cmd_float)
 	);
 	
 	wire [7:0]cmd_addr = cmd_out[39:32];
@@ -206,7 +247,7 @@ module gpu_core (
 		//CPU writeable registers	
 		.reg_addr	(cmd_addr[3:0]),
 		.reg_data	(cmd_data),
-		.reg_float	(GPUFout),
+		.reg_float	(cmd_float),
 		.reg_wren	(cmd_addr[7:4] == 4'd1 && cmd_valid),
 	
 		//control signals
