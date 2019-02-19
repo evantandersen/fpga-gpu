@@ -96,11 +96,11 @@ int main(void) {
 	char *buf = alloc_tmp(testInode.sizel);
 	ext2_readall(&testInode, buf);
 
-	//instead of counting just guess that it's <2000
+	//instead of counting just guess that it's <3000
 	point_t *vertices = alloc_perm(sizeof(point_t) * 3000);
     uint16_t nvertices = 0;
 
-	//instead of counting just guess that it's <1000
+	//instead of counting just guess that it's <6000
 	triangle_t *tris = alloc_perm(sizeof(triangle_t) * 6000);
     uint16_t ntris = 0;
 
@@ -129,12 +129,14 @@ int main(void) {
     		}
     	}
     }
+    //finished parsing, cleanup mem
+    reset_tmp();
 
     //extra 10 pixels on the bottom row is extra space for the last tile
 	uint16_t *frontFB = alloc_perm(800*610*sizeof(uint16_t));
 	uint16_t *backFB = alloc_perm(800*610*sizeof(uint16_t));
 
-    	
+
 	VGA[1] = (uint32_t)frontFB;
 	
 	int32_t xpos = 180;
@@ -143,7 +145,7 @@ int main(void) {
     
     uint32_t frame = 0;
 	while(1) {
-
+		while((*SW & 0x3ff) != 0);
 		if(*KEY & 0x1) {
 			xpos += 3;
 			xpos %= 360;
@@ -269,7 +271,7 @@ int main(void) {
 		
 		//how many times did the screen draw while we rendered this frame?
         uint32_t frames = VGA[0];
-		*LEDR = frames;
+		//*LEDR = frames;
         frame += frames;
 
 

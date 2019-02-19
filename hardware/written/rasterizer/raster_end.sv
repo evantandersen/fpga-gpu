@@ -12,7 +12,7 @@ module raster_end(
 
 	assign wren = (rasterPixel & zTest) | clearPixel;
 	assign color = rasterPixel ? color_in : 16'b0;
-	assign newZ = rasterPixel ? pixelZ : 27'b0;
+	assign newZ = rasterPixel ? pixelZ : 18'b0;
 	
 	wire zTest;
 	compare_float c0(

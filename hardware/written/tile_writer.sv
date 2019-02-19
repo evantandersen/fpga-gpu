@@ -24,12 +24,7 @@ module tile_writer (
 
 	assign reading = (state != S_IDLE);
 	assign flushed = !reading && wrempty;
-	assign ram_addr_out = ram_addr;
-	
-	//whenever the fifo is at least half-empty, write 32 pixels into it
-	wire shouldWriteBurst = !usedw[7] && !full;
-	wire shouldWrite = shouldWriteBurst || (ram_addr[3:0] != 0);
-	
+	assign ram_addr_out = ram_addr;	
 	
 	reg [8:0]ram_addr;
 	reg [31:0]currAddr;
@@ -39,7 +34,7 @@ module tile_writer (
 	wire fifo_wren = shift_out[32];
 
 	wire [32:0]shift_out;
-	wire isWriting = (shouldWrite && (state == S_WRITE));
+	wire isWriting = (state == S_WRITE);
 	shift_reg #(
 		.WIDTH(33),
 		.DEPTH(2)
@@ -53,6 +48,7 @@ module tile_writer (
 	
 	enum {
 		S_IDLE,
+		S_WAIT,
 		S_WRITE
 	} state;
 	
@@ -69,24 +65,29 @@ module tile_writer (
 						currAddr <= addr_in;
 						stride <= stride_in;
 						ram_addr <= 0;
+						state <= S_WAIT;
+					end
+				end
+				//wait for space in fifo
+				S_WAIT: begin
+					if(!usedw[7] && !full) begin
 						state <= S_WRITE;
 					end
 				end
-																
+				//whenever the fifo is at least half-empty, write 32 pixels into it
 				S_WRITE: begin
-					if(shouldWrite) begin
-						if(ram_addr[3:0] == 15) begin
-							currAddr <= currAddr + stride - 60;
-						end else begin
-							currAddr <= currAddr + 4;
-						end
-						ram_addr <= ram_addr + 1'd1;
-						if(ram_addr == 511) begin
-							state <= S_IDLE;
-						end
+					if(ram_addr[3:0] == 15) begin
+						currAddr <= currAddr + stride - 60;
+					end else begin
+						currAddr <= currAddr + 4;
+					end
+					ram_addr <= ram_addr + 1'd1;
+					if(ram_addr == 511) begin
+						state <= S_IDLE;
+					end else if(ram_addr[3:0] == 4'd15) begin
+						state <= S_WAIT;
 					end
 				end
-				
 			endcase
 		end
 	end

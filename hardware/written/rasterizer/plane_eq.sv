@@ -73,6 +73,7 @@ module plane_eq #(
 	endgenerate
 
 	//sum them together
+	wire [SIZE-1:0][SIZE-1:0][17:0]result;
 	generate
 		for(i = 0; i < SIZE; i++) begin : x_loop_2
 			for(j = 0; j < SIZE; j++) begin : y_loop_2
@@ -81,11 +82,21 @@ module plane_eq #(
 					.areset(rst),
 					.a(x_result[j]),
 					.b(y_result[i]),
-					.q(z[i][j])
+					.q(result[i][j])
 				);
 			end
 		end
 	endgenerate
+	
+	reg [SIZE-1:0][SIZE-1:0][17:0]out;
+	always_ff @ (posedge clk or posedge rst) begin
+		if(rst) begin
+			out <= 0;
+		end else begin
+			out <= result;
+		end
+	end
+	assign z = out;
 
 endmodule
 

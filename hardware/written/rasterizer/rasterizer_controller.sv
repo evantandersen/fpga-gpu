@@ -76,7 +76,7 @@ module raster_controller(
 	wire tile_done;
 	wire tile_wren;
 	wire [9:0]tile_ram_addr;
-	tile_renderer t0(
+	raster_pipeline t0(
 		.clk 			(clk),
 		.rst			(rst),
 		.start		(start),

@@ -8,9 +8,16 @@ EXP_BITS=6
 MAN_BITS=11
 FBITS="f$(($EXP_BITS + $MAN_BITS + 1))"
 
-cp $QUARTUS_PATH/quartus/dspba/backend/Libraries/sv/base/dspba_library_ver.sv .
-$CMD -name add_$FBITS FPAdd $EXP_BITS $MAN_BITS 
-$CMD -name mult_$FBITS FPMul $EXP_BITS $MAN_BITS
-$CMD -name fma_$FBITS FPMultAdd $EXP_BITS $MAN_BITS
-$CMD -enable -name f32_$FBITS FPToFP 8 23 $EXP_BITS $MAN_BITS
-$CMD -name u16_$FBITS FXPToFP 16 0 0 $EXP_BITS $MAN_BITS
+echo Generating IP cores for $FBITS
+{
+	$CMD -name add_$FBITS FPAdd $EXP_BITS $MAN_BITS 
+	$CMD -name mult_$FBITS FPMul $EXP_BITS $MAN_BITS
+	$CMD -name fma_$FBITS FPMultAdd $EXP_BITS $MAN_BITS
+	$CMD -name div_$FBITS FPDiv $EXP_BITS $MAN_BITS 0
+	$CMD -name sin_$FBITS FPSinPiX $EXP_BITS $MAN_BITS
+	$CMD -name cmp_lt_$FBITS FPCompare $EXP_BITS $MAN_BITS -2
+	$CMD -name cmp_sel_$FBITS FPCompareFused $EXP_BITS $MAN_BITS
+	$CMD -enable -name f32_$FBITS FPToFP 8 23 $EXP_BITS $MAN_BITS
+	$CMD -name u16_$FBITS FXPToFP 16 0 0 $EXP_BITS $MAN_BITS
+} > log.txt
+

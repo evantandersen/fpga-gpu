@@ -1,5 +1,5 @@
 
-module tile_renderer(
+module raster_pipeline(
 	input clk,
 	input rst,
 	input start,
@@ -45,7 +45,7 @@ module tile_renderer(
 	reg [15:0]color;
 	reg clear;
 		
-	always @ (posedge clk or posedge rst) begin
+	always_ff @ (posedge clk or posedge rst) begin
 		if (rst) begin
 			A12 <= 0;
 			A20 <= 0;
@@ -78,16 +78,36 @@ module tile_renderer(
 		end
 	end
 
-	wire [4:0]X_start;
-	wire [4:0]Y_start;
+	reg [9:0]index;
+	wire [4:0]X_start = index[4:0];
+	wire [4:0]Y_start = index[9:5];
+	
+	reg enable;
+
+	always_ff @ (posedge clk or posedge rst) begin
+		if (rst) begin
+			enable <= 0;
+			index <= 0;
+		end else begin
+			if(start) begin												
+				index <= 0;
+				enable <= 1;
+			end else begin
+				index <= index + 1'd1;
+				if (index == 1023) begin
+					enable <= 1'd0;
+				end
+			end
+		end
+	end
+	
 	wire clearPixel_start;
 	wire rasterPixel_start;
-	wire raster_done;
 	rasterizer r0(
 		.clk		(clk),
 		.rst		(rst),
 		.start	(start),
-		.done		(raster_done),
+		.enable	(enable),
 		.clear	(clear),
 	
 		.A01		(A01),
@@ -109,18 +129,6 @@ module tile_renderer(
 	);
 
 	wire [17:0]pixelZ;
-//	z_interpolation z0(
-//		.clk	(clk),
-//		.rst	(rst),
-//		.x		(X_start),
-//		.y		(Y_start),
-//		.dzdx	(dzdx),
-//		.dzdy	(dzdy),
-//		.c		(zC),
-//	
-//		.z		(pixelZ)
-//	);
-
 	plane_eq #(
 		.SIZE(1)
 	) z_calc (
@@ -132,8 +140,7 @@ module tile_renderer(
 		.x	(X_start),
 		.y	(Y_start),
 		.z	(pixelZ)
-);
-
+	);
 	
 	wire [17:0]newZ;
 	raster_end e0(
@@ -158,6 +165,20 @@ module tile_renderer(
 		.q				(currZ)
 	);
 
+//	byte_enabled_dual_port_ram #(
+//		.RADDR_WIDTH(10),
+//		.WADDR_WIDTH(10),
+//		.BYTE_WIDTH(18),
+//		.BYTES(1)
+//	) depth_buffer (
+//		.clk(clk),
+//		.waddr(addr_final),
+//		.raddr(addr_inter),
+//		.be(wren),
+//		.wdata(newZ), 
+//		.we(wren),
+//		.q(currZ)
+//	);
 	
 	wire clearPixel, rasterPixel;
 	shift_reg #(
@@ -174,7 +195,7 @@ module tile_renderer(
 	wire [9:0]addr_inter;
 	shift_reg #(
 		.WIDTH(10),
-		.DEPTH(25)
+		.DEPTH(26)
 	) s1 (
 		.clk	(clk),
 		.rst	(rst),
@@ -199,18 +220,26 @@ module tile_renderer(
 	assign Y = addr_final[9:5];
 	
 	reg [4:0]timeToFlush;
-	always @ (posedge clk or posedge rst) begin
+	reg flushed;
+	always_ff @ (posedge clk or posedge rst) begin
 		if(rst) begin
 			timeToFlush <= 0;
+			flushed <= 0;
 		end else begin
-			if(!raster_done) begin
+			if(start) begin
+				flushed <= 0;
 				timeToFlush <= 27;
-			end else if(timeToFlush > 0) begin
-				timeToFlush <= timeToFlush - 1'd1;
+			end else begin
+				flushed <= (timeToFlush == 0);
+				if(enable) begin
+					timeToFlush <= 27;
+				end else if(timeToFlush > 0) begin
+					timeToFlush <= timeToFlush - 1'd1;
+				end
 			end
 		end
 	end
-	assign done = (timeToFlush == 0);
+	assign done = flushed;
 	
 endmodule
 

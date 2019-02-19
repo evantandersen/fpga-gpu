@@ -107,6 +107,7 @@ void transform_poly_list(scene_t *scene, render_target_t *target, polygon_list_t
 		k = normal(v0, v1, v2, &i, &j);
 	    //normalize the normal (get it?)
 	    float mag = sqrtf(i*i + j*j + k*k);
+	  
 	    i /= mag;
 	    j /= mag;
 	    k /= mag;
@@ -251,13 +252,13 @@ void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *dat
 				
 				//compute the step functions
 				int32_t A01 = (v0.y - v1.y);
-				int32_t B01 = (v1.x - v0.x) - 31*A01;	
+				int32_t B01 = (v1.x - v0.x);	
 					
 				int32_t A12 = (v1.y - v2.y);
-				int32_t B12 = (v2.x - v1.x) - 31*A12;
+				int32_t B12 = (v2.x - v1.x);
 				
 				int32_t A20 = (v2.y - v0.y);
-				int32_t B20 = (v0.x - v2.x) - 31*A20;
+				int32_t B20 = (v0.x - v2.x);
 
 							
 				//color
@@ -294,6 +295,8 @@ void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *dat
 				//start rendering tile
 				GPU->core[0] = 0;	
 			}
+			tri_tiles_rastered += bin->ntris;
+
 			if(bin->ntris == 0) {
 				//clear tile
 				GPU->rasterizer[1] = 0;
@@ -311,7 +314,6 @@ void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *dat
 				GPU->core[0] = 0;
 				tri_tiles_rastered += 1;
 			}
-			tri_tiles_rastered += bin->ntris;
 
 			//set the address to write to RAM
 			GPU->core[1] = ((uint32_t)(target->framebuffer)) + (i*32*800*2) + (j*32*2);
@@ -323,7 +325,7 @@ void draw_triangles_barycentric_gpu(render_target_t *target, polygon_list_t *dat
 	}	
 	//wait for all data to finish writing
 	GPU->core[0] = 4;
-	//*LEDR = tri_tiles_rastered;
+	*LEDR = tri_tiles_rastered;
 	while(GPU->core[0]);
 }
 
