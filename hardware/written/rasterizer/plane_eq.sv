@@ -46,7 +46,7 @@ module plane_eq #(
 	) r0 (
 		.clk(clk),
 		.rst(rst),
-		.clk_en(1),
+		.clk_en(1'b1),
 		.in(y),
 		.out(y_delay)
 	);

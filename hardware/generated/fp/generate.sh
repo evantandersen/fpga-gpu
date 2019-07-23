@@ -1,4 +1,4 @@
-QUARTUS_PATH=/home/evantandersen/apps/altera
+QUARTUS_PATH=/home/evan/apps/altera
 
 OPTIONS="-lang verilog -target CycloneIVE -frequency 200 -enableHardFP 1 -noChanValid -faithfulRounding -speedgrade 7"
 
@@ -20,4 +20,4 @@ echo Generating IP cores for $FBITS
 	$CMD -enable -name f32_$FBITS FPToFP 8 23 $EXP_BITS $MAN_BITS
 	$CMD -name u16_$FBITS FXPToFP 16 0 0 $EXP_BITS $MAN_BITS
 } > log.txt
-
+cp $QUARTUS_PATH/quartus/dspba/backend/Libraries/sv/base/dspba_library_ver.sv .
