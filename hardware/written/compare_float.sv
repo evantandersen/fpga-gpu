@@ -1,13 +1,15 @@
-module compare_float #(
-	parameter EXPONENT = 6,
-	parameter MANTISSA = 11
-)
-(
-	input [EXPONENT+MANTISSA:0]X,
-	input [EXPONENT+MANTISSA:0]Y,
-	output XGreaterThanY
+module compare_float(
+	X,
+	Y,
+	XGreaterThanY
 );
-	localparam END = EXPONENT+MANTISSA;
+	parameter int EXPONENT = 6;
+	parameter int MANTISSA = 11;
+	localparam int END = EXPONENT+MANTISSA;
+
+	input [END:0]X;
+	input [END:0]Y;
+	output XGreaterThanY;
 
 	wire signX = X[END];
 	wire signY = Y[END];

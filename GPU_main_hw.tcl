@@ -202,3 +202,15 @@ set_interface_property vga_clk SVD_ADDRESS_GROUP ""
 
 add_interface_port vga_clk VGA_CLK clk Input 1
 
+#
+# Device tree info
+#
+set_module_assignment embeddedsw.dts.vendor "dev"
+set_module_assignment embeddedsw.dts.group "vga"
+set_module_assignment embeddedsw.dts.compatible {dmem-uio}
+set_module_assignment {embeddedsw.dts.params.uio,number-of-dynamic-regions} 2
+set_module_assignment {embeddedsw.dts.type.raw.uio,dynamic-regions-sizes} {< 976000 976000 >}
+
+
+
+

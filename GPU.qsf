@@ -43,7 +43,7 @@
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "11.1 SP2.11"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "01:48:27  MARCH 17, 2014"
 set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
-set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 6
 
 # Pin & Location Assignments
 # ==========================
@@ -661,6 +661,9 @@ set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY compiler_output
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name SYNCHRONIZER_IDENTIFICATION AUTO
+set_parameter -name ramstyle no_rw_check
+set_global_assignment -name QIP_FILE hardware/generated/plls/system_clock.qip
+set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/memory/AlteraByteEnabledDualPort.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/shader_core/fma_unit.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/rasterizer/raster_end.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/rasterizer/rasterizer.sv
@@ -674,13 +677,10 @@ set_global_assignment -name SYSTEMVERILOG_FILE hardware/generated/fp/f32_f18.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/generated/fp/dspba_library_ver.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/generated/fp/add_f18.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/rasterizer/rasterizer_controller.sv
-set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/memory/ByteEnabledDualPort.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/rasterizer/plane_eq.sv
-set_global_assignment -name QIP_FILE hardware/generated/fifo/vga_sync.qip
 set_global_assignment -name QSYS_FILE nios2.qsys
 set_global_assignment -name SOURCE_FILE nios2.cmp
 set_global_assignment -name SDC_FILE GPU.sdc
-set_global_assignment -name QIP_FILE hardware/generated/plls/system_clock_pll.qip
 set_global_assignment -name QIP_FILE hardware/generated/fifo/pixel_fifo.qip
 set_global_assignment -name VERILOG_FILE hardware/written/dram_to_fifo.v
 set_global_assignment -name VERILOG_FILE hardware/written/GPU.v
@@ -689,14 +689,11 @@ set_global_assignment -name VERILOG_FILE hardware/written/VGA_Controller.v
 set_global_assignment -name VERILOG_FILE hardware/written/vga_dram_reader.v
 set_global_assignment -name VERILOG_FILE hardware/written/VGA_driver.v
 set_global_assignment -name QIP_FILE hardware/generated/fifo/tile_fifo.qip
-set_global_assignment -name QIP_FILE hardware/generated/ram/tile_ram.qip
 set_global_assignment -name QIP_FILE hardware/generated/fifo/command_buffer.qip
-set_global_assignment -name SIGNALTAP_FILE stp1.stp
 set_global_assignment -name QIP_FILE hardware/generated/plls/gpu_clock.qip
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/tile_writer.sv
-set_global_assignment -name QIP_FILE hardware/generated/ram/depth_buffer.qip
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/shift_reg.sv
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/compare_float.sv
-set_global_assignment -name CDF_FILE compiler_output/Chain1.cdf
 set_global_assignment -name SYSTEMVERILOG_FILE hardware/written/shader_core/alu.sv
+set_global_assignment -name QIP_FILE hardware/generated/fifo/vga_signals.qip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -22,6 +22,20 @@ module GPU(
 //	output SRAM_CE_N,
 //	output SRAM_LB_N,
 //	output SRAM_UB_N,
+
+	inout		[15:0]OTG_DATA,
+	output	[1:0]OTG_ADDR,
+	output	OTG_WR_N,
+	output	OTG_RD_N,
+	output	OTG_CS_N,
+	output	OTG_RST_N,
+	output	OTG_FSPEED,		//	USB Full Speed,	0 = Enable, Z = Disable
+	output	OTG_LSPEED,		//	USB Low Speed, 	0 = Enable, Z = Disable
+	input		[1:0]OTG_INT,
+	input		OTG_DREQ0,
+	input		OTG_DREQ1,
+	output	OTG_DACK0_N,
+	output	OTG_DACK1_N,
 	
 	output [12:0]DRAM_ADDR,
 	inout [31:0]DRAM_DQ,
@@ -49,13 +63,18 @@ module GPU(
 	//nios and DRAM clk have same freq, DRAM shifted -3ns
 	//VGA clk to internal logic and VGA clk to external driver have 180 phase diff
 	//so that signals will travel from fpga to VGA chip
-	system_clock_pll P0(reset, CLOCK_50, system_clock, DRAM_CLK, vga_clock, VGA_CLK);
+	system_clock P0(reset, CLOCK_50, system_clock, DRAM_CLK, vga_clock, VGA_CLK);
 	
 	//GPU core clock
 	wire gpu_clk;
 	gpu_clock P1(reset, CLOCK2_50, gpu_clk);
-
+	
+	//usb stuff
+	assign OTG_DACK0_N = 1'b1;
+	assign OTG_DACK1_N = 1'b1;
 		
+	assign OTG_FSPEED = 1'b0;
+	assign OTG_LSPEED = 1'b0;
 	
 	nios2 u0 (
         .clk_clk                      (system_clock),                      //                     clk.clk
@@ -72,7 +91,16 @@ module GPU(
         .sd_card_b_SD_dat   (SD_DAT[0]),   //          .b_SD_dat
         .sd_card_b_SD_dat3  (SD_DAT[3]),  //          .b_SD_dat3
         .sd_card_o_SD_clock (SD_CLK), //          .o_SD_clock
-
+		  
+		  .isp1362_INT1       (OTG_INT[1]),       //   isp1362.INT1
+        .isp1362_DATA       (OTG_DATA),       //          .DATA
+        .isp1362_RST_N      (OTG_RST_N),      //          .RST_N
+        .isp1362_ADDR       (OTG_ADDR),       //          .ADDR
+        .isp1362_CS_N       (OTG_CS_N),       //          .CS_N
+        .isp1362_RD_N       (OTG_RD_N),       //          .RD_N
+        .isp1362_WR_N       (OTG_WR_N),       //          .WR_N
+        .isp1362_INT0       (OTG_INT[0]),      
+		  
 		  .dram_addr 						(DRAM_ADDR),                   //                   sdram.addr
         .dram_ba   						(DRAM_BA),                     //                        .ba
         .dram_cas_n						(DRAM_CAS_N),                  //                        .cas_n
@@ -97,7 +125,7 @@ module GPU(
 		  .led_r_export					(LEDR),                 //                   led_r.export
         .sw_export						(SW),                     //                      sw.export
 		  .key_export   					(~KEY[3:1])    //   key.export
-    );
+);
 
 	
 endmodule

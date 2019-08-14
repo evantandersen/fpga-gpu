@@ -45,6 +45,28 @@ module raster_pipeline(
 	reg [15:0]color;
 	reg clear;
 		
+	reg [9:0]index;
+	wire [4:0]X_start = index[4:0];
+	wire [4:0]Y_start = index[9:5];
+	
+	reg enable;
+
+	wire clearPixel_start;
+	wire rasterPixel_start;
+	wire [17:0]pixelZ;
+
+	wire [17:0]newZ;
+	wire [17:0]currZ;
+
+	wire clearPixel, rasterPixel;
+
+	wire [9:0]addr_inter;
+	wire [9:0]addr_final;
+
+	reg [4:0]timeToFlush;
+	reg flushed;
+
+
 	always_ff @ (posedge clk or posedge rst) begin
 		if (rst) begin
 			A12 <= 0;
@@ -78,12 +100,6 @@ module raster_pipeline(
 		end
 	end
 
-	reg [9:0]index;
-	wire [4:0]X_start = index[4:0];
-	wire [4:0]Y_start = index[9:5];
-	
-	reg enable;
-
 	always_ff @ (posedge clk or posedge rst) begin
 		if (rst) begin
 			enable <= 0;
@@ -101,8 +117,6 @@ module raster_pipeline(
 		end
 	end
 	
-	wire clearPixel_start;
-	wire rasterPixel_start;
 	rasterizer r0(
 		.clk		(clk),
 		.rst		(rst),
@@ -128,7 +142,6 @@ module raster_pipeline(
 		.rasterPixel	(rasterPixel_start)
 	);
 
-	wire [17:0]pixelZ;
 	plane_eq #(
 		.SIZE(1)
 	) z_calc (
@@ -137,12 +150,11 @@ module raster_pipeline(
 		.dzdy	(dzdy),
 		.dzdx	(dzdx),
 		.c		(zC),
-		.x	(X_start),
-		.y	(Y_start),
+		.x	({11'b0, X_start}),
+		.y	({11'b0, Y_start}),
 		.z	(pixelZ)
 	);
 	
-	wire [17:0]newZ;
 	raster_end e0(
 		.pixelZ		(pixelZ),
 		.currZ		(currZ),
@@ -154,64 +166,51 @@ module raster_pipeline(
 		.color		(color_out),
 		.newZ			(newZ)
 	);
-
-	wire [17:0]currZ;
-	depth_buffer b0 (
-		.clock 		(clk),
-		.data			(newZ),
-		.rdaddress	(addr_inter),
-		.wraddress	(addr_final),
-		.wren			(wren),
-		.q				(currZ)
+	
+	byte_enabled_dual_port_ram #(
+		.RADDR_WIDTH(10),
+		.WADDR_WIDTH(10),
+		.BYTE_WIDTH(18),
+		.BYTES(1)
+	) depth_buffer (
+		.clk(clk),
+		.waddr(addr_final),
+		.raddr(addr_inter),
+		.be(wren),
+		.wdata(newZ), 
+		.we(wren),
+		.q(currZ)
 	);
 
-//	byte_enabled_dual_port_ram #(
-//		.RADDR_WIDTH(10),
-//		.WADDR_WIDTH(10),
-//		.BYTE_WIDTH(18),
-//		.BYTES(1)
-//	) depth_buffer (
-//		.clk(clk),
-//		.waddr(addr_final),
-//		.raddr(addr_inter),
-//		.be(wren),
-//		.wdata(newZ), 
-//		.we(wren),
-//		.q(currZ)
-//	);
-	
-	wire clearPixel, rasterPixel;
 	shift_reg #(
 		.WIDTH(2),
 		.DEPTH(27)
 	) s0 (
 		.clk	(clk),
 		.rst	(rst),
-		.clk_en(1),
+		.clk_en(1'b1),
 		.in	({clearPixel_start, rasterPixel_start}),
 		.out	({clearPixel, rasterPixel})
 	);
 
-	wire [9:0]addr_inter;
 	shift_reg #(
 		.WIDTH(10),
 		.DEPTH(26)
 	) s1 (
 		.clk	(clk),
 		.rst	(rst),
-		.clk_en(1),
+		.clk_en(1'b1),
 		.in	({Y_start, X_start}),
 		.out	(addr_inter)
 	);
 
-	wire [9:0]addr_final;
 	shift_reg #(
 		.WIDTH(10),
 		.DEPTH(2)
 	) s2 (
 		.clk	(clk),
 		.rst	(rst),
-		.clk_en(1),
+		.clk_en(1'b1),
 		.in	(addr_inter),
 		.out	(addr_final)
 	);
@@ -219,8 +218,6 @@ module raster_pipeline(
 	assign X = addr_final[4:0];
 	assign Y = addr_final[9:5];
 	
-	reg [4:0]timeToFlush;
-	reg flushed;
 	always_ff @ (posedge clk or posedge rst) begin
 		if(rst) begin
 			timeToFlush <= 0;

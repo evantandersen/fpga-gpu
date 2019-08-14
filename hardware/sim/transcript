@@ -1,0 +1,348 @@
+vlib work
+# ** Warning: (vlib-34) Library already exists at "work".
+
+
+vlog ../generated/fifo/tile_fifo.v
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fifo/tile_fifo.v 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module tile_fifo
+# 
+# Top level modules:
+# 	tile_fifo
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fifo/command_buffer.v
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fifo/command_buffer.v 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module command_buffer
+# 
+# Top level modules:
+# 	command_buffer
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/mult_f18.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/mult_f18.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module mult_f18
+# 
+# Top level modules:
+# 	mult_f18
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/cmp_lt_f18.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/cmp_lt_f18.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module cmp_lt_f18
+# 
+# Top level modules:
+# 	cmp_lt_f18
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/u16_f18.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/u16_f18.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module u16_f18
+# 
+# Top level modules:
+# 	u16_f18
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/sin_f18.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/sin_f18.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module sin_f18
+# 
+# Top level modules:
+# 	sin_f18
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/f32_f18.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/f32_f18.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module f32_f18
+# 
+# Top level modules:
+# 	f32_f18
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/add_f18.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/add_f18.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module add_f18
+# 
+# Top level modules:
+# 	add_f18
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/cmp_sel_f18.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/cmp_sel_f18.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module cmp_sel_f18
+# 
+# Top level modules:
+# 	cmp_sel_f18
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/dspba_library_ver.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/dspba_library_ver.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module dspba_delay_ver
+# -- Compiling module dspba_sync_reg_ver
+# -- Compiling module dspba_pipe
+# 
+# Top level modules:
+# 	dspba_delay_ver
+# 	dspba_sync_reg_ver
+# 	dspba_pipe
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/fma_f18.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/fma_f18.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module fma_f18
+# 
+# Top level modules:
+# 	fma_f18
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../generated/fp/div_f18.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../generated/fp/div_f18.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module div_f18
+# 
+# Top level modules:
+# 	div_f18
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/compare_float.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/compare_float.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module compare_float
+# 
+# Top level modules:
+# 	compare_float
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/shift_reg.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/shift_reg.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module shift_reg
+# 
+# Top level modules:
+# 	shift_reg
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/tile_writer.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/tile_writer.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module tile_writer
+# 
+# Top level modules:
+# 	tile_writer
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/memory/AlteraByteEnabledDualPort.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/memory/AlteraByteEnabledDualPort.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module byte_enabled_dual_port_ram
+# 
+# Top level modules:
+# 	byte_enabled_dual_port_ram
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/GPU_core.v
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/GPU_core.v 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module gpu_core
+# 
+# Top level modules:
+# 	gpu_core
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/z_interpolation.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/z_interpolation.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module z_interpolation
+# 
+# Top level modules:
+# 	z_interpolation
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/rasterizer/fast_3_adder.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/rasterizer/fast_3_adder.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module fast_3_adder
+# 
+# Top level modules:
+# 	fast_3_adder
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/rasterizer/raster_pipeline.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/rasterizer/raster_pipeline.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module raster_pipeline
+# 
+# Top level modules:
+# 	raster_pipeline
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/rasterizer/raster_end.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/rasterizer/raster_end.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module raster_end
+# 
+# Top level modules:
+# 	raster_end
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/rasterizer/plane_eq.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/rasterizer/plane_eq.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module plane_eq
+# 
+# Top level modules:
+# 	plane_eq
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/rasterizer/plane_eq_tb.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/rasterizer/plane_eq_tb.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling package plane_eq_tb_sv_unit
+# -- Compiling module plane_eq_tb
+# 
+# Top level modules:
+# 	plane_eq_tb
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/rasterizer/rasterizer_controller.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/rasterizer/rasterizer_controller.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module raster_controller
+# 
+# Top level modules:
+# 	raster_controller
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/rasterizer/rasterizer.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/rasterizer/rasterizer.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module rasterizer
+# 
+# Top level modules:
+# 	rasterizer
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog ../written/rasterizer/edge_equation.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog ../written/rasterizer/edge_equation.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling module edge_function
+# 
+# Top level modules:
+# 	edge_function
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+
+
+vlog gpu_tb.sv
+# Start time: 11:37:44 on Aug 12,2019
+# vlog gpu_tb.sv 
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# -- Compiling package gpu_tb_sv_unit
+# -- Compiling module gpu_tb
+# 
+# Top level modules:
+# 	gpu_tb
+# End time: 11:37:44 on Aug 12,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim gpu_tb -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver
+# vsim gpu_tb -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver 
+# Start time: 11:37:44 on Aug 12,2019
+# Loading sv_std.std
+# Loading work.gpu_tb_sv_unit
+# Loading work.gpu_tb
+# Loading work.gpu_core
+# Loading work.shift_reg
+# Loading work.command_buffer
+# Loading altera_mf_ver.dcfifo
+# Loading altera_mf_ver.dcfifo_mixed_widths
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.dcfifo_low_latency
+# Loading altera_mf_ver.ALTERA_MF_HINT_EVALUATION
+# Loading altera_mf_ver.dcfifo_dffpipe
+# Loading work.f32_f18
+# Loading work.dspba_delay_ver
+# Loading work.raster_controller
+# Loading work.raster_pipeline
+# Loading work.rasterizer
+# Loading work.edge_function
+# Loading work.plane_eq
+# Loading work.raster_end
+# Loading work.compare_float
+# Loading work.byte_enabled_dual_port_ram
+# Loading altera_mf_ver.altsyncram
+# Loading work.tile_writer
+# Loading work.tile_fifo
+# Loading altera_mf_ver.dcfifo_async
+# Loading altera_mf_ver.dcfifo_fefifo
+# Loading work.fast_3_adder
+# Loading work.u16_f18
+# Loading work.fma_f18
+# Loading lpm_ver.lpm_mult
+# Loading lpm_ver.LPM_HINT_EVALUATION
+# Loading work.mult_f18
+# Loading work.add_f18
+# Loading altera_mf_ver.altsyncram_body
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+# ** Warning: (vsim-3017) /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(31790): [TFMPC] - Too few port connections. Expected 14, found 13.
+#    Time: 0 ps  Iteration: 0  Instance: /gpu_tb/c0/cb0/dcfifo_component/DCFIFO_MW File: /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v
+# ** Warning: (vsim-3722) /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(31790): [TFMPC] - Missing connection for port 'eccstatus'.
+# ** Warning: (vsim-3017) ../generated/fp/fma_f18.sv(597): [TFMPC] - Too few port connections. Expected 8, found 7.
+#    Time: 0 ps  Iteration: 0  Instance: /gpu_tb/c0/r0/t0/z_calc/x_loop[0]/fma0/sm0_uid233_prod_uid50_p_uid6_fpMultAddTest_component File: /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/220model.v
+# ** Warning: (vsim-3722) ../generated/fp/fma_f18.sv(597): [TFMPC] - Missing connection for port 'sclr'.
+# ** Warning: (vsim-3017) ../generated/fp/mult_f18.sv(309): [TFMPC] - Too few port connections. Expected 8, found 7.
+#    Time: 0 ps  Iteration: 0  Instance: /gpu_tb/c0/r0/t0/z_calc/y_loop[0]/fma0/sm0_uid116_prod_uid47_fpMulTest_component File: /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/220model.v
+# ** Warning: (vsim-3722) ../generated/fp/mult_f18.sv(309): [TFMPC] - Missing connection for port 'sclr'.
+# ** Warning: (vsim-3016) ../written/memory/AlteraByteEnabledDualPort.sv(46): Port type is incompatible with connection (port 'clock0').
+#    Time: 0 ps  Iteration: 0  Instance: /gpu_tb/c0/r0/t0/depth_buffer/altsyncram_component File: /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v
+# ** Warning: (vsim-3016) /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(47804): Port type is incompatible with connection (port 'clock0').
+#    Time: 0 ps  Iteration: 0  Instance: /gpu_tb/c0/r0/t0/depth_buffer/altsyncram_component/m_default/altsyncram_inst File: /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v
+# ** Warning: (vsim-3016) ../written/memory/AlteraByteEnabledDualPort.sv(46): Port type is incompatible with connection (port 'clock0').
+#    Time: 0 ps  Iteration: 0  Instance: /gpu_tb/c0/tile_ram/altsyncram_component File: /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v
+# ** Warning: (vsim-3016) /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(47804): Port type is incompatible with connection (port 'clock0').
+#    Time: 0 ps  Iteration: 0  Instance: /gpu_tb/c0/tile_ram/altsyncram_component/m_default/altsyncram_inst File: /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v
+run -all
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# Warning: read_during_write_mode_mixed_ports is assumed as               OLD_DATA
+# Time: 0  Instance: gpu_tb.c0.r0.t0.depth_buffer.altsyncram_component.m_default.altsyncram_inst
+# Warning: read_during_write_mode_mixed_ports is assumed as               OLD_DATA
+# Time: 0  Instance: gpu_tb.c0.tile_ram.altsyncram_component.m_default.altsyncram_inst
+# ** Note: $finish    : gpu_tb.sv(79)
+#    Time: 8008 ns  Iteration: 0  Instance: /gpu_tb
+# End time: 11:37:45 on Aug 12,2019, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 11

@@ -23,19 +23,19 @@ module VGA_driver(
 	output VGA_VS
 );
 
-	parameter C_VERT_NUM_PIXELS  = 16'd600;
-	parameter C_VERT_SYNC_START  = 16'd601;
-	parameter C_VERT_SYNC_END    = 16'd605; 
-	parameter C_VERT_TOTAL_COUNT = 16'd628;
+	parameter C_VERT_NUM_PIXELS  = 16'd480;
+	parameter C_VERT_SYNC_START  = 16'd490;
+	parameter C_VERT_SYNC_END    = 16'd492; 
+	parameter C_VERT_TOTAL_COUNT = 16'd525;
 
-	parameter C_HORZ_NUM_PIXELS  = 16'd800;
-	parameter C_HORZ_SYNC_START  = 16'd840;
-	parameter C_HORZ_SYNC_END    = 16'd968;
-	parameter C_HORZ_TOTAL_COUNT = 16'd1056;	
+	parameter C_HORZ_NUM_PIXELS  = 16'd640;
+	parameter C_HORZ_SYNC_START  = 16'd656;
+	parameter C_HORZ_SYNC_END    = 16'd752;
+	parameter C_HORZ_TOTAL_COUNT = 16'd800;	
 
 	//watch the polarity of the sync signals - it fucking CHANGES with the resolution you are running at!
-	assign VGA_HS = ((xCounter >= C_HORZ_SYNC_START) && (xCounter < C_HORZ_SYNC_END));
-	assign VGA_VS = ((yCounter >= C_VERT_SYNC_START) && (yCounter < C_VERT_SYNC_END));
+	assign VGA_HS = !((xCounter >= C_HORZ_SYNC_START) && (xCounter < C_HORZ_SYNC_END));
+	assign VGA_VS = !((yCounter >= C_VERT_SYNC_START) && (yCounter < C_VERT_SYNC_END));
 	assign VGA_BLANK_N = ((xCounter < C_HORZ_NUM_PIXELS) && (yCounter < C_VERT_NUM_PIXELS));
 	assign VGA_SYNC_N = 1'b1;
 	
@@ -52,7 +52,7 @@ module VGA_driver(
 	//a '0' indicates when the monitor has finished rendering the current frame
 	//a '1' indicates when to start loading the next frame from memory
 	//software should use the time between these signals to swap the buffers 
-	vga_sync F0(display_start, clk, 1'b1, VGA_CLK, /*display_done |*/ display_start, dout, rdempty, wrfull);
+	vga_signals F0(display_start, clk, 1'b1, VGA_CLK, /*display_done |*/ display_start, dout, rdempty, wrfull);
 	
 	//wire frame_finished = !rdempty & !dout;
 	assign startNew = !rdempty & dout;

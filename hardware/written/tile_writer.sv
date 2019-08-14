@@ -21,36 +21,70 @@ module tile_writer (
 	output [31:0]master_write_data,
 	input master_wait_request
 );
+	enum {
+		S_IDLE,
+		S_WAIT,
+		S_WRITE
+	} state;
+	
+	reg [8:0]ram_addr;
+	reg [31:0]currAddr;
+	reg [15:0]stride;
+
+	wire [32:0]shift_out;
+
+	wire [31:0]addr_out = shift_out[31:0];
+	wire fifo_wren = shift_out[32];
+
+	wire isWriting = (state == S_WRITE);
+
+
+	wire [63:0]fifo_data_in = {addr_out, ram_data};
+	
+	wire [63:0]fifo_data_out;
+	wire empty;
+	wire wrempty;
+	wire full;
+	wire fifo_ack;
+	wire [7:0]usedw;
+	tile_fifo f0(
+		.aclr (gpu_rst),
+		.data (fifo_data_in),
+		.rdclk(clk),
+		.rdreq(fifo_ack),
+		.wrclk(gpu_clk),
+		.wrempty(wrempty),
+		.wrreq(fifo_wren),
+		.q(fifo_data_out),
+		.rdempty(empty),
+		.wrfull(full),
+		.wrusedw(usedw)
+	);
+	
+	
+	//write the fifo data out over avalon bus
+	assign master_address = fifo_data_out[63:32];
+	assign master_write_data = fifo_data_out[31:0];
+	assign master_write = !empty;
+ 	assign fifo_ack = !master_wait_request && master_write;
+
+
 
 	assign reading = (state != S_IDLE);
 	assign flushed = !reading && wrempty;
 	assign ram_addr_out = ram_addr;	
 	
-	reg [8:0]ram_addr;
-	reg [31:0]currAddr;
-	reg [15:0]stride;
 	
-	wire [31:0]addr_out = shift_out[31:0];
-	wire fifo_wren = shift_out[32];
-
-	wire [32:0]shift_out;
-	wire isWriting = (state == S_WRITE);
 	shift_reg #(
 		.WIDTH(33),
 		.DEPTH(2)
 	) addrDelay (
 		.clk	(gpu_clk),
 		.rst	(gpu_rst),
-		.clk_en(1),
+		.clk_en(1'b1),
 		.in	({isWriting, currAddr}),
 		.out	(shift_out)
 	);
-	
-	enum {
-		S_IDLE,
-		S_WAIT,
-		S_WRITE
-	} state;
 	
 	always_ff @ (posedge gpu_clk or posedge gpu_rst) begin
 		if (gpu_rst) begin
@@ -91,34 +125,4 @@ module tile_writer (
 			endcase
 		end
 	end
-
-	wire [63:0]fifo_data_in = {addr_out, ram_data};
-	
-	wire [63:0]fifo_data_out;
-	wire empty;
-	wire wrempty;
-	wire full;
-	wire fifo_ack;
-	wire [7:0]usedw;
-	tile_fifo f0(
-		.aclr (gpu_rst),
-		.data (fifo_data_in),
-		.rdclk(clk),
-		.rdreq(fifo_ack),
-		.wrclk(gpu_clk),
-		.wrempty(wrempty),
-		.wrreq(fifo_wren),
-		.q(fifo_data_out),
-		.rdempty(empty),
-		.wrfull(full),
-		.wrusedw(usedw)
-	);
-	
-	
-	//write the fifo data out over avalon bus
-	assign master_address = fifo_data_out[63:32];
-	assign master_write_data = fifo_data_out[31:0];
-	assign master_write = !empty;
- 	assign fifo_ack = !master_wait_request && master_write;
-
 endmodule

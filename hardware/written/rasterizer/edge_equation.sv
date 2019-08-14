@@ -1,6 +1,5 @@
 module edge_function #(
-	ORDER=1,
-	parameter SIZE= 1 << ORDER
+	parameter int SIZE=1
 )(
 	input clk,
 	input rst,
@@ -25,6 +24,9 @@ module edge_function #(
 	wire [31:0]col_adder = w + dx_ex*SIZE;
 
 	reg [SIZE-1:0][SIZE-1:0]out_reg;
+	wire [SIZE-1:0][SIZE-1:0]sign_bits;
+
+	
 	assign sign = out_reg;
 	
 	
@@ -49,7 +51,6 @@ module edge_function #(
 		end
 	end
 
-	wire [SIZE-1:0][SIZE-1:0]sign_bits;
 	
 	genvar i,j;
 	generate

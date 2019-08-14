@@ -307,5 +307,5 @@ endmodule
 // Retrieval info: GEN_FILE: TYPE_NORMAL gpu_clock.cmp FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL gpu_clock.bsf FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL gpu_clock_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL gpu_clock_bb.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL gpu_clock_bb.v FALSE
 // Retrieval info: CBX_MODULE_PREFIX: ON

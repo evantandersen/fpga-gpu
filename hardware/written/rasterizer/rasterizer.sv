@@ -23,16 +23,20 @@ module rasterizer(
 	output rasterPixel
 );
 	
+	wire E01;
+	wire E12;
+	wire E20;
+
+	wire row_end_next = (X == 5'd30);
+	reg row_end;
+	reg enable_delay;
+
+
 	//point inside if all edge functions are positive (test the sign bit)
 	wire pixel_inside = !(E01 | E12 | E20);
 	assign rasterPixel = pixel_inside & enable_delay;
 	assign clearPixel = clear & enable_delay;
 		
-	wire row_end_next = (X == 5'd30);
-	reg row_end;
-	
-	reg enable_delay;
-
 	always_ff @ (posedge clk or posedge rst) begin
 		if (rst) begin
 			enable_delay <= 0;
@@ -43,9 +47,8 @@ module rasterizer(
 		end
 	end
 	
-	wire E01;
 	edge_function #(
-		.ORDER(0)
+		.SIZE(1)
 		) edge01 (
 		.clk	(clk),
 		.rst	(rst),
@@ -56,9 +59,8 @@ module rasterizer(
 		.w_in	(w2_in),
 		.sign	(E01)
 	);
-	wire E12;
 	edge_function #(
-		.ORDER(0)
+		.SIZE(1)
 		) edge12 (
 		.clk	(clk),
 		.rst	(rst),
@@ -69,9 +71,8 @@ module rasterizer(
 		.w_in	(w0_in),
 		.sign	(E12)
 	);
-	wire E20;
 	edge_function #(
-		.ORDER(0)
+		.SIZE(1)
 		) edge20 (
 		.clk	(clk),
 		.rst	(rst),

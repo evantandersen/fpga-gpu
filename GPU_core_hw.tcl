@@ -181,3 +181,11 @@ set_interface_property gpu_reset_sink SVD_ADDRESS_GROUP ""
 
 add_interface_port gpu_reset_sink gpu_rst reset Input 1
 
+#
+# Device tree info
+#
+set_module_assignment embeddedsw.dts.vendor "dev"
+set_module_assignment embeddedsw.dts.group "gpu"
+set_module_assignment embeddedsw.dts.compatible {dmem-uio}
+
+

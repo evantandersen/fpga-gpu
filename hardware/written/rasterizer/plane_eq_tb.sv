@@ -42,7 +42,7 @@ module plane_eq_tb;
     
   initial  begin
     $fdisplay(f, "time,\tclk,\treset,\tresult[0][0]"); 
-//    $monitor("%d,\t%b,\t%b,\t%b",$time/2, clk,reset,result[0][0]); 
+    $monitor("%d,\t%b,\t%b,\t%b",$time/2, clk,reset,result[0][0]); 
   end 
 
   always begin

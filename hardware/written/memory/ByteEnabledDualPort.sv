@@ -24,15 +24,16 @@ module byte_enabled_dual_port_ram
 	// use a multi-dimensional packed array to model individual bytes within the word
 	logic [BYTES-1:0][BYTE_WIDTH-1:0] ram[0:WORDS-1];
 
-	reg [WADDR_WIDTH-1:0] waddr_reg;
-	reg [RADDR_WIDTH-1:0] raddr_reg;
-	reg [BYTES-1:0] be_reg;
-	reg [WIDTH-1:0] wdata_reg; 
-	reg we_reg;
+	//buffer all inputs 1 cycle
+	logic [WADDR_WIDTH-1:0] waddr_reg;
+	logic [RADDR_WIDTH-1:0] raddr_reg;
+	logic [BYTES-1:0] be_reg;
+	logic [WIDTH-1:0] wdata_reg; 
+	logic we_reg;
 	
-	
+	//this has to be done in two separate lines for some reason
 	wire [WIDTH-1:0]word = ram[raddr_reg/RATIO];
-
+	
 	always_ff@(posedge clk) begin
 		waddr_reg <= waddr;
 		raddr_reg <= raddr;

@@ -9,12 +9,12 @@ module raster_end(
 	output [15:0]color,
 	output [17:0]newZ
 );
+	wire zTest;
 
 	assign wren = (rasterPixel & zTest) | clearPixel;
 	assign color = rasterPixel ? color_in : 16'b0;
 	assign newZ = rasterPixel ? pixelZ : 18'b0;
 	
-	wire zTest;
 	compare_float c0(
 		.X		(pixelZ),
 		.Y		(currZ),
